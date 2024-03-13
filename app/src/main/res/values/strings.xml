@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Barcode Scanner</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_categories_fragment">Hello categories fragment</string>
+    <string name="text_categories_fragment">This is the Categories fragment</string>
     <string name="hello_profile_fragment">Hello profile fragment</string>
 </resources>
