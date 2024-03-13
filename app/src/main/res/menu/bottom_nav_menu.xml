@@ -2,18 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Favourites"
+        android:icon="@drawable/baseline_favourites_24"
+        android:id="@+id/favourites"/>
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Categories"
+        android:icon="@drawable/baseline_category_24"
+        android:id="@+id/categories"/>
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Discounts"
+        android:icon="@drawable/baseline_discount_24"
+        android:id="@+id/discounts"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Shopping List"
+        android:icon="@drawable/baseline_shopping_cart_24"
+        android:id="@+id/shopping_list"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Profile"
+        android:icon="@drawable/baseline_account_24"
+        android:id="@+id/profile"/>
 </menu>

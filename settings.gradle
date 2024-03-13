@@ -13,6 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Grocery App Test"
-include(":app")
- 
+rootProject.name = "Barcode Scanner"
+include ':app'

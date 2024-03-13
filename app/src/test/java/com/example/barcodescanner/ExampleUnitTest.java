@@ -1,4 +1,4 @@
-package com.example.groceryapptest;
+package com.example.barcodescanner;
 
 import org.junit.Test;
 
