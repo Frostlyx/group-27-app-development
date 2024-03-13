@@ -1,22 +1,13 @@
 package com.example.barcodescanner;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.content.pm.ActivityInfo;
 
 import com.example.barcodescanner.databinding.ActivityMainBinding;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // On startup, open profile fragment
-        replaceFragment(new ProfileFragment());
+        replaceFragment(new MainFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
@@ -48,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new ProfileFragment());
                     break;
 
+                case R.id.discounts:
+                    replaceFragment(new DiscountsFragment());
 
 
             }
