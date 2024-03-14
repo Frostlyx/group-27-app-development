@@ -1,74 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="0"
+    android:orientation="horizontal"
+    android:stretchColumns="*"
     tools:context=".CategoriesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="20dp"
-        android:text="@string/text_categories_fragment" />
+    <TableRow android:layout_height="203dp">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Bread" />
+        <Button
+            android:id="@+id/category_bread_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            android:contentDescription=""
+            android:scaleType="centerCrop"
+            android:text="Bread"
+            android:background="@drawable/bread"
+            android:backgroundTint="@color/black"/>
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Category"/>
+        <ImageButton
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            android:contentDescription=""
+            android:text="Bread"
+            tools:src="@tools:sample/avatars" />
+    </TableRow>
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Category"/>
+    <TableRow>
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="44dp"
-        android:text="Category"/>
+        <ImageButton
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            tools:src="@tools:sample/avatars" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Category" />
+        <ImageButton
+            android:id="@+id/button4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            tools:src="@tools:sample/avatars" />
+    </TableRow>
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="44dp"
-        android:text="Category" />
+    <TableRow>
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:src="@tools:sample/avatars" />
+        <ImageButton
+            android:id="@+id/button5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            tools:src="@tools:sample/avatars" />
 
-</FrameLayout>
+        <ImageButton
+            android:id="@+id/button6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            tools:src="@tools:sample/avatars" />
+    </TableRow>
+</TableLayout>
