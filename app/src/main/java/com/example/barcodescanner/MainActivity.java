@@ -36,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             switch (item.getItemId()){
+                case R.id.shopping_list:
+                    replaceFragment(new MainFragment());
+                    break;
+
                 case R.id.categories:
                     replaceFragment(new CategoriesFragment());
                     break;
