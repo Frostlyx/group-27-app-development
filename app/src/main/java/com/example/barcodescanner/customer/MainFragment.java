@@ -1,4 +1,4 @@
-package com.example.barcodescanner;
+package com.example.barcodescanner.customer;
 
 import android.os.Bundle;
 
@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.barcodescanner.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
