@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import com.example.barcodescanner.databinding.FragmentEditStoreBinding;
 
 public class EditStoreFragment extends Fragment {
