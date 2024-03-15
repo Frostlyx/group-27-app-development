@@ -5,5 +5,6 @@
     <string name="hello_profile_fragment">Hello profile fragment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hello_discounts_fragment">Hello blank fragment</string>
+    <string name="hello_discounts_fragment">Hello discounts fragment</string>
+    <string name="hello_main_fragment">Hello main fragment</string>
 </resources>

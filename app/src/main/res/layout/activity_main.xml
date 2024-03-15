@@ -7,25 +7,6 @@
     tools:context=".MainActivity">
     <include layout="@layout/toolbar"></include>
 
-<!--    <Button-->
-<!--        android:id="@+id/scannerBtn"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_marginStart="95dp"-->
-<!--        android:layout_marginTop="308dp"-->
-<!--        android:layout_marginEnd="95dp"-->
-<!--        android:text="Scanner" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/scannerOut"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_below="@+id/scannerBtn"-->
-<!--        android:textSize="30dp" />-->
-
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="0dp"
