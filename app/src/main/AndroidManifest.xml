@@ -28,7 +28,7 @@
             android:label="@string/title_activity_forgot_password"
             android:theme="@style/Theme.BarcodeScanner" />
         <activity
-            android:name=".MainActivity"
+            android:name=".customer.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity

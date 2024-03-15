@@ -2,8 +2,6 @@ package com.example.barcodescanner.ui.login;
 
 import android.app.Activity;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -25,7 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.barcodescanner.MainActivity;
+import com.example.barcodescanner.customer.MainActivity;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.ActivityLoginBinding;
 
