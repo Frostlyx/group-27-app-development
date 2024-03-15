@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="0dp"
+    android:orientation="horizontal"
+    android:stretchColumns="*"
     tools:context=".CategoriesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="20dp"
-        android:text="@string/hello_categories_fragment" />
+    <TableRow android:layout_height="203dp">
 
-</FrameLayout>
+        <android.widget.Button
+            android:id="@+id/category_bread_button"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            android:background="@drawable/bread"
+            android:contentDescription=""
+            android:scaleType="centerCrop"
+            android:text="Bread"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            android:contentDescription=""
+            android:src="@drawable/bread"
+            android:text="Bread" />
+    </TableRow>
+
+    <TableRow>
+
+        <ImageButton
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            android:src="@drawable/bread" />
+
+        <ImageButton
+            android:id="@+id/button4"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            android:src="@drawable/bread" />
+    </TableRow>
+
+    <TableRow>
+
+        <ImageButton
+            android:id="@+id/button5"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            android:src="@drawable/bread" />
+
+        <ImageButton
+            android:id="@+id/button6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="25sp"
+            android:layout_weight="1"
+            android:src="@drawable/bread" />
+    </TableRow>
+</TableLayout>
