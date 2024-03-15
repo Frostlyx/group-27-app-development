@@ -32,6 +32,15 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="action_settings">Settings</string>
+    <string name="my_store_label">My Store</string>
+    <string name="profile">Profile</string>
+    <string name="view_items">View items</string>
+    <string name="view_store_page">View store page</string>
+    <string name="my_store">My Store</string>
+    <string name="add_pictures">Add pictures</string>
+    <string name="edit_information">Edit information</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -67,5 +76,6 @@
         sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+
     </string>
 </resources>

@@ -17,11 +17,9 @@ tools:context=".ui.store.StoreActivity">
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background_my_store"
-        app:titleTextColor="@color/text_button_my_store" />
+        android:background="@color/main_color"
+        app:titleTextColor="@color/app_background_color" />
 
 </com.google.android.material.appbar.AppBarLayout>
-
-<include layout="@layout/content_main" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
