@@ -95,8 +95,42 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
     @Override
     public void onItemClick(int position) {
-        // Temporary onItemClick code, should link to correct product page later
-        Toast.makeText(requireContext(), "Product clicked!", Toast.LENGTH_SHORT).show();
-        // based on position, show correct product page
+        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
+
+        if (position >= 0 && position < toastMessages.length) {
+            String message = toastMessages[position];
+            String toastMessage = getString(R.string.placeholder_toast_product_format, message);
+            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Same code as onItemClick for now, but will be changed later
+    @Override
+    public void onFavouritesClick(int position) {
+        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
+
+        if (position >= 0 && position < toastMessages.length) {
+            String message = toastMessages[position];
+            String toastMessage = getString(R.string.placeholder_toast_favourites_format, message);
+            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Same code as onItemClick for now, but will be changed later
+    @Override
+    public void onShoppingListClick(int position) {
+        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
+
+        if (position >= 0 && position < toastMessages.length) {
+            String message = toastMessages[position];
+            String toastMessage = getString(R.string.placeholder_toast_shopping_list_format, message);
+            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+        }
     }
 }

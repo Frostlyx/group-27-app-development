@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,12 +59,16 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         ImageView productImage;
         TextView productName;
         TextView productPrice;
+        Button favouritesButton;
+        Button shoppingListButton;
         public MyViewHolder(@NonNull View itemView, ProductRecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             productImage = itemView.findViewById(R.id.product_image);
             productName = itemView.findViewById(R.id.product_name);
             productPrice = itemView.findViewById(R.id.product_price);
+            favouritesButton = itemView.findViewById(R.id.favourites_button);
+            shoppingListButton = itemView.findViewById(R.id.shopping_list_button);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,6 +78,30 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
                         if (position != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            favouritesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            recyclerViewInterface.onFavouritesClick(position);
+                        }
+                    }
+                }
+            });
+
+            shoppingListButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            recyclerViewInterface.onShoppingListClick(position);
                         }
                     }
                 }
