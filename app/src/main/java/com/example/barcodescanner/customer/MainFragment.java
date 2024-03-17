@@ -1,18 +1,30 @@
 package com.example.barcodescanner.customer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.CaptureActivity;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
 
@@ -31,6 +43,8 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    ImageButton barcodeScannerButton;
 
 
 
@@ -71,6 +85,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        barcodeScannerButton = view.findViewById(R.id.barcode_scanner_button);
 
         // Sets up showing products inside the recycler view
         RecyclerView recyclerView = view.findViewById(R.id.main_page_recyclerview);
@@ -82,7 +97,34 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 //        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
+
+        barcodeScannerButton.setOnClickListener(v -> {
+            scanCode();
+
+        });
     }
+
+    private void scanCode() {
+        ScanOptions options = new ScanOptions();
+        options.setOrientationLocked(false);
+        options.setCaptureActivity(CaptureActivity.class);
+
+        barLauncher.launch(options);
+    }
+
+    ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
+        if (result.getContents() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Result");
+            builder.setMessage(result.getContents());
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
+        }
+    });
 
     private void setupProductModels(){
         String[] productNames = getResources().getStringArray(R.array.placeholder_main_page_product);
@@ -93,6 +135,21 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
                     productPrices[i],
                     productImage[0],
                     "10%"));
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            String contents = intentResult.getContents();
+            if (contents != null) {
+                Toast.makeText(requireContext(), "Scanned code: " + contents, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(requireContext(), "Scan cancelled", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
