@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,9 +15,12 @@ import android.view.View;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +33,12 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new MainFragment());
 
         // attempt at deselecting
-        Menu menu = binding.bottomNavigationView.getMenu();
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem menuItem = menu.getItem(i);
-            menuItem.setChecked(false);
-        }
+        binding.bottomNavigationView.setSelectedItemId(-1);
+//        Menu menu = binding.bottomNavigationView.getMenu();
+//        for (int i = 0; i < menu.size(); i++) {
+//            MenuItem menuItem = menu.getItem(i);
+//            menuItem.setChecked(false);
+//        }
 
         // Opens fragment for the selected page in the bottom navigation bar
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {

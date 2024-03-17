@@ -69,6 +69,7 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
 
+<!--TODO: placeholder for items on main page-->
     <string-array name="placeholder_main_page_product">
         <item>Bread</item>
         <item>Milk</item>
@@ -94,4 +95,5 @@
         <item>4.95</item>
         <item>3.50</item>
     </string-array>
+<!--    -->
 </resources>
