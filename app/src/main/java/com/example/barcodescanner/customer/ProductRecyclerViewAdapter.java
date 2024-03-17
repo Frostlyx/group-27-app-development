@@ -15,12 +15,15 @@ import com.example.barcodescanner.R;
 import java.util.ArrayList;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.MyViewHolder> {
+    private final ProductRecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<ProductModel> productModels;
 
-    public ProductRecyclerViewAdapter(Context context, ArrayList<ProductModel> productModels) {
+    public ProductRecyclerViewAdapter(Context context, ArrayList<ProductModel> productModels,
+                                      ProductRecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.productModels = productModels;
+        this.recyclerViewInterface = recyclerViewInterface;
 
     }
     @NonNull
@@ -30,7 +33,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.main_page_recycler_view_row, parent, false);
 
-        return new ProductRecyclerViewAdapter.MyViewHolder(view);
+        return new ProductRecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -55,12 +58,53 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         ImageView productImage;
         TextView productName;
         TextView productPrice;
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, ProductRecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             productImage = itemView.findViewById(R.id.product_image);
             productName = itemView.findViewById(R.id.product_name);
             productPrice = itemView.findViewById(R.id.product_price);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            recyclerViewInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            // Use this if you only want it to react when text or image is clicked
+
+//            productImage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (recyclerViewInterface != null) {
+//                        int position = getAdapterPosition();
+//
+//                        if (position != RecyclerView.NO_POSITION) {
+//                            recyclerViewInterface.onItemClick(position);
+//                        }
+//                    }
+//                }
+//            });
+//
+//            productName.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (recyclerViewInterface != null) {
+//                        int position = getAdapterPosition();
+//
+//                        if (position != RecyclerView.NO_POSITION) {
+//                            recyclerViewInterface.onItemClick(position);
+//                        }
+//                    }
+//                }
+//            });
         }
     }
 }

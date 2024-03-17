@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements ProductRecyclerViewInterface {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,11 +71,12 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Sets up showing products inside the recycler view
         RecyclerView recyclerView = view.findViewById(R.id.main_page_recyclerview);
         setupProductModels();
-
-        ProductRecyclerViewAdapter adapter = new ProductRecyclerViewAdapter(requireContext(), productModels);
-
+        ProductRecyclerViewAdapter adapter = new ProductRecyclerViewAdapter(requireContext(),
+                productModels,
+                this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
@@ -88,5 +91,12 @@ public class MainFragment extends Fragment {
                     productImage[0],
                     "10%"));
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        // Temporary onItemClick code, should link to correct product page later
+        Toast.makeText(requireContext(), "Product clicked!", Toast.LENGTH_SHORT).show();
+        // based on position, show correct product page
     }
 }
