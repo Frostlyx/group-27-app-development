@@ -12,6 +12,8 @@
     <dimen name="body_text_size">14sp</dimen>
     <dimen name="list_text_size">16sp</dimen>
     <dimen name="input_text_size">16sp</dimen>
+
+    <dimen name="text_size_large">22sp</dimen>
     <!-- use lighter colour for secondary text -->
 
     <dimen name="item_vertical_spacing">10dp</dimen>
