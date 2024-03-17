@@ -68,4 +68,30 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+    <string-array name="placeholder_main_page_product">
+        <item>Bread</item>
+        <item>Milk</item>
+        <item>Eggs</item>
+        <item>Apples</item>
+        <item>Cookies</item>
+        <item>Orange Juice</item>
+        <item>Cucumber</item>
+        <item>Flour</item>
+        <item>Minced Meat</item>
+        <item>Cheese</item>
+    </string-array>
+
+    <string-array name="placeholder_main_page_price">
+        <item>1.10</item>
+        <item>1.25</item>
+        <item>3.25</item>
+        <item>0.75</item>
+        <item>2.50</item>
+        <item>1.80</item>
+        <item>0.95</item>
+        <item>1.20</item>
+        <item>4.95</item>
+        <item>3.50</item>
+    </string-array>
 </resources>

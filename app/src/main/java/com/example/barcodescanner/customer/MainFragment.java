@@ -62,38 +62,38 @@ public class MainFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+//
+//        Button scanButton = rootView.findViewById(R.id.scanButton);
+//        scanButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Initialize the barcode scanner
+//                IntentIntegrator integrator = IntentIntegrator.forSupportFragment(MainFragment.this);
+//                integrator.setOrientationLocked(false);
+//                integrator.initiateScan();
+//            }
+//        });
+//
+//        return rootView;
+//    }
 
-        Button scanButton = rootView.findViewById(R.id.scanButton);
-        scanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Initialize the barcode scanner
-                IntentIntegrator integrator = IntentIntegrator.forSupportFragment(MainFragment.this);
-                integrator.setOrientationLocked(false);
-                integrator.initiateScan();
-            }
-        });
-
-        return rootView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
-                // Handle the scanned barcode
-                String barcode = result.getContents();
-                Toast.makeText(getActivity(), "Scanned: " + barcode, Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+//        if (result != null) {
+//            if (result.getContents() == null) {
+//                Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_LONG).show();
+//            } else {
+//                // Handle the scanned barcode
+//                String barcode = result.getContents();
+//                Toast.makeText(getActivity(), "Scanned: " + barcode, Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    }
 }
