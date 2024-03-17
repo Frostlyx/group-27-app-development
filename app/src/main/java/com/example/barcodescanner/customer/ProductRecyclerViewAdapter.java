@@ -45,6 +45,10 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         holder.productImage.setImageResource(productModels.get(position).getProductImage());
         holder.productName.setText(productModels.get(position).getProductName());
         holder.productPrice.setText(productModels.get(position).getProductPrice());
+
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
+        layoutParams.bottomMargin = context.getResources().getDimensionPixelSize(R.dimen.item_vertical_spacing);
+        holder.itemView.setLayoutParams(layoutParams);
     }
 
     @Override

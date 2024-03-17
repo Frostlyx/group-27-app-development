@@ -13,4 +13,6 @@
     <dimen name="list_text_size">16sp</dimen>
     <dimen name="input_text_size">16sp</dimen>
     <!-- use lighter colour for secondary text -->
+
+    <dimen name="item_vertical_spacing">10dp</dimen>
 </resources>
