@@ -9,4 +9,6 @@
     <color name="accent_color_medium">#247BA0</color>
     <color name="accent_color_dark">#13293D</color>
     <color name="discount_color">#FF7070</color>
+    <color name="fill_in_grey_color">#D9D9D9</color>
+    <color name="success_color_green">#7AF181</color>
 </resources>
