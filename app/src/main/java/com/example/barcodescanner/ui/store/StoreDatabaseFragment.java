@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
 
 public class StoreDatabaseFragment extends Fragment {
@@ -21,6 +23,14 @@ public class StoreDatabaseFragment extends Fragment {
     ) {
 
         binding = FragmentStoreDatabaseBinding.inflate(inflater, container, false);
+
+        String[] test = new String[10];
+        test[0] = "hi";
+        test[1] = "bye";
+        RecyclerView recyclerView = binding.recyclerView;
+        DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(test);
+        recyclerView.setAdapter(databaseListAdapter);
+
         return binding.getRoot();
 
         }
