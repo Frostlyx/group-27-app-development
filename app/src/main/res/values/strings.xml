@@ -44,6 +44,9 @@
     <string name="item_name">Item name</string>
     <string name="item_category">Item category</string>
     <string name="price">Price</string>
+    <string name="search_item">Search for items</string>
+    <string name="upload_database">Upload database</string>
+    <string name="add_item">Add item</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
