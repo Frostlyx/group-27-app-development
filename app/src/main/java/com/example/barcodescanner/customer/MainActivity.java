@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // On startup, open main fragment
-        replaceFragment(new MainFragment());
+        replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
 
         // attempt at deselecting
-        binding.bottomNavigationView.setSelectedItemId(-1);
+//        binding.bottomNavigationView.setSelectedItemId(-1);
 //        Menu menu = binding.bottomNavigationView.getMenu();
 //        for (int i = 0; i < menu.size(); i++) {
 //            MenuItem menuItem = menu.getItem(i);
@@ -45,23 +45,23 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()){
                 case R.id.favourites:
-                    replaceFragment(new FavouritesFragment());
+                    replaceFragment(new FavouritesFragment(), getResources().getString(R.string.favourites_title));
                     break;
 
                 case R.id.categories:
-                    replaceFragment(new CategoriesFragment());
+                    replaceFragment(new CategoriesFragment(), getResources().getString(R.string.categories_title));
                     break;
 
                 case R.id.discounts:
-                    replaceFragment(new DiscountsFragment());
+                    replaceFragment(new DiscountsFragment(), getResources().getString(R.string.discounts_title));
                     break;
 
                 case R.id.shopping_list:
-                    replaceFragment(new ShoppingListFragment());
+                    replaceFragment(new ShoppingListFragment(), getResources().getString(R.string.shopping_list_title));
                     break;
 
                 case R.id.profile:
-                    replaceFragment(new ProfileFragment());
+                    replaceFragment(new ProfileFragment(), getResources().getString(R.string.profile_title));
                     break;
             }
 
@@ -77,15 +77,17 @@ public class MainActivity extends AppCompatActivity {
                     MenuItem menuItem = menu.getItem(i);
                     menuItem.setChecked(false);
                 }
-                replaceFragment(new MainFragment());
+                replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
             }
         });
     }
 
-    private void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment, String title) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+
+        binding.toolbarTitle.setText(title);
     }
 }
