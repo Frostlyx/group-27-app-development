@@ -18,87 +18,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/supermarket_outside_foreground" />
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.115"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_main_store">
+        app:layout_constraintTop_toBottomOf="@+id/image_main_store"
+        tools:itemCount="50"
+        tools:listitem="@layout/edit_store_column_image">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/image_substore"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/supermarket_outside1_foreground" />
-
-            <ImageView
-                android:id="@+id/image_substore2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toEndOf="@+id/image_substore"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/supermarket_inside1_foreground" />
-
-            <ImageView
-                android:id="@+id/image_substore3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toEndOf="@+id/image_substore2"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/supermarket_baklava_foreground" />
-
-            <ImageView
-                android:id="@+id/image_substore4"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toEndOf="@+id/image_substore3"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/supermarket_inside2_foreground" />
-
-            <ImageView
-                android:id="@+id/image_substore5"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toEndOf="@+id/image_substore4"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/supermarket_inside3_foreground" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </HorizontalScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/textview_storename"
@@ -110,7 +42,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
     <TextView
         android:id="@+id/textview_location"
@@ -141,6 +73,6 @@
         android:layout_marginEnd="16dp"
         android:text="@string/add_pictures"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
