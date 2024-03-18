@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()){
                 case R.id.shopping_list:
-                    replaceFragment(new MainFragment());
+                    replaceFragment(new ShoppingListFragment());
                     break;
 
                 case R.id.categories:
