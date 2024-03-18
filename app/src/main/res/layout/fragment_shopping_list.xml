@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShoppingListFragment">
+    android:id="@+id/remzi"
+    tools:context=".ShoppingListFragment"
+    android:background="#FFFFFF">
+
 
     <SearchView
         android:id="@+id/search__bar"
@@ -23,14 +26,13 @@
         android:padding="15dp"
         />
 
-    <Button
+    <ImageView
         android:id="@+id/cheapBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
-        android:text="Calculate the Cheapest Store"
-        android:background="@drawable/seach_view_bg"/>
+        android:background="@drawable/inc_button"/>
 
 
 </RelativeLayout>

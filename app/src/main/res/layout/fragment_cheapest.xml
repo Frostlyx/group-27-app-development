@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FavouritesFragment"
-    android:background="#FFFFFF">
+    android:id="@+id/cheap"
+    android:background="#FFFFFF"
+    tools:context=".CheapestFragment">
 
     <SearchView
-        android:id="@+id/search__bar"
+        android:id="@+id/search__barCheap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:queryHint="Searh"
@@ -17,11 +18,12 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/search__bar"
-        android:id="@+id/recyclerview"
+        android:layout_below="@id/search__barCheap"
+        android:id="@+id/recyclerviewCheap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15dp"
         />
+
 
 </RelativeLayout>
