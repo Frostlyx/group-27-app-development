@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,8 +64,8 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         ImageView productImage;
         TextView productName;
         TextView productPrice;
-        Button favouritesButton;
-        Button shoppingListButton;
+        ImageButton favouritesButton;
+        ImageButton shoppingListButton;
         public MyViewHolder(@NonNull View itemView, ProductRecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
