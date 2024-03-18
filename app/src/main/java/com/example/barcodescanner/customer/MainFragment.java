@@ -107,7 +107,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     private void scanCode() {
         ScanOptions options = new ScanOptions();
         options.setOrientationLocked(false);
-        options.setCaptureActivity(CaptureActivity.class);
+        options.setCaptureActivity(CaptureAct.class);
 
         barLauncher.launch(options);
     }
