@@ -86,10 +86,9 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        final Button backButton = view.findViewById(R.id.back);
         final Button loginButton = view.findViewById(R.id.login);
         final Button forgotPasswordButton = view.findViewById(R.id.forgotPassword);
-        final Button registerCustomerButton = view.findViewById(R.id.registerCustomer);
-        final Button registerStoreOwnerButton = view.findViewById(R.id.registerStoreOwner);
         final EditText usernameEditText = view.findViewById(R.id.username);
         final EditText passwordEditText = view.findViewById(R.id.password);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
@@ -163,6 +162,15 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                    ((WelcomeActivity) getActivity()).welcomeActivity();
+                }
+            }
+        });
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,24 +185,6 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                     ((WelcomeActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
-                }
-            }
-        });
-
-        registerCustomerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                    ((WelcomeActivity) getActivity()).replaceFragment(new RegisterCustomerFragment());
-                }
-            }
-        });
-
-        registerStoreOwnerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                    ((WelcomeActivity) getActivity()).replaceFragment(new RegisterStoreOwnerFragment());
                 }
             }
         });

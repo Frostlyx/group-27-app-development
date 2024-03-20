@@ -20,7 +20,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.customer.MainFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,6 +80,7 @@ public class RegisterCustomerFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register_customer, container, false);
     }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -179,7 +179,7 @@ public class RegisterCustomerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                    ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
+                    ((WelcomeActivity) getActivity()).welcomeActivity();
                 }
             }
         });

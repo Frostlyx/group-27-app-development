@@ -60,23 +60,12 @@ public class RegisterCustomerViewModel extends ViewModel {
 
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
-        if (username == null) {
-            return false;
-        }
-        else if (username.trim().equals("weird")) {
-            return false;
-        } else {
-            return !username.trim().isEmpty();
-        }
+        return username != null && !username.trim().isEmpty();
     }
 
     // A placeholder email validation check
     private boolean isEmailValid(String email) {
-        if (email == null) {
-            return false;
-        } else {
-            return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-        }
+        return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     // A placeholder password validation check
