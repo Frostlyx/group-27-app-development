@@ -39,6 +39,7 @@ public class LoginFragment extends Fragment {
     private String mParam2;
 
     private LoginViewModel loginViewModel;
+    private boolean isDataValid;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -71,15 +72,19 @@ public class LoginFragment extends Fragment {
         }
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+        isDataValid = false;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        return inflater.inflate(R.layout.fragment_login, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         final Button loginButton = view.findViewById(R.id.login);
         final Button forgotPasswordButton = view.findViewById(R.id.forgotPassword);
@@ -95,7 +100,7 @@ public class LoginFragment extends Fragment {
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                isDataValid = loginFormState.isDataValid();
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
@@ -112,6 +117,9 @@ public class LoginFragment extends Fragment {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
+                if (!isDataValid) {
+                    return;
+                }
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
@@ -190,8 +198,6 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-
-        return view;
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
@@ -210,4 +216,5 @@ public class LoginFragment extends Fragment {
                     Toast.LENGTH_LONG).show();
         }
     }
+
 }
