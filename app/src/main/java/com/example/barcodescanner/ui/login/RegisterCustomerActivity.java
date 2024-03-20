@@ -26,7 +26,7 @@ public class RegisterCustomerActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterCustomerActivity.this, LoginActivity.class);
+                Intent intent = new Intent(RegisterCustomerActivity.this, LoginOldActivity.class);
                 startActivity(intent);
             }
         });

@@ -17,6 +17,10 @@
         android:theme="@style/Theme.BarcodeScanner"
         tools:targetApi="31">
         <activity
+            android:name=".ui.login.LoginOldActivity"
+            android:exported="true"
+            android:label="@string/title_activity_login"/>
+        <activity
             android:name=".ui.login.RegisterStoreOwnerActivity"
             android:exported="false" />
         <activity
@@ -34,7 +38,8 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.BarcodeScanner">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
