@@ -1,13 +1,12 @@
 package com.example.barcodescanner.ui.login;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.barcodescanner.R;
 
@@ -65,13 +64,23 @@ public class RegisterStoreOwnerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_register_store_owner, container, false);
 
         final Button backButton = view.findViewById(R.id.back);
+        final Button registerStore = view.findViewById(R.id.register);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof LoginActivity) {
-                    ((LoginActivity) getActivity()).replaceFragment(new LoginFragment());
+                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                    ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
                 }
+            }
+        });
+
+
+
+        registerStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((WelcomeActivity) getActivity()).storeActivity();
             }
         });
 

@@ -1,13 +1,6 @@
 package com.example.barcodescanner.ui.login;
 
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -20,6 +13,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
 
@@ -118,8 +117,8 @@ public class LoginFragment extends Fragment {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
-                    if (getActivity() != null && getActivity() instanceof LoginActivity) {
-                        ((LoginActivity) getActivity()).replaceActivity();
+                    if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                        ((WelcomeActivity) getActivity()).customerActivity();
                     }
                 }
             }
@@ -168,8 +167,8 @@ public class LoginFragment extends Fragment {
         forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof LoginActivity) {
-                    ((LoginActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
+                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                    ((WelcomeActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
                 }
             }
         });
@@ -177,8 +176,8 @@ public class LoginFragment extends Fragment {
         registerCustomerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof LoginActivity) {
-                    ((LoginActivity) getActivity()).replaceFragment(new RegisterCustomerFragment());
+                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                    ((WelcomeActivity) getActivity()).replaceFragment(new RegisterCustomerFragment());
                 }
             }
         });
@@ -186,8 +185,8 @@ public class LoginFragment extends Fragment {
         registerStoreOwnerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof LoginActivity) {
-                    ((LoginActivity) getActivity()).replaceFragment(new RegisterStoreOwnerFragment());
+                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                    ((WelcomeActivity) getActivity()).replaceFragment(new RegisterStoreOwnerFragment());
                 }
             }
         });

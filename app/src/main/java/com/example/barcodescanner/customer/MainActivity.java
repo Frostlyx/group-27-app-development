@@ -4,15 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.ActivityMainBinding;
+import com.example.barcodescanner.ui.login.WelcomeActivity;
+import com.example.barcodescanner.ui.store.StoreDatabaseFragment;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,35 +35,65 @@ public class MainActivity extends AppCompatActivity {
         // On startup, open main fragment
         replaceFragment(new MainFragment());
 
+        // attempt at deselecting
+        binding.bottomNavigationView.setSelectedItemId(-1);
+//        Menu menu = binding.bottomNavigationView.getMenu();
+//        for (int i = 0; i < menu.size(); i++) {
+//            MenuItem menuItem = menu.getItem(i);
+//            menuItem.setChecked(false);
+//        }
+
+        // Opens fragment for the selected page in the bottom navigation bar
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             switch (item.getItemId()){
-                case R.id.shopping_list:
-                    replaceFragment(new MainFragment());
+                case R.id.favourites:
+                    replaceFragment(new FavouritesFragment());
                     break;
 
                 case R.id.categories:
                     replaceFragment(new CategoriesFragment());
                     break;
 
+                case R.id.discounts:
+                    replaceFragment(new DiscountsFragment());
+                    break;
+
+                case R.id.shopping_list:
+                    replaceFragment(new ShoppingListFragment());
+                    break;
+
                 case R.id.profile:
                     replaceFragment(new ProfileFragment());
                     break;
-
-                case R.id.discounts:
-                    replaceFragment(new DiscountsFragment());
-
-
             }
 
             return true;
         });
+
+        // Opens main page when home button gets pressed.
+        binding.toolbarHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Menu menu = binding.bottomNavigationView.getMenu();
+                for (int i = 0; i < menu.size(); i++) {
+                    MenuItem menuItem = menu.getItem(i);
+                    menuItem.setChecked(false);
+                }
+                replaceFragment(new MainFragment());
+            }
+        });
     }
 
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+    }
+
+    public void replaceActivity() {
+        Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+        startActivity(intent);
     }
 }
