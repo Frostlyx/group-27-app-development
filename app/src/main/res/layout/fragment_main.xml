@@ -35,7 +35,7 @@
 
 
     <Button
-        android:id="@+id/filter_1"
+        android:id="@+id/order_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
@@ -45,33 +45,60 @@
         />
 
     <Button
-        android:id="@+id/filter_2"
+        android:id="@+id/order_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
-        app:layout_constraintLeft_toRightOf="@id/filter_1"
+        app:layout_constraintLeft_toRightOf="@id/order_1"
         android:src="@drawable/baseline_category_24"
         android:text="Name Desc"
         />
 
     <Button
-        android:id="@+id/filter_3"
+        android:id="@+id/order_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
-        app:layout_constraintLeft_toRightOf="@+id/filter_2"
+        app:layout_constraintLeft_toRightOf="@+id/order_2"
         android:src="@drawable/baseline_category_24"
         android:text="Price Asc"
         />
 
     <Button
-        android:id="@+id/filter_4"
+        android:id="@+id/order_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
-        app:layout_constraintLeft_toRightOf="@+id/filter_3"
+        app:layout_constraintLeft_toRightOf="@+id/order_3"
         android:src="@drawable/baseline_category_24"
         android:text="Price Desc"
+        />
+
+    <Button
+        android:id="@+id/filter_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/order_1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Filt food"
+        />
+
+    <Button
+        android:id="@+id/filter_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/order_2"
+        app:layout_constraintLeft_toRightOf="@id/filter_1"
+        android:text="filt drink"
+        />
+
+    <Button
+        android:id="@+id/filter_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/order_3"
+        app:layout_constraintLeft_toRightOf="@id/filter_2"
+        android:text="Filt reset"
         />
 
 

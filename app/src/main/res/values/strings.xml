@@ -83,7 +83,20 @@
         <item>Cucumber</item>
         <item>Flour</item>
         <item>Minced Meat</item>
-        <item>Cheese</item>
+        <item>Wine</item>
+    </string-array>
+
+    <string-array name="placeholder_main_page_category">
+        <item>Food</item>
+        <item>Drink</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Drink</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Drink</item>
     </string-array>
 
     <string-array name="placeholder_main_page_price">

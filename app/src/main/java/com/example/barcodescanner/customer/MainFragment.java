@@ -42,10 +42,13 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     private String mParam2;
 
     ImageButton barcodeScannerButton;
+    Button order_1;
+    Button order_2;
+    Button order_3;
+    Button order_4;
     Button filter_1;
     Button filter_2;
-    Button filter_3;
-    Button filter_4;
+    Button filter_reset;
     RecyclerView recyclerView;
     ProductRecyclerViewAdapter adapter;
 
@@ -90,10 +93,13 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         super.onViewCreated(view, savedInstanceState);
         // Sets up buttons
         barcodeScannerButton = view.findViewById(R.id.barcode_scanner_button);
+        order_1 = view.findViewById(R.id.order_1);
+        order_2 = view.findViewById(R.id.order_2);
+        order_3 = view.findViewById(R.id.order_3);
+        order_4 = view.findViewById(R.id.order_4);
         filter_1 = view.findViewById(R.id.filter_1);
         filter_2 = view.findViewById(R.id.filter_2);
-        filter_3 = view.findViewById(R.id.filter_3);
-        filter_4 = view.findViewById(R.id.filter_4);
+        filter_reset = view.findViewById(R.id.filter_reset);
 
         // Sets up the recycler view
         recyclerView = view.findViewById(R.id.main_page_recyclerview);
@@ -105,27 +111,41 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
+        // Buttons listeners
         barcodeScannerButton.setOnClickListener(v -> {
             scanCode();
         });
 
-        filter_1.setOnClickListener(v -> {
+        order_1.setOnClickListener(v -> {
             adapter.sortBy("name_ascending");
         });
 
-        filter_2.setOnClickListener(v -> {
+        order_2.setOnClickListener(v -> {
             adapter.sortBy("name_descending");
         });
 
-        filter_3.setOnClickListener(v -> {
+        order_3.setOnClickListener(v -> {
             adapter.sortBy("price_ascending");
         });
 
-        filter_4.setOnClickListener(v -> {
+        order_4.setOnClickListener(v -> {
             adapter.sortBy("price_descending");
+        });
+
+        filter_1.setOnClickListener(v -> {
+            adapter.filterBy("food");
+        });
+
+        filter_2.setOnClickListener(v -> {
+            adapter.filterBy("drink");
+        });
+
+        filter_reset.setOnClickListener(v -> {
+            adapter.filterBy("reset");
         });
     }
 
+    // Barcode scanner shenanigans
     private void scanCode() {
         ScanOptions options = new ScanOptions();
         options.setOrientationLocked(false);
@@ -134,6 +154,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         barLauncher.launch(options);
     }
 
+    // Barcode scanner shenanigans part 2
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -148,18 +169,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     });
 
-    private void setupProductModels(){
-        String[] productNames = getResources().getStringArray(R.array.placeholder_main_page_product);
-        String[] productPrices = getResources().getStringArray(R.array.placeholder_main_page_price);
-
-        for (int i = 0; i < productNames.length; i++) {
-            productModels.add(new ProductModel(productNames[i],
-                    productPrices[i],
-                    productImage[0],
-                    "10%"));
-        }
-    }
-
+    // Barcode scanner shenanigans part 3
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -175,6 +185,23 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     }
 
+    // Makes the list of product models to put in the recycler view
+    // currently a placeholder, to be replaced with database connection
+    public void setupProductModels(){
+        String[] productNames = getResources().getStringArray(R.array.placeholder_main_page_product);
+        String[] productPrices = getResources().getStringArray(R.array.placeholder_main_page_price);
+        String[] productCategories = getResources().getStringArray(R.array.placeholder_main_page_category);
+
+        for (int i = 0; i < productNames.length; i++) {
+            productModels.add(new ProductModel(productNames[i],
+                    productPrices[i],
+                    productImage[0],
+                    productCategories[i],
+                    "10%"));
+        }
+    }
+
+    // Placeholder code for clicking on recyclerview elements
     @Override
     public void onItemClick(int position) {
         String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
@@ -188,7 +215,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     }
 
-    // Same code as onItemClick for now, but will be changed later
+    // Same code as onItemClick
     @Override
     public void onFavouritesClick(int position) {
         String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
@@ -202,7 +229,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     }
 
-    // Same code as onItemClick for now, but will be changed later
+    // Same code as onItemClick
     @Override
     public void onShoppingListClick(int position) {
         String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
