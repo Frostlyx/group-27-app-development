@@ -1,7 +1,6 @@
 package com.example.barcodescanner.customer;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
 
         // attempt at deselecting
-//        binding.bottomNavigationView.setSelectedItemId(-1);
+        binding.bottomNavigationView.setSelectedItemId(R.id.home);
 //        Menu menu = binding.bottomNavigationView.getMenu();
 //        for (int i = 0; i < menu.size(); i++) {
 //            MenuItem menuItem = menu.getItem(i);
@@ -46,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new CategoriesFragment(), getResources().getString(R.string.categories_title));
                     break;
 
-                case R.id.discounts:
-                    replaceFragment(new DiscountsFragment(), getResources().getString(R.string.discounts_title));
+                case R.id.home:
+                    replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
                     break;
 
                 case R.id.shopping_list:
@@ -63,17 +62,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Opens main page when home button gets pressed.
-        binding.toolbarHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Menu menu = binding.bottomNavigationView.getMenu();
-//                for (int i = 0; i < menu.size(); i++) {
-//                    MenuItem menuItem = menu.getItem(i);
-//                    menuItem.setChecked(false);
-//                }
-                replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
-            }
-        });
+//        binding.toolbarHome.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Menu menu = binding.bottomNavigationView.getMenu();
+////                for (int i = 0; i < menu.size(); i++) {
+////                    MenuItem menuItem = menu.getItem(i);
+////                    menuItem.setChecked(false);
+////                }
+//                replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
+//            }
+//        });
     }
 
     private void replaceFragment(Fragment fragment, String title) {

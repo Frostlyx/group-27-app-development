@@ -16,9 +16,9 @@
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Discounts"
-        android:icon="@drawable/baseline_discount_24"
-        android:id="@+id/discounts"/>
+        android:title="Home"
+        android:icon="@drawable/baseline_home_24"
+        android:id="@+id/home"/>
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
