@@ -1,10 +1,10 @@
 package com.example.barcodescanner.customer;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.MyViewHolder> {
     private final ProductRecyclerViewInterface recyclerViewInterface;
@@ -55,6 +57,66 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     @Override
     public int getItemCount() {
         return productModels.size();
+    }
+
+    public void sortBy(String criteria) {
+        switch (criteria) {
+            case "name_ascending":
+                Collections.sort(productModels, new Comparator<ProductModel>() {
+                    @Override
+                    public int compare(ProductModel item1, ProductModel item2) {
+                        return item1.getProductName().compareTo(item2.getProductName());
+                    }
+                });
+
+                Log.i("Sort Name Ascending", "Name");
+                for (ProductModel productModel : productModels) {
+                    Log.i("Sort", "Name: " + productModel.getProductName());
+                }
+                break;
+            case "name_descending":
+                Collections.sort(productModels, new Comparator<ProductModel>() {
+                    @Override
+                    public int compare(ProductModel item1, ProductModel item2) {
+                        return item1.getProductName().compareTo(item2.getProductName());
+                    }
+                });
+                Collections.reverse(productModels);
+
+                Log.i("Sort Name Descending", "Name");
+                for (ProductModel productModel : productModels) {
+                    Log.i("Sort", "Name: " + productModel.getProductName());
+                }
+                break;
+            case "price_ascending":
+                Collections.sort(productModels, new Comparator<ProductModel>() {
+                    @Override
+                    public int compare(ProductModel item1, ProductModel item2) {
+                        return item1.getProductPrice().compareTo(item2.getProductPrice());
+                    }
+                });
+
+                Log.i("Sort Price Ascending", "Price");
+                for (ProductModel productModel : productModels) {
+                    Log.i("Sort", "Price: " + productModel.getProductPrice());
+                }
+                break;
+            case "price_descending":
+                Collections.sort(productModels, new Comparator<ProductModel>() {
+                    @Override
+                    public int compare(ProductModel item1, ProductModel item2) {
+                        return item1.getProductPrice().compareTo(item2.getProductPrice());
+                    }
+                });
+                Collections.reverse(productModels);
+
+                Log.i("Sort Price Descending", "Price");
+                for (ProductModel productModel : productModels) {
+                    Log.i("Sort", "Price: " + productModel.getProductPrice());
+                }
+                break;
+        }
+        notifyDataSetChanged();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

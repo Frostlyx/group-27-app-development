@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -16,13 +15,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.CaptureActivity;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -45,6 +42,12 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     private String mParam2;
 
     ImageButton barcodeScannerButton;
+    Button filter_1;
+    Button filter_2;
+    Button filter_3;
+    Button filter_4;
+    RecyclerView recyclerView;
+    ProductRecyclerViewAdapter adapter;
 
 
 
@@ -85,22 +88,41 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Sets up buttons
         barcodeScannerButton = view.findViewById(R.id.barcode_scanner_button);
+        filter_1 = view.findViewById(R.id.filter_1);
+        filter_2 = view.findViewById(R.id.filter_2);
+        filter_3 = view.findViewById(R.id.filter_3);
+        filter_4 = view.findViewById(R.id.filter_4);
 
-        // Sets up showing products inside the recycler view
-        RecyclerView recyclerView = view.findViewById(R.id.main_page_recyclerview);
+        // Sets up the recycler view
+        recyclerView = view.findViewById(R.id.main_page_recyclerview);
         setupProductModels();
-        ProductRecyclerViewAdapter adapter = new ProductRecyclerViewAdapter(requireContext(),
+        adapter = new ProductRecyclerViewAdapter(requireContext(),
                 productModels,
                 this);
         recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
         barcodeScannerButton.setOnClickListener(v -> {
             scanCode();
+        });
 
+        filter_1.setOnClickListener(v -> {
+            adapter.sortBy("name_ascending");
+        });
+
+        filter_2.setOnClickListener(v -> {
+            adapter.sortBy("name_descending");
+        });
+
+        filter_3.setOnClickListener(v -> {
+            adapter.sortBy("price_ascending");
+        });
+
+        filter_4.setOnClickListener(v -> {
+            adapter.sortBy("price_descending");
         });
     }
 
