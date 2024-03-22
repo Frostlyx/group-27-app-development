@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -50,6 +51,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     Button filter_2;
     Button filter_reset;
     RecyclerView recyclerView;
+    SearchView searchView;
     ProductRecyclerViewAdapter adapter;
 
 
@@ -100,6 +102,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         filter_1 = view.findViewById(R.id.filter_1);
         filter_2 = view.findViewById(R.id.filter_2);
         filter_reset = view.findViewById(R.id.filter_reset);
+        searchView = view.findViewById(R.id.search_view);
 
         // Sets up the recycler view
         recyclerView = view.findViewById(R.id.main_page_recyclerview);
@@ -143,6 +146,30 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         filter_reset.setOnClickListener(v -> {
             adapter.filterBy("reset");
         });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterSearch(newText);
+                return true;
+            }
+        });
+    }
+
+    private void filterSearch(String input) {
+        ArrayList<ProductModel> filteredProductList = new ArrayList<>();
+        for (ProductModel product : productModels) {
+            if (product.getProductName().toLowerCase().contains(input.toLowerCase())) {
+                filteredProductList.add(product);
+            }
+        }
+
+        adapter.filterSearch(filteredProductList);
     }
 
     // Barcode scanner shenanigans

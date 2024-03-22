@@ -20,7 +20,8 @@
         android:iconifiedByDefault="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/barcode_scanner_button"/>
+        app:layout_constraintEnd_toStartOf="@+id/barcode_scanner_button"
+        app:layout_constraintBottom_toTopOf="@+id/order_1"/>
 
     <!-- Button with Vector Asset -->
     <ImageButton

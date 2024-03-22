@@ -121,6 +121,11 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         notifyDataSetChanged();
     }
 
+    public void filterSearch(ArrayList<ProductModel> filteredProductList) {
+        productModels = filteredProductList;
+        notifyDataSetChanged();
+    }
+
     public void filterBy(String criteria) {
         Iterator<ProductModel> iter = productModels.iterator();
 
