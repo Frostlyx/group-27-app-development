@@ -25,16 +25,7 @@ class RegisterCustomerFormState {
         this.confirmEmailError = confirmEmailError;
         this.passwordError = passwordError;
         this.confirmPasswordError = confirmPasswordError;
-        this.isDataValid = false;
-    }
-
-    RegisterCustomerFormState(boolean isDataValid) {
-        this.usernameError = null;
-        this.emailError = null;
-        this.confirmEmailError = null;
-        this.passwordError = null;
-        this.confirmPasswordError = null;
-        this.isDataValid = isDataValid;
+        this.isDataValid = usernameError == null && emailError == null && confirmEmailError == null && passwordError == null && confirmPasswordError == null;
     }
 
     @Nullable

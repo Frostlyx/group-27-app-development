@@ -43,26 +43,55 @@ public class RegisterStoreOwnerViewModel extends ViewModel {
 
     public void registerStoreOwnerDataChanged(String username, String storeName, String email, String confirmEmail,
                                             String location, int kvk, String password, String confirmPassword) {
+        Integer usernameError;
+        Integer storeNameError;
+        Integer emailError;
+        Integer confirmEmailError;
+        Integer locationError;
+        Integer kvkError;
+        Integer passwordError;
+        Integer confirmPasswordError;
         if (!isUserNameValid(username)) {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(R.string.invalid_username, null, null, null, null, null, null, null));
-
-        } else if (!isStoreNameValid(storeName)) {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(null, R.string.invalid_store_name, null, null, null, null, null, null));
-        } else if (!isEmailValid(email)) {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(null, null, R.string.invalid_email, null, null, null, null, null));
-        } else if (!isConfirmValid(email, confirmEmail)) {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(null, null, null, R.string.invalid_email_confirm, null, null, null, null));
-        } else if (!isLocationValid(location)) {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(null, null, null, null, R.string.invalid_location, null, null, null));
-        } else if (!isKvkValid(kvk)) {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(null, null, null, null, null, R.string.invalid_kvk, null, null));
-        } else if (!isPasswordValid(password)) {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(null, null, null, null, null, null, R.string.invalid_password, null));
-        } else if (!isConfirmValid(password, confirmPassword)) {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(null, null, null, null, null, null, null, R.string.invalid_password_confirm));
+            usernameError = R.string.invalid_username;
         } else {
-            registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(true));
+            usernameError = null;
         }
+        if (!isStoreNameValid(storeName)) {
+            storeNameError = R.string.invalid_store_name;
+        } else {
+            storeNameError = null;
+        }
+        if (!isEmailValid(email)) {
+            emailError = R.string.invalid_email;
+        } else {
+            emailError = null;
+        }
+        if (!isConfirmValid(email, confirmEmail)) {
+            confirmEmailError = R.string.invalid_email_confirm;
+        } else {
+            confirmEmailError = null;
+        }
+        if (!isLocationValid(location)) {
+            locationError = R.string.invalid_location;
+        } else {
+            locationError = null;
+        }
+        if (!isKvkValid(kvk)) {
+            kvkError = R.string.invalid_kvk;
+        } else {
+            kvkError = null;
+        }
+        if (!isPasswordValid(password)) {
+            passwordError = R.string.invalid_password;
+        } else {
+            passwordError = null;
+        }
+        if (!isConfirmValid(password, confirmPassword)) {
+            confirmPasswordError = R.string.invalid_password_confirm;
+        } else {
+            confirmPasswordError = null;
+        }
+        registerStoreOwnerFormState.setValue(new RegisterStoreOwnerFormState(usernameError, storeNameError, emailError, confirmEmailError, locationError, kvkError, passwordError, confirmPasswordError));
     }
 
     // A placeholder username validation check

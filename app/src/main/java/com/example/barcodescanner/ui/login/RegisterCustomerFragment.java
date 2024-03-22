@@ -122,10 +122,7 @@ public class RegisterCustomerFragment extends Fragment {
         registerCustomerViewModel.getRegisterCustomerResult().observe(getViewLifecycleOwner(), new Observer<RegisterCustomerResult>() {
             @Override
             public void onChanged(@Nullable RegisterCustomerResult registerCustomerResult) {
-                if (registerCustomerResult == null) {
-                    return;
-                }
-                if (!isDataValid) {
+                if (registerCustomerResult == null || !isDataValid) {
                     return;
                 }
                 if (registerCustomerResult.getError() != null) {

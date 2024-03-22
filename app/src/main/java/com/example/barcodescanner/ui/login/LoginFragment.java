@@ -112,13 +112,10 @@ public class LoginFragment extends Fragment {
         loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), new Observer<LoginResult>() {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
+                if (loginResult == null || !isDataValid) {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (!isDataValid) {
-                    return;
-                }
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
