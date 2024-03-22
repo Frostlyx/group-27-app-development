@@ -53,18 +53,23 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
-        if (username == null) {
-            return false;
-        }
-        else if (username.trim().equals("weird")) {
-            return false;
-        } else {
-            return !username.trim().isEmpty();
-        }
+        return username != null && !username.trim().isEmpty();
     }
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
+        if (password == null || password.trim().length() < 8) {
+            return false;
+        }
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUpperCase = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLowerCase = true;
+            }
+        }
+        return (hasUpperCase && hasLowerCase);
     }
 }

@@ -70,7 +70,19 @@ public class RegisterCustomerViewModel extends ViewModel {
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
+        if (password == null || password.trim().length() < 8) {
+            return false;
+        }
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUpperCase = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLowerCase = true;
+            }
+        }
+        return (hasUpperCase && hasLowerCase);
     }
 
     private boolean isConfirmValid(String string1, String string2) {
