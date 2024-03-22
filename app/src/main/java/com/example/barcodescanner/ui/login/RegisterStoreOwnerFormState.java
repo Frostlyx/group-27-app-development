@@ -36,19 +36,8 @@ class RegisterStoreOwnerFormState {
         this.kvkError = kvkError;
         this.passwordError = passwordError;
         this.confirmPasswordError = confirmPasswordError;
-        this.isDataValid = false;
-    }
-
-    RegisterStoreOwnerFormState(boolean isDataValid) {
-        this.usernameError = null;
-        this.storeNameError = null;
-        this.emailError = null;
-        this.confirmEmailError = null;
-        this.locationError = null;
-        this.kvkError = null;
-        this.passwordError = null;
-        this.confirmPasswordError = null;
-        this.isDataValid = isDataValid;
+        this.isDataValid = usernameError == null && storeNameError == null && emailError == null &&  confirmEmailError == null &&
+                locationError == null && kvkError == null && passwordError == null && confirmPasswordError == null;
     }
 
     @Nullable

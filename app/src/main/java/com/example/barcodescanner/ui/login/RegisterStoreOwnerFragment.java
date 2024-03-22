@@ -134,10 +134,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
         registerStoreOwnerViewModel.getRegisterStoreOwnerResult().observe(getViewLifecycleOwner(), new Observer<RegisterStoreOwnerResult>() {
             @Override
             public void onChanged(@Nullable RegisterStoreOwnerResult registerStoreOwnerResult) {
-                if (registerStoreOwnerResult == null) {
-                    return;
-                }
-                if (!isDataValid) {
+                if (registerStoreOwnerResult == null || !isDataValid) {
                     return;
                 }
                 if (registerStoreOwnerResult.getError() != null) {

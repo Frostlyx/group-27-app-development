@@ -43,19 +43,37 @@ public class RegisterCustomerViewModel extends ViewModel {
 
     public void registerCustomerDataChanged(String username, String email, String confirmEmail,
                                             String password, String confirmPassword) {
+        Integer usernameError;
+        Integer emailError;
+        Integer confirmEmailError;
+        Integer passwordError;
+        Integer confirmPasswordError;
         if (!isUserNameValid(username)) {
-            registerCustomerFormState.setValue(new RegisterCustomerFormState(R.string.invalid_username, null, null, null, null));
-        } else if (!isEmailValid(email)) {
-            registerCustomerFormState.setValue(new RegisterCustomerFormState(null, R.string.invalid_email, null, null, null));
-        } else if (!isConfirmValid(email, confirmEmail)) {
-            registerCustomerFormState.setValue(new RegisterCustomerFormState(null, null, R.string.invalid_email_confirm, null, null));
-        } else if (!isPasswordValid(password)) {
-            registerCustomerFormState.setValue(new RegisterCustomerFormState(null, null, null, R.string.invalid_password, null));
-        } else if (!isConfirmValid(password, confirmPassword)) {
-            registerCustomerFormState.setValue(new RegisterCustomerFormState(null, null, null, null, R.string.invalid_password_confirm));
+            usernameError = R.string.invalid_username;
         } else {
-            registerCustomerFormState.setValue(new RegisterCustomerFormState(true));
+            usernameError = null;
         }
+        if (!isEmailValid(email)) {
+            emailError = R.string.invalid_email;
+        } else {
+            emailError = null;
+        }
+        if (!isConfirmValid(email, confirmEmail)) {
+            confirmEmailError = R.string.invalid_email_confirm;
+        } else {
+            confirmEmailError = null;
+        }
+        if (!isPasswordValid(password)) {
+            passwordError = R.string.invalid_password;
+        } else {
+            passwordError = null;
+        }
+        if (!isConfirmValid(password, confirmPassword)) {
+            confirmPasswordError = R.string.invalid_password_confirm;
+        } else {
+            confirmPasswordError = null;
+        }
+        registerCustomerFormState.setValue(new RegisterCustomerFormState(usernameError, emailError, confirmEmailError, passwordError, confirmPasswordError));
     }
 
     // A placeholder username validation check
