@@ -2,10 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#808080</color>
     <!--Color pallate from figma-->
     <color name="app_background_color">#E8F1F2</color>
     <color name="main_color">#006494</color>
     <color name="accent_color_light">#1B98E0</color>
+    <color name="accent_color_medium">#247BA0</color>
     <color name="accent_color_dark">#13293D</color>
     <color name="discount_color">#FF7070</color>
+    <color name="fill_in_grey_color">#D9D9D9</color>
+    <color name="success_color_green">#7AF181</color>
 </resources>

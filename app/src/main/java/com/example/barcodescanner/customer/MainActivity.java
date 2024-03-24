@@ -1,5 +1,6 @@
 package com.example.barcodescanner.customer;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.ActivityMainBinding;
+import com.example.barcodescanner.ui.login.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void replaceFragment(Fragment fragment, String title) {
+    public void replaceFragment(Fragment fragment, String title) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
@@ -84,5 +86,10 @@ public class MainActivity extends AppCompatActivity {
         binding.toolbarTitle.setText(title);
 
 
+    }
+
+    public void replaceActivity() {
+        Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+        startActivity(intent);
     }
 }
