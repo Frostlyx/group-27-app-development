@@ -1,18 +1,14 @@
 package com.example.barcodescanner.customer;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.ui.login.ForgotPasswordFragment;
-import com.example.barcodescanner.ui.login.LoginFragment;
-import com.example.barcodescanner.ui.login.WelcomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,7 +73,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).replaceFragment(new ChangePasswordFragment());
+                    ((MainActivity) getActivity()).replaceFragment(new ChangePasswordFragment(), "Change password");
                 }
             }
         });

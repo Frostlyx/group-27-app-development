@@ -1,0 +1,25 @@
+apply plugin: "org.sonarqube"
+
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://localhost:9000/"
+        property "sonar.projectKey", "Grocery-App"
+        property "sonar.projectName", "Grocery App"
+        property "sonar.token", "sqp_1ce4c4669ac9b2a3ae246c0e0962c5edab6cbe6f"
+        property "sonar.tests", "src/test/java"
+        property "sonar.test.inclusions", "**/*Test*/**"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.sources", "src/main/java"
+        property "sonar.exclusions", '**/*Test*/**,' +
+                'build/**' +
+                '*.json,' +
+                '**/*test*/**,' +
+                '**/.gradle/**,' +
+                '**/R.class'
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.junit.reportPaths", "**/test-results/**/*.xml"
+        property "sonar.coverage.jacoco.xmlReportPaths", "**/jacocoTestReport/jacocoTestReport.xml"
+        property "sonar.coverage.exclusions", "${coverageExclusions.join(', ')}"
+    }
+}
