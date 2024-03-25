@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -43,13 +42,13 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     private String mParam2;
 
     ImageButton barcodeScannerButton;
-    Button order_1;
-    Button order_2;
-    Button order_3;
-    Button order_4;
-    Button filter_1;
-    Button filter_2;
-    Button filter_reset;
+//    Button order_1;
+//    Button order_2;
+//    Button order_3;
+//    Button order_4;
+//    Button filter_1;
+//    Button filter_2;
+//    Button filter_reset;
     RecyclerView recyclerView;
     SearchView searchView;
     ProductRecyclerViewAdapter adapter;
@@ -95,13 +94,13 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         super.onViewCreated(view, savedInstanceState);
         // Sets up buttons
         barcodeScannerButton = view.findViewById(R.id.barcode_scanner_button);
-        order_1 = view.findViewById(R.id.order_1);
-        order_2 = view.findViewById(R.id.order_2);
-        order_3 = view.findViewById(R.id.order_3);
-        order_4 = view.findViewById(R.id.order_4);
-        filter_1 = view.findViewById(R.id.filter_1);
-        filter_2 = view.findViewById(R.id.filter_2);
-        filter_reset = view.findViewById(R.id.filter_reset);
+//        order_1 = view.findViewById(R.id.order_1);
+//        order_2 = view.findViewById(R.id.order_2);
+//        order_3 = view.findViewById(R.id.order_3);
+//        order_4 = view.findViewById(R.id.order_4);
+//        filter_1 = view.findViewById(R.id.filter_1);
+//        filter_2 = view.findViewById(R.id.filter_2);
+//        filter_reset = view.findViewById(R.id.filter_reset);
         searchView = view.findViewById(R.id.search_view);
 
         // Sets up the recycler view
@@ -119,33 +118,33 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
             scanCode();
         });
 
-        order_1.setOnClickListener(v -> {
-            adapter.sortBy("name_ascending");
-        });
-
-        order_2.setOnClickListener(v -> {
-            adapter.sortBy("name_descending");
-        });
-
-        order_3.setOnClickListener(v -> {
-            adapter.sortBy("price_ascending");
-        });
-
-        order_4.setOnClickListener(v -> {
-            adapter.sortBy("price_descending");
-        });
-
-        filter_1.setOnClickListener(v -> {
-            adapter.filterBy("food");
-        });
-
-        filter_2.setOnClickListener(v -> {
-            adapter.filterBy("drink");
-        });
-
-        filter_reset.setOnClickListener(v -> {
-            adapter.filterBy("reset");
-        });
+//        order_1.setOnClickListener(v -> {
+//            adapter.sortBy("name_ascending");
+//        });
+//
+//        order_2.setOnClickListener(v -> {
+//            adapter.sortBy("name_descending");
+//        });
+//
+//        order_3.setOnClickListener(v -> {
+//            adapter.sortBy("price_ascending");
+//        });
+//
+//        order_4.setOnClickListener(v -> {
+//            adapter.sortBy("price_descending");
+//        });
+//
+//        filter_1.setOnClickListener(v -> {
+//            adapter.filterBy("food");
+//        });
+//
+//        filter_2.setOnClickListener(v -> {
+//            adapter.filterBy("drink");
+//        });
+//
+//        filter_reset.setOnClickListener(v -> {
+//            adapter.filterBy("reset");
+//        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
