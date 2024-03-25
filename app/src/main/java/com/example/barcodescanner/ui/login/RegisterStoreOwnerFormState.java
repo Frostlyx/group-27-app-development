@@ -7,22 +7,22 @@ import androidx.annotation.Nullable;
  */
 class RegisterStoreOwnerFormState {
     @Nullable
-    private Integer usernameError;
+    private final Integer usernameError;
     @Nullable
-    private Integer storeNameError;
+    private final Integer storeNameError;
     @Nullable
-    private Integer emailError;
+    private final Integer emailError;
     @Nullable
-    private Integer confirmEmailError;
+    private final Integer confirmEmailError;
     @Nullable
-    private Integer locationError;
+    private final Integer locationError;
     @Nullable
-    private Integer kvkError;
+    private final Integer kvkError;
     @Nullable
-    private Integer passwordError;
+    private final Integer passwordError;
     @Nullable
-    private Integer confirmPasswordError;
-    private boolean isDataValid;
+    private final Integer confirmPasswordError;
+    private final boolean isDataValid;
 
     RegisterStoreOwnerFormState(@Nullable Integer usernameError, @Nullable Integer storeNameError,
                                 @Nullable Integer emailError, @Nullable Integer confirmEmailError,
