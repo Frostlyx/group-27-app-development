@@ -50,7 +50,7 @@
     <string name="barcode">Barcode</string>
     <string name="amount">Weight/amount</string>
     <string name="save">Save</string>
-    <string name="success_add_item">'Item' was successfully added to your store!</string>
+    <string name="success_add_item">Item was successfully added to your store!</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -87,6 +87,56 @@
         sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-
     </string>
+
+<!--TODO: placeholder for items on main page-->
+    <string name="placeholder_toast_product_format">%s clicked!</string>
+    <string name="placeholder_toast_favourites_format">%s favourited!</string>
+    <string name="placeholder_toast_shopping_list_format">%s added to list!</string>
+    <string-array name="placeholder_main_page_product">
+        <item>Bread</item>
+        <item>Milk</item>
+        <item>Eggs</item>
+        <item>Apples</item>
+        <item>Cookies</item>
+        <item>Orange Juice</item>
+        <item>Cucumber</item>
+        <item>Flour</item>
+        <item>Minced Meat</item>
+        <item>Wine</item>
+    </string-array>
+
+    <string-array name="placeholder_main_page_category">
+        <item>Food</item>
+        <item>Drink</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Drink</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Drink</item>
+    </string-array>
+
+    <string-array name="placeholder_main_page_price">
+        <item>1.10</item>
+        <item>1.25</item>
+        <item>3.25</item>
+        <item>0.75</item>
+        <item>2.50</item>
+        <item>1.80</item>
+        <item>0.95</item>
+        <item>1.20</item>
+        <item>4.95</item>
+        <item>3.50</item>
+    </string-array>
+<!--    -->
+
+    <string name="home_title">Home</string>
+    <string name="favourites_title">Favourites</string>
+    <string name="categories_title">Categories</string>
+    <string name="discounts_title">Discounts</string>
+    <string name="shopping_list_title">Shopping List</string>
+    <string name="profile_title">Profile</string>
 </resources>

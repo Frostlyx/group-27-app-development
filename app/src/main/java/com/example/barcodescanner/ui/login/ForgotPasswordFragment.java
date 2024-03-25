@@ -1,18 +1,14 @@
 package com.example.barcodescanner.ui.login;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.databinding.FragmentForgotPasswordBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,8 +68,8 @@ public class ForgotPasswordFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof LoginActivity) {
-                    ((LoginActivity) getActivity()).replaceFragment(new LoginFragment());
+                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                    ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
                 }
             }
         });

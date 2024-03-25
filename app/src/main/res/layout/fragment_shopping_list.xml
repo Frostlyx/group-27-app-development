@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/remzi"
+    tools:context=".customer.ShoppingListFragment"
+    android:background="#FFFFFF">
+
+
+    <SearchView
+        android:id="@+id/search__bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Searh"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/seach_view_bg"
+        android:layout_margin="20dp"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/search__bar"
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        />
+
+    <ImageView
+        android:id="@+id/cheapBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/inc_button"/>
+
+
+</RelativeLayout>

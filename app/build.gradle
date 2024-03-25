@@ -1,6 +1,17 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/"}
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.1.1"
+    }
+}
 plugins {
     id 'com.android.application'
 }
+apply from: '../jacoco.gradle'
+apply from: '../sonarqube.gradle'
 
 android {
     namespace 'com.example.barcodescanner'
@@ -51,5 +62,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.google.zxing:core:3.4.1'
-    implementation 'com.journeyapps:zxing-android-embedded:4.2.0'
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 }
