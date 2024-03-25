@@ -121,7 +121,13 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         notifyDataSetChanged();
     }
 
-    public void filterSearch(ArrayList<ProductModel> filteredProductList) {
+    public void filterSearch(String input) {
+        ArrayList<ProductModel> filteredProductList = new ArrayList<>();
+        for (ProductModel product : productModels) {
+            if (product.getProductName().toLowerCase().contains(input.toLowerCase())) {
+                filteredProductList.add(product);
+            }
+        }
         productModels = filteredProductList;
         notifyDataSetChanged();
     }

@@ -155,22 +155,12 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterSearch(newText);
+                adapter.filterSearch(newText);
                 return true;
             }
         });
     }
 
-    private void filterSearch(String input) {
-        ArrayList<ProductModel> filteredProductList = new ArrayList<>();
-        for (ProductModel product : productModels) {
-            if (product.getProductName().toLowerCase().contains(input.toLowerCase())) {
-                filteredProductList.add(product);
-            }
-        }
-
-        adapter.filterSearch(filteredProductList);
-    }
 
     // Barcode scanner shenanigans
     private void scanCode() {
