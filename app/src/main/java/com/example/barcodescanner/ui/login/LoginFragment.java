@@ -1,7 +1,9 @@
 package com.example.barcodescanner.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
@@ -21,6 +24,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +35,8 @@ import com.example.barcodescanner.R;
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
+
+    FirebaseAuth mAuth;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,13 +90,14 @@ public class LoginFragment extends Fragment {
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final Button loginButton = view.findViewById(R.id.login);
-        final Button forgotPasswordButton = view.findViewById(R.id.forgotPassword);
-        final Button registerCustomerButton = view.findViewById(R.id.registerCustomer);
-        final Button registerStoreOwnerButton = view.findViewById(R.id.registerStoreOwner);
-        final EditText usernameEditText = view.findViewById(R.id.username);
-        final EditText passwordEditText = view.findViewById(R.id.password);
-        final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
+        Button loginButton = view.findViewById(R.id.login);
+        Button forgotPasswordButton = view.findViewById(R.id.forgotPassword);
+        Button registerCustomerButton = view.findViewById(R.id.registerCustomer);
+        Button registerStoreOwnerButton = view.findViewById(R.id.registerStoreOwner);
+        EditText usernameEditText = view.findViewById(R.id.username);
+        EditText passwordEditText = view.findViewById(R.id.password);
+        ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
+        mAuth = FirebaseAuth.getInstance();
 
         loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), new Observer<LoginFormState>() {
             @Override
@@ -161,6 +171,23 @@ public class LoginFragment extends Fragment {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+                String email, password;
+                email = String.valueOf(usernameEditText.getText());
+                password = String.valueOf(passwordEditText.getText());
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                                        ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
+                                    }
+                                } else {
+
+                                }
+                            }
+                        });
             }
         });
 
