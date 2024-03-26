@@ -36,7 +36,6 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     public void replaceFragment(Fragment fragment) {
-        setContentView(R.layout.activity_store);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.activity_storeowner_container, fragment);
