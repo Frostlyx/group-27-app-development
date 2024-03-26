@@ -25,6 +25,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Edit text"
+            android:textColor="@color/app_background_color"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,10 +36,11 @@
             android:id="@+id/store_home_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/main_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_home_24" />
+            app:srcCompat="@drawable/store_home" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
