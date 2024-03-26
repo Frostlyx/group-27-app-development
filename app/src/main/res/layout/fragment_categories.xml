@@ -1,76 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="0dp"
-    android:layout_marginHorizontal="@dimen/fragment_horizontal_margin"
-    android:layout_marginVertical="@dimen/fragment_vertical_margin"
-    android:orientation="horizontal"
-    android:stretchColumns="*"
-    tools:context=".customer.CategoriesFragment">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".customer.CategoriesFragment"
+    android:background="#FFFFFF">
 
-    <TableRow android:layout_height="203dp">
 
-        <android.widget.Button
-            android:id="@+id/category_bread_button"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_margin="25sp"
-            android:layout_weight="1"
-            android:background="@drawable/bread"
-            android:contentDescription=""
-            android:scaleType="centerCrop"
-            android:text="Bread"
-            android:textSize="20sp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewcat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:layout_margin="20dp"
+        android:scrollbars="vertical"
+        />
 
-        <ImageButton
-            android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="25sp"
-            android:layout_weight="1"
-            android:contentDescription=""
-            android:src="@drawable/bread"
-            android:text="Bread" />
-    </TableRow>
-
-    <TableRow>
-
-        <ImageButton
-            android:id="@+id/button3"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_margin="25sp"
-            android:layout_weight="1"
-            android:src="@drawable/bread" />
-
-        <ImageButton
-            android:id="@+id/button4"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_margin="25sp"
-            android:layout_weight="1"
-            android:src="@drawable/bread" />
-    </TableRow>
-
-    <TableRow>
-
-        <ImageButton
-            android:id="@+id/button5"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_margin="25sp"
-            android:layout_weight="1"
-            android:src="@drawable/bread" />
-
-        <ImageButton
-            android:id="@+id/button6"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="25sp"
-            android:layout_weight="1"
-            android:src="@drawable/bread" />
-    </TableRow>
-</TableLayout>
+</RelativeLayout>

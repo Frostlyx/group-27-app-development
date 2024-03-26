@@ -33,16 +33,19 @@
         android:gravity="center"
         android:orientation="vertical"
         android:text="Log-in"
-        android:background="#006494" />
+        android:background="@drawable/login_btn"
+        android:textColor="@color/black"
+        android:layout_marginHorizontal="30dp"
+        />
 
     <Button
         android:id="@+id/registerCustomerAccount"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-
+        android:padding="10dp"
         android:layout_marginTop="20dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/reg_btn"
         android:clickable="true"
         android:orientation="vertical"
         android:text="Register as customer" />
@@ -52,9 +55,9 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-
+        android:padding="5dp"
         android:layout_marginTop="20dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/reg_btn"
         android:clickable="true"
         android:orientation="vertical"
         android:text="Register as store owner" />

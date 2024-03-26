@@ -16,6 +16,7 @@
         android:layout_marginBottom="18dp">
 
         <Button
+            android:paddingStart="20dp"
             android:id="@+id/logout_profile_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,6 +42,7 @@
         android:layout_marginBottom="18dp">
 
         <Button
+            android:paddingStart="20dp"
             android:id="@+id/changePassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -66,6 +68,7 @@
         android:layout_marginBottom="18dp">
 
         <Button
+            android:paddingStart="20dp"
             android:id="@+id/deleteAccount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -84,7 +87,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="90dp"
         android:text="User name"
         android:textColor="@color/white"
@@ -94,7 +97,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="150dp"
         android:text="email@whatever.com"
         android:textColor="#FFFFFF" />

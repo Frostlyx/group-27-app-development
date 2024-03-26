@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,9 +74,9 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
                 public void onClick(View v) {
                     Log.d("demo", "onClick: Item Clciked " + position + " item " + item.name);
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    ProfileFragment categoriesFragment = new ProfileFragment();
+                    ProductFragment categoriesFragment = new ProductFragment();
                     FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
-                    fm.replace(R.id.remzi, categoriesFragment).commit();
+                    fm.replace(R.id.frame_layout, categoriesFragment).commit();
                 }
             });
 

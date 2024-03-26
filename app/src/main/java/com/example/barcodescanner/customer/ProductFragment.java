@@ -3,13 +3,19 @@ package com.example.barcodescanner.customer;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.barcodescanner.R;
 
@@ -41,7 +47,8 @@ public class ProductFragment extends Fragment {
             favRecView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
             secondView = rootView.findViewById(R.id.difStore);
-            secondView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+            secondView.setLayoutManager(layoutManager);
 
             myAdapter = new MyAdapter4(marketList);
             myAdapter2 = new MyAdapter5(marketList);
@@ -63,4 +70,5 @@ public class ProductFragment extends Fragment {
         item.add(new Market("deneme", "denenmis", R.drawable.bread));
         return item;
     }
+
 }

@@ -46,7 +46,8 @@
         android:layout_centerVertical="true"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/baseline_favorite_24"
+        android:padding="5dp"
+        android:src="@drawable/baseline_add_white"
         android:background="@drawable/inc_button"
     />
 
@@ -62,8 +63,12 @@
         android:layout_centerVertical="true"
         />
 
-    <ImageView
+    <Button
         android:id="@+id/decBtn"
+        android:text="⁻"
+        android:textSize="40dp"
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"
         android:layout_toStartOf="@id/counter"
         android:layout_centerVertical="true"
         android:layout_width="40dp"
