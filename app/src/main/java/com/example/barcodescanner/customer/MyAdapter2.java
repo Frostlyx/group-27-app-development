@@ -57,16 +57,18 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
         ImageView image_view;
         TextView product_name;
         TextView bottom_name;
+        ImageView dec_btn;
         int position;
         Item item;
         TextView value;
-        int count = 0;
+        int count = 1;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
             image_view = itemView.findViewById(R.id.image_view);
             product_name = itemView.findViewById(R.id.product_name);
             bottom_name = itemView.findViewById(R.id.bottom_name);
+            dec_btn = itemView.findViewById(R.id.decBtn);
             value = itemView.findViewById(R.id.counter);
             value.setText(String.valueOf(count));
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -86,17 +88,30 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
                     count++;
                     value.setText(String.valueOf(count));
 
+                    if (count > 1){
+                        dec_btn.setImageResource(R.drawable.baseline_add_white);
+                    }
+
                 }
             });
             itemView.findViewById(R.id.decBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (count>0){
+                    if (count>1){
                         count--;
                         value.setText(String.valueOf(count));
                     }
+                    if (count == 1){
+                        dec_btn.setImageResource(R.mipmap.store_database_bin_foreground);
+                    }
                 }
             });
+
+            if (count == 1){
+                dec_btn.setImageResource(R.mipmap.store_database_bin_foreground);
+            }
+
+
 
         }
 

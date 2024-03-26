@@ -53,7 +53,7 @@
 
     <TextView
         android:id="@+id/counter"
-        android:text="0"
+        android:text="1"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
@@ -63,17 +63,16 @@
         android:layout_centerVertical="true"
         />
 
-    <Button
+    <ImageView
         android:id="@+id/decBtn"
-        android:text="⁻"
-        android:textSize="40dp"
+        android:src="@drawable/bread"
+        android:padding="5dp"
         android:layout_centerInParent="true"
         android:textColor="@color/white"
         android:layout_toStartOf="@id/counter"
         android:layout_centerVertical="true"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/baseline_favorite_border_24"
         android:background="@drawable/inc_button"
         />
 
