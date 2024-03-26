@@ -44,7 +44,6 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
         holder.image_view.setImageResource(video_item.getImage());
         holder.product_name.setText(video_item.getName());
         holder.bottom_name.setText(video_item.getCategory());
-        holder.position = position;
         holder.item = video_item;
     }
 
@@ -74,7 +73,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("demo", "onClick: Item Clciked " + position + " item " + item.name);
+                    Log.d("demo", "onClick: Item Clciked " + " item " + item.name);
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     ProductFragment categoriesFragment = new ProductFragment();
                     FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
