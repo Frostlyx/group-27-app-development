@@ -1,5 +1,6 @@
 package com.example.barcodescanner.customer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,9 +13,15 @@ import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.ActivityMainBinding;
 import com.example.barcodescanner.ui.login.WelcomeActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    ProductRecyclerViewAdapter adapter;
+    static ArrayList<ProductModel> productModels = new ArrayList<>();
+    // TODO: placeholder for images, to replace with actual images
+    int[] productImage = {R.drawable.bread};
 
 
     @Override
@@ -23,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Setup product list
+        setupProductModels(getApplicationContext());
 
         // On startup, open main fragment
         replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
@@ -75,6 +85,23 @@ public class MainActivity extends AppCompatActivity {
 //                replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
 //            }
 //        });
+    }
+
+    // Makes the list of product models to put in the recycler view
+    // currently a placeholder, to be replaced with database connection
+    // TODO: move this out of activity into own class, or combine with adapter
+    public void setupProductModels(Context context){
+        String[] productNames = context.getResources().getStringArray(R.array.placeholder_main_page_product);
+        String[] productPrices = context.getResources().getStringArray(R.array.placeholder_main_page_price);
+        String[] productCategories = context.getResources().getStringArray(R.array.placeholder_main_page_category);
+
+        for (int i = 0; i < productNames.length; i++) {
+            productModels.add(new ProductModel(productNames[i],
+                    productPrices[i],
+                    productImage[0],
+                    productCategories[i],
+                    "10%"));
+        }
     }
 
     public void replaceFragment(Fragment fragment, String title) {
