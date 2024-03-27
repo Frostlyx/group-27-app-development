@@ -85,4 +85,9 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(WelcomeActivity.this, StoreActivity.class);
         startActivity(intent);
     }
+
+    public void welcomeActivity() {
+        Intent intent = new Intent(WelcomeActivity.this, WelcomeActivity.class);
+        startActivity(intent);
+    }
 }
