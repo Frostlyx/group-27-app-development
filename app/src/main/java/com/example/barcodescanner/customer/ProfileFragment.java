@@ -96,7 +96,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 user.updatePassword("allahyok");
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).replaceFragment(new ChangePasswordFragment());
+                    ((MainActivity) getActivity()).replaceFragment(new ChangePasswordFragment(), "Change Password");
 
                 }
             }

@@ -92,8 +92,6 @@ public class LoginFragment extends Fragment {
 
         Button loginButton = view.findViewById(R.id.login);
         Button forgotPasswordButton = view.findViewById(R.id.forgotPassword);
-        Button registerCustomerButton = view.findViewById(R.id.registerCustomer);
-        Button registerStoreOwnerButton = view.findViewById(R.id.registerStoreOwner);
         EditText usernameEditText = view.findViewById(R.id.username);
         EditText passwordEditText = view.findViewById(R.id.password);
         ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
@@ -196,24 +194,6 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                     ((WelcomeActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
-                }
-            }
-        });
-
-        registerCustomerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                    ((WelcomeActivity) getActivity()).replaceFragment(new RegisterCustomerFragment());
-                }
-            }
-        });
-
-        registerStoreOwnerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                    ((WelcomeActivity) getActivity()).replaceFragment(new RegisterStoreOwnerFragment());
                 }
             }
         });
