@@ -22,6 +22,7 @@ import com.example.barcodescanner.ui.login.LoginFragment;
 public class StoreDatabaseFragment extends Fragment {
 
     Dialog plusDialog;
+    Dialog addDialog;
     Button buttonAddDatabase;
     Button buttonAddProduct;
 
@@ -50,12 +51,26 @@ public class StoreDatabaseFragment extends Fragment {
         buttonAddDatabase = plusDialog.findViewById(R.id.button_upload_database);
         buttonAddProduct = plusDialog.findViewById(R.id.button_add_item);
 
+        // Initializing add dialog
+        addDialog = new Dialog(getContext());
+        addDialog.setContentView(R.layout.store_database_add_popup);
+        addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        addDialog.setCancelable(true);
+
         binding.floatingButtonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 plusDialog.show();;
             }
         });
+
+        buttonAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addDialog.show();;
+            }
+        });
+
         return binding.getRoot();
 
         }
