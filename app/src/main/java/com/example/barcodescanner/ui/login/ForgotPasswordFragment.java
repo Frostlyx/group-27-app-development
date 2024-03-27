@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -61,6 +62,7 @@ public class ForgotPasswordFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    Toast.makeText(getContext().getApplicationContext(), "A link has been sent your mail.", Toast.LENGTH_LONG).show();
                                     if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                                         ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
                                     }

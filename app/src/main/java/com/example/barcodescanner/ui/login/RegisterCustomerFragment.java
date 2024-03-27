@@ -93,9 +93,8 @@ public class RegisterCustomerFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                    ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
-                }
+                    ((WelcomeActivity) getActivity()).welcomeActivity();
+
             }
         });
 
