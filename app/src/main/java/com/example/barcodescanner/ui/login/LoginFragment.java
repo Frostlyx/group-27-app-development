@@ -90,6 +90,7 @@ public class LoginFragment extends Fragment {
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+        Button backButton = view.findViewById(R.id.back);
         Button loginButton = view.findViewById(R.id.login);
         Button forgotPasswordButton = view.findViewById(R.id.forgotPassword);
         EditText usernameEditText = view.findViewById(R.id.username);
@@ -163,6 +164,13 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((WelcomeActivity) getActivity()).welcomeActivity();
+
+            }
+        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
