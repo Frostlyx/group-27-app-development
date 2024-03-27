@@ -38,7 +38,7 @@ public class MyStoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
-                    ((StoreActivity) getActivity()).replaceFragment(new ProfileFragment());
+                    ((StoreActivity) getActivity()).replaceFragment(new ProfileFragment(), getResources().getString(R.string.profile_title));
                 }
             }
         });
@@ -47,7 +47,7 @@ public class MyStoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
-                    ((StoreActivity) getActivity()).replaceFragment(new StoreDatabaseFragment());
+                    ((StoreActivity) getActivity()).replaceFragment(new StoreDatabaseFragment(), getResources().getString(R.string.store_database_title));
                 }
             }
         });
@@ -56,7 +56,7 @@ public class MyStoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
-                    ((StoreActivity) getActivity()).replaceFragment(new EditStoreFragment());
+                    ((StoreActivity) getActivity()).replaceFragment(new EditStoreFragment(), getResources().getString(R.string.edit_store_title));
                 }
             }
         });
