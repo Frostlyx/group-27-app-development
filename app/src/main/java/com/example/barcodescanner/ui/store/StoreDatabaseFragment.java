@@ -36,7 +36,7 @@ public class StoreDatabaseFragment extends Fragment {
         DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(test);
         recyclerView.setAdapter(databaseListAdapter);
 
-        addProductButton = binding.getRoot().findViewById(R.id.button_add_product);
+        addProductButton = binding.getRoot().findViewById(R.id.floating_button_add_product);
         addProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
