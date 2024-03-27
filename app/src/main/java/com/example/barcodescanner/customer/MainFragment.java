@@ -3,6 +3,7 @@ package com.example.barcodescanner.customer;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,8 +111,15 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
                 productModels,
                 this);
         recyclerView.setAdapter(adapter);
-        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);
+        if(getScreenWidth() > 1200) {
+            GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 4);
+            recyclerView.setLayoutManager(layoutManager);
+        }else {
+            GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
+            recyclerView.setLayoutManager(layoutManager);
+        }
+
+
 
         // Buttons listeners
         barcodeScannerButton.setOnClickListener(v -> {
@@ -158,6 +166,10 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
                 return true;
             }
         });
+    }
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.barcodescanner.customer;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ public class CategoriesFragment extends Fragment {
 
 
 
+
     public CategoriesFragment() {
         // Required empty public constructor
     }
@@ -38,14 +41,26 @@ public class CategoriesFragment extends Fragment {
         marketList = generateMarkets();
 
         favRecView = rootView.findViewById(R.id.recyclerviewcat);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-        favRecView.setLayoutManager(layoutManager);
+
+        if(getScreenWidth() > 1200) {
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4);
+            favRecView.setLayoutManager(layoutManager);
+        }else {
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+            favRecView.setLayoutManager(layoutManager);
+        }
+
+
 
         myAdapter = new MyAdapter6(marketList);
         favRecView.setAdapter(myAdapter);
 
 
         return rootView;
+    }
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
     private List<Market> generateMarkets(){

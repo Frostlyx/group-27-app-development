@@ -1,5 +1,6 @@
 package com.example.barcodescanner.customer;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -47,8 +48,13 @@ public class ProductFragment extends Fragment {
             favRecView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
             secondView = rootView.findViewById(R.id.difStore);
-            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
-            secondView.setLayoutManager(layoutManager);
+            if(getScreenWidth() > 1200) {
+                GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 5);
+                secondView.setLayoutManager(layoutManager);
+            }else {
+                GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+                secondView.setLayoutManager(layoutManager);
+            }
 
             myAdapter = new MyAdapter4(marketList);
             myAdapter2 = new MyAdapter5(marketList);
@@ -56,6 +62,10 @@ public class ProductFragment extends Fragment {
             secondView.setAdapter(myAdapter2);
 
             return rootView;
+    }
+
+    private int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
     private List<Market> generateMarkets(){
