@@ -1,6 +1,7 @@
 package com.example.barcodescanner.ui.store;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +10,22 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.databinding.FragmentMystoreBinding;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
 import com.example.barcodescanner.ui.login.LoginFragment;
 
 public class StoreDatabaseFragment extends Fragment {
 
-    ImageButton addProductButton;
+    Dialog plusDialog;
+    Dialog addDialog;
+    Button buttonAddDatabase;
+    Button buttonAddProduct;
+
     private FragmentStoreDatabaseBinding binding;
 
     @Override
@@ -36,13 +43,34 @@ public class StoreDatabaseFragment extends Fragment {
         DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(test);
         recyclerView.setAdapter(databaseListAdapter);
 
-        addProductButton = binding.getRoot().findViewById(R.id.button_add_product);
-        addProductButton.setOnClickListener(new View.OnClickListener() {
+        // Initializing plus dialog
+        plusDialog = new Dialog(getContext());
+        plusDialog.setContentView(R.layout.store_database_plus_popup);
+        plusDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        plusDialog.setCancelable(true);
+        buttonAddDatabase = plusDialog.findViewById(R.id.button_upload_database);
+        buttonAddProduct = plusDialog.findViewById(R.id.button_add_item);
+
+        // Initializing add dialog
+        addDialog = new Dialog(getContext());
+        addDialog.setContentView(R.layout.store_database_add_popup);
+        addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        addDialog.setCancelable(true);
+
+        binding.floatingButtonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog();
+                plusDialog.show();;
             }
         });
+
+        buttonAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addDialog.show();;
+            }
+        });
+
         return binding.getRoot();
 
         }
