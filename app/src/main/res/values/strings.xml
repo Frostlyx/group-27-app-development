@@ -23,7 +23,13 @@
     <string name="action_register_store_owner">Register as store owner</string>
     <string name="welcome">"Welcome "</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_store_name">Not a valid store name</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_email_confirm">Emails are not the same</string>
+    <string name="invalid_location">Not a valid location</string>
+    <string name="invalid_kvk">Not a valid KvK number</string>
+    <string name="invalid_password">Password must contain at least 8 characters, with at least 1 uppercase and lowercase character</string>
+    <string name="invalid_password_confirm">Passwords are not the same</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <!-- Strings used for fragments for navigation -->

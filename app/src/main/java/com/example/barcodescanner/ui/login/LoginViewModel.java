@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
-
 import com.example.barcodescanner.data.LoginRepository;
 import com.example.barcodescanner.data.Result;
 import com.example.barcodescanner.data.model.User;
@@ -42,29 +40,40 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void loginDataChanged(String username, String password) {
+        Integer usernameError;
+        Integer passwordError;
         if (!isUserNameValid(username)) {
-            loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));
-        } else if (!isPasswordValid(password)) {
-            loginFormState.setValue(new LoginFormState(null, R.string.invalid_password));
+            usernameError = R.string.invalid_username;
         } else {
-            loginFormState.setValue(new LoginFormState(true));
+            usernameError = null;
         }
+        if (!isPasswordValid(password)) {
+            passwordError = R.string.invalid_password;
+        } else {
+                passwordError = null;
+        }
+        loginFormState.setValue(new LoginFormState(usernameError, passwordError));
     }
 
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
-        if (username == null) {
-            return false;
-        }
-        if (username.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
-        } else {
-            return !username.trim().isEmpty();
-        }
+        return username != null && !username.trim().isEmpty();
     }
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
+        if (password == null || password.trim().length() < 8) {
+            return false;
+        }
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUpperCase = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLowerCase = true;
+            }
+        }
+        return (hasUpperCase && hasLowerCase);
     }
 }
