@@ -7,24 +7,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.ui.login.ForgotPasswordFragment;
-import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.CaptureActivity;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -47,6 +42,16 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     private String mParam2;
 
     ImageButton barcodeScannerButton;
+//    Button order_1;
+//    Button order_2;
+//    Button order_3;
+//    Button order_4;
+//    Button filter_1;
+//    Button filter_2;
+//    Button filter_reset;
+    RecyclerView recyclerView;
+    SearchView searchView;
+    ProductRecyclerViewAdapter adapter;
 
 
 
@@ -87,33 +92,85 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Sets up buttons
         barcodeScannerButton = view.findViewById(R.id.barcode_scanner_button);
+//        order_1 = view.findViewById(R.id.order_1);
+//        order_2 = view.findViewById(R.id.order_2);
+//        order_3 = view.findViewById(R.id.order_3);
+//        order_4 = view.findViewById(R.id.order_4);
+//        filter_1 = view.findViewById(R.id.filter_1);
+//        filter_2 = view.findViewById(R.id.filter_2);
+//        filter_reset = view.findViewById(R.id.filter_reset);
+        searchView = view.findViewById(R.id.search_view);
 
-        // Sets up showing products inside the recycler view
-        RecyclerView recyclerView = view.findViewById(R.id.main_page_recyclerview);
+        // Sets up the recycler view
+        recyclerView = view.findViewById(R.id.main_page_recyclerview);
         setupProductModels();
-        ProductRecyclerViewAdapter adapter = new ProductRecyclerViewAdapter(requireContext(),
+        adapter = new ProductRecyclerViewAdapter(requireContext(),
                 productModels,
                 this);
         recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
+        // Buttons listeners
         barcodeScannerButton.setOnClickListener(v -> {
             scanCode();
+        });
 
+//        order_1.setOnClickListener(v -> {
+//            adapter.sortBy("name_ascending");
+//        });
+//
+//        order_2.setOnClickListener(v -> {
+//            adapter.sortBy("name_descending");
+//        });
+//
+//        order_3.setOnClickListener(v -> {
+//            adapter.sortBy("price_ascending");
+//        });
+//
+//        order_4.setOnClickListener(v -> {
+//            adapter.sortBy("price_descending");
+//        });
+//
+//        filter_1.setOnClickListener(v -> {
+//            adapter.filterBy("food");
+//        });
+//
+//        filter_2.setOnClickListener(v -> {
+//            adapter.filterBy("drink");
+//        });
+//
+//        filter_reset.setOnClickListener(v -> {
+//            adapter.filterBy("reset");
+//        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filterSearch(newText);
+                return true;
+            }
         });
     }
 
+
+    // Barcode scanner shenanigans
     private void scanCode() {
         ScanOptions options = new ScanOptions();
         options.setOrientationLocked(false);
-        options.setCaptureActivity(CaptureActivity.class);
+        options.setCaptureActivity(CaptureAct.class);
 
         barLauncher.launch(options);
     }
 
+    // Barcode scanner shenanigans part 2
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -128,18 +185,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     });
 
-    private void setupProductModels(){
-        String[] productNames = getResources().getStringArray(R.array.placeholder_main_page_product);
-        String[] productPrices = getResources().getStringArray(R.array.placeholder_main_page_price);
-
-        for (int i = 0; i < productNames.length; i++) {
-            productModels.add(new ProductModel(productNames[i],
-                    productPrices[i],
-                    productImage[0],
-                    "10%"));
-        }
-    }
-
+    // Barcode scanner shenanigans part 3
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -155,6 +201,23 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     }
 
+    // Makes the list of product models to put in the recycler view
+    // currently a placeholder, to be replaced with database connection
+    public void setupProductModels(){
+        String[] productNames = getResources().getStringArray(R.array.placeholder_main_page_product);
+        String[] productPrices = getResources().getStringArray(R.array.placeholder_main_page_price);
+        String[] productCategories = getResources().getStringArray(R.array.placeholder_main_page_category);
+
+        for (int i = 0; i < productNames.length; i++) {
+            productModels.add(new ProductModel(productNames[i],
+                    productPrices[i],
+                    productImage[0],
+                    productCategories[i],
+                    "10%"));
+        }
+    }
+
+    // Placeholder code for clicking on recyclerview elements
     @Override
     public void onItemClick(int position) {
         String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
@@ -163,13 +226,12 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
             String message = toastMessages[position];
             String toastMessage = getString(R.string.placeholder_toast_product_format, message);
             Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
-            ((MainActivity) getActivity()).replaceFragment(new ProductFragment());
         } else {
             Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Same code as onItemClick for now, but will be changed later
+    // Same code as onItemClick
     @Override
     public void onFavouritesClick(int position) {
         String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
@@ -183,7 +245,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     }
 
-    // Same code as onItemClick for now, but will be changed later
+    // Same code as onItemClick
     @Override
     public void onShoppingListClick(int position) {
         String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);

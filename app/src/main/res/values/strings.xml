@@ -109,7 +109,20 @@
         <item>Cucumber</item>
         <item>Flour</item>
         <item>Minced Meat</item>
-        <item>Cheese</item>
+        <item>Wine</item>
+    </string-array>
+
+    <string-array name="placeholder_main_page_category">
+        <item>Food</item>
+        <item>Drink</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Drink</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Food</item>
+        <item>Drink</item>
     </string-array>
 
     <string-array name="placeholder_main_page_price">
@@ -125,4 +138,11 @@
         <item>3.50</item>
     </string-array>
 <!--    -->
+
+    <string name="home_title">Home</string>
+    <string name="favourites_title">Favourites</string>
+    <string name="categories_title">Categories</string>
+    <string name="discounts_title">Discounts</string>
+    <string name="shopping_list_title">Shopping List</string>
+    <string name="profile_title">Profile</string>
 </resources>
