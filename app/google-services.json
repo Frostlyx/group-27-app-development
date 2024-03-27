@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "1003772323365",
+    "firebase_url": "https://apptest-5898f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "apptest-5898f",
+    "storage_bucket": "apptest-5898f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003772323365:android:40fbac4de22cc3461f81cc",
+        "android_client_info": {
+          "package_name": "com.example.barcodescanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSKmioDcAIaJWhfRihxYCEiG8vRhXVfas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003772323365:android:432ecd990332d9f31f81cc",
+        "android_client_info": {
+          "package_name": "com.example.testapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSKmioDcAIaJWhfRihxYCEiG8vRhXVfas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

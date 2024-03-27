@@ -165,9 +165,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                     ((WelcomeActivity) getActivity()).welcomeActivity();
-                }
             }
         });
 
