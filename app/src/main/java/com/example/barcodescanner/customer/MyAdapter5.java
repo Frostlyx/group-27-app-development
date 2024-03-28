@@ -1,7 +1,5 @@
 package com.example.barcodescanner.customer;
 
-import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +25,7 @@ public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.VideoViewHolder>
     @NonNull
     @Override
     public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prouctstore, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_productstore, parent, false);
         return new VideoViewHolder(itemView);
     }
 

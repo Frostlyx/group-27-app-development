@@ -9,6 +9,7 @@
         android:layout_width="120dp"
         android:layout_height="140dp"
         app:cardElevation="5dp"
+        android:backgroundTint="@color/white"
         android:layout_margin="10dp"
         android:background="@drawable/inc_button">
 
@@ -27,17 +28,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Store"
+            android:textSize="@dimen/title_text_size"
             android:layout_below="@id/store_img"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/white"/>
+            android:textColor="@color/main_color"/>
         <TextView
             android:id="@+id/priName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price"
+            android:textSize="@dimen/body_text_size"
             android:layout_below="@id/sName"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/white"/>
+            android:textColor="@color/main_color"/>
 
 
 
