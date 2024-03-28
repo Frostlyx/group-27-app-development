@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,11 +15,11 @@ import com.example.barcodescanner.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesFragment extends Fragment {
+public class CategoriesFragment extends Fragment implements CategoryRecyclerViewInterface {
 
     List<Market> marketList;
     RecyclerView favRecView, secondView;
-    MyAdapter6 myAdapter;
+    CategoryRecyclerViewAdapter myAdapter;
 
 
 
@@ -39,7 +40,7 @@ public class CategoriesFragment extends Fragment {
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         favRecView.setLayoutManager(layoutManager);
 
-        myAdapter = new MyAdapter6(marketList);
+        myAdapter = new CategoryRecyclerViewAdapter(marketList, this);
         favRecView.setAdapter(myAdapter);
 
 
@@ -56,6 +57,23 @@ public class CategoriesFragment extends Fragment {
         item.add(new Market("deneme", "denenmis", R.drawable.bread));
         item.add(new Market("deneme", "denenmis", R.drawable.bread));
         item.add(new Market("deneme", "denenmis", R.drawable.bread));
+        item.add(new Market("deneme", "denenmis", R.drawable.bread));
+        item.add(new Market("deneme", "denenmis", R.drawable.bread));
+        item.add(new Market("deneme", "denenmis", R.drawable.bread));
+        item.add(new Market("deneme", "denenmis", R.drawable.bread));
         return item;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
+
+        if (position >= 0 && position < toastMessages.length) {
+            String message = toastMessages[position];
+            String toastMessage = getString(R.string.placeholder_toast_product_format, message);
+            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+        }
     }
 }

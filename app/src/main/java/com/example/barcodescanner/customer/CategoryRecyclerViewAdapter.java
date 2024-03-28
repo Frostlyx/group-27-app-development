@@ -13,12 +13,13 @@ import com.example.barcodescanner.R;
 
 import java.util.List;
 
-public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.VideoViewHolder> {
+public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRecyclerViewAdapter.VideoViewHolder> {
 
-
+    private final CategoryRecyclerViewInterface categoryRecyclerViewInterface;
     List<Market> marketList;
 
-    public MyAdapter6(List<Market> marketList) {
+    public CategoryRecyclerViewAdapter(List<Market> marketList, CategoryRecyclerViewInterface categoryRecyclerViewInterface) {
+        this.categoryRecyclerViewInterface = categoryRecyclerViewInterface;
         this.marketList = marketList;
     }
 
@@ -26,7 +27,7 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.VideoViewHolder>
     @Override
     public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_productstore, parent, false);
-        return new VideoViewHolder(itemView);
+        return new VideoViewHolder(itemView, categoryRecyclerViewInterface);
     }
 
     @Override
@@ -47,13 +48,21 @@ public class MyAdapter6 extends RecyclerView.Adapter<MyAdapter6.VideoViewHolder>
         TextView store_name;
         TextView price_name;
 
-        public VideoViewHolder(@NonNull View itemView) {
+        public VideoViewHolder(@NonNull View itemView, CategoryRecyclerViewInterface categoryRecyclerViewInterface) {
             super(itemView);
             image_view = itemView.findViewById(R.id.store_img);
             store_name = itemView.findViewById(R.id.sName);
             price_name = itemView.findViewById(R.id.priName);
 
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (categoryRecyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+                        categoryRecyclerViewInterface.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 
