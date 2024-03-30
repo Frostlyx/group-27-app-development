@@ -6,39 +6,14 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.barcodescanner.data.RegisterStoreOwnerRepository;
-import com.example.barcodescanner.data.Result;
-import com.example.barcodescanner.data.model.User;
 import com.example.barcodescanner.R;
 
 public class RegisterStoreOwnerViewModel extends ViewModel {
 
     private MutableLiveData<RegisterStoreOwnerFormState> registerStoreOwnerFormState = new MutableLiveData<>();
-    private MutableLiveData<RegisterStoreOwnerResult> registerStoreOwnerResult = new MutableLiveData<>();
-    private RegisterStoreOwnerRepository registerStoreOwnerRepository;
-
-    RegisterStoreOwnerViewModel(RegisterStoreOwnerRepository registerStoreOwnerRepository) {
-        this.registerStoreOwnerRepository = registerStoreOwnerRepository;
-    }
 
     LiveData<RegisterStoreOwnerFormState> getRegisterStoreOwnerFormState() {
         return registerStoreOwnerFormState;
-    }
-
-    LiveData<RegisterStoreOwnerResult> getRegisterStoreOwnerResult() {
-        return registerStoreOwnerResult;
-    }
-
-    public void register(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<User> result = registerStoreOwnerRepository.register(username, password);
-
-        if (result instanceof Result.Success) {
-            User data = ((Result.Success<User>) result).getData();
-            registerStoreOwnerResult.setValue(new RegisterStoreOwnerResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            registerStoreOwnerResult.setValue(new RegisterStoreOwnerResult(R.string.login_failed));
-        }
     }
 
     public void registerStoreOwnerDataChanged(String username, String storeName, String email, String confirmEmail,

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +66,7 @@ public class RegisterCustomerFragment extends Fragment {
         final EditText confirmEmailEditText = view.findViewById(R.id.confirm_email);
         final EditText passwordEditText = view.findViewById(R.id.password);
         final EditText confirmPasswordEditText = view.findViewById(R.id.confirm_password);
+        final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
         registerCustomerViewModel.getRegisterCustomerFormState().observe(getViewLifecycleOwner(), new Observer<RegisterCustomerFormState>() {
             @Override
@@ -89,24 +94,6 @@ public class RegisterCustomerFragment extends Fragment {
             }
         });
 
-        registerCustomerViewModel.getRegisterCustomerResult().observe(getViewLifecycleOwner(), new Observer<RegisterCustomerResult>() {
-            @Override
-            public void onChanged(@Nullable RegisterCustomerResult registerCustomerResult) {
-                if (registerCustomerResult == null || !isDataValid) {
-                    return;
-                }
-                if (registerCustomerResult.getError() != null) {
-                    showRegisterCustomerFailed(registerCustomerResult.getError());
-                }
-                if (registerCustomerResult.getSuccess() != null) {
-                    updateUiWithUser(registerCustomerResult.getSuccess());
-                    if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                        ((WelcomeActivity) getActivity()).customerActivity();
-                    }
-                }
-            }
-        });
-
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -130,17 +117,6 @@ public class RegisterCustomerFragment extends Fragment {
         confirmEmailEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
-        confirmPasswordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    registerCustomerViewModel.register(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
-            }
-        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,21 +130,29 @@ public class RegisterCustomerFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerCustomerViewModel.register(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-                String email, password;
-                email = String.valueOf(emailEditText.getText());
-                password = String.valueOf(passwordEditText.getText());
+                if (!isDataValid) {
+                    return;
+                }
+                loadingProgressBar.setVisibility(View.VISIBLE);
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    updateUiWithUser(mAuth.getCurrentUser());
                                     if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                                         ((WelcomeActivity) getActivity()).customerActivity();
                                     }
                                 } else {
-                                    // If sign in fails, display a message to the user.
+                                    Exception exception = task.getException();
+                                    if (exception instanceof FirebaseAuthUserCollisionException) {
+                                        showRegisterCustomerFailed(R.string.email_exists);
+                                    } else {
+                                        showRegisterCustomerFailed(R.string.register_failed);
+                                    }
+                                    loadingProgressBar.setVisibility(View.GONE);
                                 }
                             }
                         });
@@ -176,8 +160,8 @@ public class RegisterCustomerFragment extends Fragment {
         });
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
+    private void updateUiWithUser(FirebaseUser user) {
+        String welcome = getString(R.string.welcome) + user.getDisplayName();
         // TODO : initiate successful logged in experience
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
