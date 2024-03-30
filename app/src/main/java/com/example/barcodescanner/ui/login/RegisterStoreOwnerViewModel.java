@@ -10,7 +10,7 @@ import com.example.barcodescanner.R;
 
 public class RegisterStoreOwnerViewModel extends ViewModel {
 
-    private MutableLiveData<RegisterStoreOwnerFormState> registerStoreOwnerFormState = new MutableLiveData<>();
+    private final MutableLiveData<RegisterStoreOwnerFormState> registerStoreOwnerFormState = new MutableLiveData<>();
 
     LiveData<RegisterStoreOwnerFormState> getRegisterStoreOwnerFormState() {
         return registerStoreOwnerFormState;
