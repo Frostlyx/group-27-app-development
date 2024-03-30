@@ -3,28 +3,21 @@ package com.example.barcodescanner.ui.login;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
@@ -69,19 +62,16 @@ public class LoginFragment extends Fragment {
         final EditText passwordEditText = view.findViewById(R.id.password);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
-        loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), new Observer<LoginFormState>() {
-            @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
-                    return;
-                }
-                isDataValid = loginFormState.isDataValid();
-                if (loginFormState.getEmailError() != null) {
-                    emailEditText.setError(getString(loginFormState.getEmailError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
+        loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), loginFormState -> {
+            if (loginFormState == null) {
+                return;
+            }
+            isDataValid = loginFormState.isDataValid();
+            if (loginFormState.getEmailError() != null) {
+                emailEditText.setError(getString(loginFormState.getEmailError()));
+            }
+            if (loginFormState.getPasswordError() != null) {
+                passwordEditText.setError(getString(loginFormState.getPasswordError()));
             }
         });
 
@@ -105,53 +95,43 @@ public class LoginFragment extends Fragment {
         emailEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        backButton.setOnClickListener(v -> {
+            if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                 ((WelcomeActivity) getActivity()).welcomeActivity();
-
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isDataValid) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    updateUiWithUser(mAuth.getCurrentUser());
-                                    if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                                        ((WelcomeActivity) getActivity()).customerActivity();
-                                    }
-                                } else {
-                                    Exception exception = task.getException();
-                                    if (exception instanceof FirebaseAuthInvalidCredentialsException) {
-                                        showLoginFailed(R.string.wrong_email_password);
-                                    } else {
-                                        showLoginFailed(R.string.login_failed);
-                                    }
-                                    loadingProgressBar.setVisibility(View.GONE);
-                                }
-                            }
-                        });
+        loginButton.setOnClickListener(v -> {
+            if (!isDataValid) {
+                return;
             }
+            loadingProgressBar.setVisibility(View.VISIBLE);
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    if (mAuth.getCurrentUser() != null) {
+                        updateUiWithUser(mAuth.getCurrentUser());
+                        if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                            ((WelcomeActivity) getActivity()).customerActivity();
+                        }
+                    }
+                } else {
+                    Exception exception = task.getException();
+                    if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                        showLoginFailed(R.string.wrong_email_password);
+                    } else {
+                        showLoginFailed(R.string.login_failed);
+                    }
+                    loadingProgressBar.setVisibility(View.GONE);
+                }
+            });
         });
 
-        forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                    ((WelcomeActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
-                }
+        forgotPasswordButton.setOnClickListener(v -> {
+            if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                ((WelcomeActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
             }
         });
     }
