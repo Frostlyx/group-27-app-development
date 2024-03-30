@@ -2,7 +2,6 @@ package com.example.barcodescanner.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,26 +42,11 @@ public class WelcomeActivity extends AppCompatActivity {
         buttonRegisterStore = findViewById(R.id.registerStoreAccount);
         buttonLogin = findViewById(R.id.loginNow);
         buttonRegisterCustomer = findViewById(R.id.registerCustomerAccount);
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new LoginFragment());
-            }
-        });
+        buttonLogin.setOnClickListener(view -> replaceFragment(new LoginFragment()));
 
-        buttonRegisterStore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new RegisterStoreOwnerFragment());
-            }
-        });
+        buttonRegisterStore.setOnClickListener(view -> replaceFragment(new RegisterStoreOwnerFragment()));
 
-        buttonRegisterCustomer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(new RegisterCustomerFragment());
-            }
-        });
+        buttonRegisterCustomer.setOnClickListener(v -> replaceFragment(new RegisterCustomerFragment()));
 
 
 

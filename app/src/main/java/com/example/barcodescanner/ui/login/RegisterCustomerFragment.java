@@ -3,30 +3,22 @@ package com.example.barcodescanner.ui.login;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -68,29 +60,26 @@ public class RegisterCustomerFragment extends Fragment {
         final EditText confirmPasswordEditText = view.findViewById(R.id.confirm_password);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
-        registerCustomerViewModel.getRegisterCustomerFormState().observe(getViewLifecycleOwner(), new Observer<RegisterCustomerFormState>() {
-            @Override
-            public void onChanged(@Nullable RegisterCustomerFormState registerCustomerFormState) {
-                if (registerCustomerFormState == null) {
-                    return;
-                }
-                isDataValid = registerCustomerFormState.isDataValid();
+        registerCustomerViewModel.getRegisterCustomerFormState().observe(getViewLifecycleOwner(), registerCustomerFormState -> {
+            if (registerCustomerFormState == null) {
+                return;
+            }
+            isDataValid = registerCustomerFormState.isDataValid();
 
-                if (registerCustomerFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(registerCustomerFormState.getUsernameError()));
-                }
-                if (registerCustomerFormState.getEmailError() != null) {
-                    emailEditText.setError(getString(registerCustomerFormState.getEmailError()));
-                }
-                if (registerCustomerFormState.getConfirmEmailError() != null) {
-                    confirmEmailEditText.setError(getString(registerCustomerFormState.getConfirmEmailError()));
-                }
-                if (registerCustomerFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(registerCustomerFormState.getPasswordError()));
-                }
-                if (registerCustomerFormState.getConfirmPasswordError() != null) {
-                    confirmPasswordEditText.setError(getString(registerCustomerFormState.getConfirmPasswordError()));
-                }
+            if (registerCustomerFormState.getUsernameError() != null) {
+                usernameEditText.setError(getString(registerCustomerFormState.getUsernameError()));
+            }
+            if (registerCustomerFormState.getEmailError() != null) {
+                emailEditText.setError(getString(registerCustomerFormState.getEmailError()));
+            }
+            if (registerCustomerFormState.getConfirmEmailError() != null) {
+                confirmEmailEditText.setError(getString(registerCustomerFormState.getConfirmEmailError()));
+            }
+            if (registerCustomerFormState.getPasswordError() != null) {
+                passwordEditText.setError(getString(registerCustomerFormState.getPasswordError()));
+            }
+            if (registerCustomerFormState.getConfirmPasswordError() != null) {
+                confirmPasswordEditText.setError(getString(registerCustomerFormState.getConfirmPasswordError()));
             }
         });
 
@@ -118,45 +107,37 @@ public class RegisterCustomerFragment extends Fragment {
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                    ((WelcomeActivity) getActivity()).welcomeActivity();
-                }
+        backButton.setOnClickListener(v -> {
+            if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                ((WelcomeActivity) getActivity()).welcomeActivity();
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isDataValid) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    updateUiWithUser(mAuth.getCurrentUser());
-                                    if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                                        ((WelcomeActivity) getActivity()).customerActivity();
-                                    }
-                                } else {
-                                    Exception exception = task.getException();
-                                    if (exception instanceof FirebaseAuthUserCollisionException) {
-                                        showRegisterCustomerFailed(R.string.email_exists);
-                                    } else {
-                                        showRegisterCustomerFailed(R.string.register_failed);
-                                    }
-                                    loadingProgressBar.setVisibility(View.GONE);
-                                }
-                            }
-                        });
+        registerButton.setOnClickListener(v -> {
+            if (!isDataValid) {
+                return;
             }
+            loadingProgressBar.setVisibility(View.VISIBLE);
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (mAuth.getCurrentUser() != null) {
+                        updateUiWithUser(mAuth.getCurrentUser());
+                        if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                            ((WelcomeActivity) getActivity()).customerActivity();
+                        }
+                    }
+                } else {
+                    Exception exception = task.getException();
+                    if (exception instanceof FirebaseAuthUserCollisionException) {
+                        showRegisterCustomerFailed(R.string.email_exists);
+                    } else {
+                        showRegisterCustomerFailed(R.string.register_failed);
+                    }
+                    loadingProgressBar.setVisibility(View.GONE);
+                }
+            });
         });
     }
 
