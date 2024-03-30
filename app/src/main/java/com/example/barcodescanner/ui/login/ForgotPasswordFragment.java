@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.barcodescanner.R;
@@ -39,7 +40,12 @@ public class ForgotPasswordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        return inflater.inflate(R.layout.fragment_forgot_password, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         final Button backButton = view.findViewById(R.id.back);
         Button passwordResetButton = view.findViewById(R.id.send_code);
@@ -71,9 +77,5 @@ public class ForgotPasswordFragment extends Fragment {
                         });
             }
         });
-
-
-
-        return view;
     }
 }
