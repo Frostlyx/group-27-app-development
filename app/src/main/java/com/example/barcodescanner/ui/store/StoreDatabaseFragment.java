@@ -12,15 +12,21 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.databinding.FragmentMystoreBinding;
+import com.example.barcodescanner.customer.Item;
+import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
 import com.example.barcodescanner.ui.login.LoginFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StoreDatabaseFragment extends Fragment {
 
+    List<ProductModel> itemList;
     Dialog plusDialog;
     Dialog addDialog;
     Button buttonAddDatabase;
@@ -37,11 +43,12 @@ public class StoreDatabaseFragment extends Fragment {
 
         binding = FragmentStoreDatabaseBinding.inflate(inflater, container, false);
 
-        String[] test = new String[10];
-        test[0] = "hi";
-        test[1] = "bye";
+        itemList = generateItems();
+
         RecyclerView recyclerView = binding.recyclerView;
-        DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(test);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(itemList);
         recyclerView.setAdapter(databaseListAdapter);
 
         // Initializing plus dialog
@@ -96,7 +103,22 @@ public class StoreDatabaseFragment extends Fragment {
             binding = null;
         }
 
-
+        private List<ProductModel> generateItems(){
+            List<ProductModel> item = new ArrayList<>();
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            return item;
+        }
 
         private void showDialog(){
             Dialog dialog = new Dialog(getContext());
