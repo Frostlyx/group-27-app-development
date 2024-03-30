@@ -3,30 +3,31 @@ package com.example.barcodescanner.ui.login;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RegisterStoreOwnerFragment extends Fragment {
 
+    FirebaseAuth mAuth;
     private RegisterStoreOwnerViewModel registerStoreOwnerViewModel;
     private boolean isDataValid;
 
@@ -40,6 +41,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
         registerStoreOwnerViewModel = new ViewModelProvider(this, new RegisterStoreOwnerViewModelFactory())
                 .get(RegisterStoreOwnerViewModel.class);
         isDataValid = false;
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -63,57 +65,37 @@ public class RegisterStoreOwnerFragment extends Fragment {
         final EditText kvkEditText = view.findViewById(R.id.kvk);
         final EditText passwordEditText = view.findViewById(R.id.password);
         final EditText confirmPasswordEditText = view.findViewById(R.id.confirm_password);
+        final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
-        registerStoreOwnerViewModel.getRegisterStoreOwnerFormState().observe(getViewLifecycleOwner(), new Observer<RegisterStoreOwnerFormState>() {
-            @Override
-            public void onChanged(@Nullable RegisterStoreOwnerFormState registerStoreOwnerFormState) {
-                if (registerStoreOwnerFormState == null) {
-                    return;
-                }
-                isDataValid = registerStoreOwnerFormState.isDataValid();
-
-                if (registerStoreOwnerFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(registerStoreOwnerFormState.getUsernameError()));
-                }
-                if (registerStoreOwnerFormState.getStoreNameError() != null) {
-                    storeNameEditText.setError(getString(registerStoreOwnerFormState.getStoreNameError()));
-                }
-                if (registerStoreOwnerFormState.getEmailError() != null) {
-                    emailEditText.setError(getString(registerStoreOwnerFormState.getEmailError()));
-                }
-                if (registerStoreOwnerFormState.getConfirmEmailError() != null) {
-                    confirmEmailEditText.setError(getString(registerStoreOwnerFormState.getConfirmEmailError()));
-                }
-                if (registerStoreOwnerFormState.getLocationError() != null) {
-                    locationEditText.setError(getString(registerStoreOwnerFormState.getLocationError()));
-                }
-                if (registerStoreOwnerFormState.getKvkError() != null) {
-                    kvkEditText.setError(getString(registerStoreOwnerFormState.getKvkError()));
-                }
-                if (registerStoreOwnerFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(registerStoreOwnerFormState.getPasswordError()));
-                }
-                if (registerStoreOwnerFormState.getConfirmPasswordError() != null) {
-                    confirmPasswordEditText.setError(getString(registerStoreOwnerFormState.getConfirmPasswordError()));
-                }
+        registerStoreOwnerViewModel.getRegisterStoreOwnerFormState().observe(getViewLifecycleOwner(), registerStoreOwnerFormState -> {
+            if (registerStoreOwnerFormState == null) {
+                return;
             }
-        });
+            isDataValid = registerStoreOwnerFormState.isDataValid();
 
-        registerStoreOwnerViewModel.getRegisterStoreOwnerResult().observe(getViewLifecycleOwner(), new Observer<RegisterStoreOwnerResult>() {
-            @Override
-            public void onChanged(@Nullable RegisterStoreOwnerResult registerStoreOwnerResult) {
-                if (registerStoreOwnerResult == null || !isDataValid) {
-                    return;
-                }
-                if (registerStoreOwnerResult.getError() != null) {
-                    showRegisterStoreOwnerFailed(registerStoreOwnerResult.getError());
-                }
-                if (registerStoreOwnerResult.getSuccess() != null) {
-                    updateUiWithUser(registerStoreOwnerResult.getSuccess());
-                    if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                        ((WelcomeActivity) getActivity()).storeActivity();
-                    }
-                }
+            if (registerStoreOwnerFormState.getUsernameError() != null) {
+                usernameEditText.setError(getString(registerStoreOwnerFormState.getUsernameError()));
+            }
+            if (registerStoreOwnerFormState.getStoreNameError() != null) {
+                storeNameEditText.setError(getString(registerStoreOwnerFormState.getStoreNameError()));
+            }
+            if (registerStoreOwnerFormState.getEmailError() != null) {
+                emailEditText.setError(getString(registerStoreOwnerFormState.getEmailError()));
+            }
+            if (registerStoreOwnerFormState.getConfirmEmailError() != null) {
+                confirmEmailEditText.setError(getString(registerStoreOwnerFormState.getConfirmEmailError()));
+            }
+            if (registerStoreOwnerFormState.getLocationError() != null) {
+                locationEditText.setError(getString(registerStoreOwnerFormState.getLocationError()));
+            }
+            if (registerStoreOwnerFormState.getKvkError() != null) {
+                kvkEditText.setError(getString(registerStoreOwnerFormState.getKvkError()));
+            }
+            if (registerStoreOwnerFormState.getPasswordError() != null) {
+                passwordEditText.setError(getString(registerStoreOwnerFormState.getPasswordError()));
+            }
+            if (registerStoreOwnerFormState.getConfirmPasswordError() != null) {
+                confirmPasswordEditText.setError(getString(registerStoreOwnerFormState.getConfirmPasswordError()));
             }
         });
 
@@ -150,36 +132,43 @@ public class RegisterStoreOwnerFragment extends Fragment {
         kvkEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
-        confirmPasswordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    registerStoreOwnerViewModel.register(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+        backButton.setOnClickListener(v -> {
+            if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                ((WelcomeActivity) getActivity()).welcomeActivity();
+            }
+        });
+
+        registerButton.setOnClickListener(v -> {
+            if (!isDataValid) {
+                return;
+            }
+            loadingProgressBar.setVisibility(View.VISIBLE);
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (mAuth.getCurrentUser() != null) {
+                        updateUiWithUser(mAuth.getCurrentUser());
+                        if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                            ((WelcomeActivity) getActivity()).storeActivity();
+                        }
+                    }
+                } else {
+                    Exception exception = task.getException();
+                    if (exception instanceof FirebaseAuthUserCollisionException) {
+                        showRegisterStoreOwnerFailed(R.string.email_exists);
+                    } else {
+                        showRegisterStoreOwnerFailed(R.string.register_failed);
+                    }
+                    loadingProgressBar.setVisibility(View.GONE);
                 }
-                return false;
-            }
-        });
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    ((WelcomeActivity) getActivity()).welcomeActivity();
-            }
-        });
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerStoreOwnerViewModel.register(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
+            });
         });
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
+    private void updateUiWithUser(FirebaseUser user) {
+        String welcome = getString(R.string.welcome) + user.getDisplayName();
         // TODO : initiate successful logged in experience
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();

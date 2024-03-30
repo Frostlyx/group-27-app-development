@@ -6,39 +6,14 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.barcodescanner.data.RegisterCustomerRepository;
-import com.example.barcodescanner.data.Result;
-import com.example.barcodescanner.data.model.User;
 import com.example.barcodescanner.R;
 
 public class RegisterCustomerViewModel extends ViewModel {
 
-    private MutableLiveData<RegisterCustomerFormState> registerCustomerFormState = new MutableLiveData<>();
-    private MutableLiveData<RegisterCustomerResult> registerCustomerResult = new MutableLiveData<>();
-    private RegisterCustomerRepository registerCustomerRepository;
-
-    RegisterCustomerViewModel(RegisterCustomerRepository registerCustomerRepository) {
-        this.registerCustomerRepository = registerCustomerRepository;
-    }
+    private final MutableLiveData<RegisterCustomerFormState> registerCustomerFormState = new MutableLiveData<>();
 
     LiveData<RegisterCustomerFormState> getRegisterCustomerFormState() {
         return registerCustomerFormState;
-    }
-
-    LiveData<RegisterCustomerResult> getRegisterCustomerResult() {
-        return registerCustomerResult;
-    }
-
-    public void register(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<User> result = registerCustomerRepository.register(username, password);
-
-        if (result instanceof Result.Success) {
-            User data = ((Result.Success<User>) result).getData();
-            registerCustomerResult.setValue(new RegisterCustomerResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            registerCustomerResult.setValue(new RegisterCustomerResult(R.string.login_failed));
-        }
     }
 
     public void registerCustomerDataChanged(String username, String email, String confirmEmail,
