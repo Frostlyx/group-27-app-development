@@ -1,5 +1,7 @@
 package com.example.barcodescanner.ui.login;
 
+import android.util.Patterns;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -27,9 +29,9 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(String username, String password) {
+    public void login(String email, String password) {
         // can be launched in a separate asynchronous job
-        Result<User> result = loginRepository.login(username, password);
+        Result<User> result = loginRepository.login(email, password);
 
         if (result instanceof Result.Success) {
             User data = ((Result.Success<User>) result).getData();
@@ -39,25 +41,25 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    public void loginDataChanged(String username, String password) {
-        Integer usernameError;
+    public void loginDataChanged(String email, String password) {
+        Integer emailError;
         Integer passwordError;
-        if (!isUserNameValid(username)) {
-            usernameError = R.string.invalid_username;
+        if (!isEmailValid(email)) {
+            emailError = R.string.invalid_email;
         } else {
-            usernameError = null;
+            emailError = null;
         }
         if (!isPasswordValid(password)) {
             passwordError = R.string.invalid_password;
         } else {
                 passwordError = null;
         }
-        loginFormState.setValue(new LoginFormState(usernameError, passwordError));
+        loginFormState.setValue(new LoginFormState(emailError, passwordError));
     }
 
-    // A placeholder username validation check
-    private boolean isUserNameValid(String username) {
-        return username != null && !username.trim().isEmpty();
+    // A placeholder email validation check
+    private boolean isEmailValid(String email) {
+        return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     // A placeholder password validation check

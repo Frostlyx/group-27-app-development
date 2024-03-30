@@ -21,12 +21,17 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RegisterStoreOwnerFragment extends Fragment {
 
+    FirebaseAuth mAuth;
     private RegisterStoreOwnerViewModel registerStoreOwnerViewModel;
     private boolean isDataValid;
 
@@ -40,6 +45,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
         registerStoreOwnerViewModel = new ViewModelProvider(this, new RegisterStoreOwnerViewModelFactory())
                 .get(RegisterStoreOwnerViewModel.class);
         isDataValid = false;
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -165,7 +171,9 @@ public class RegisterStoreOwnerFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                     ((WelcomeActivity) getActivity()).welcomeActivity();
+                }
             }
         });
 
@@ -174,6 +182,22 @@ public class RegisterStoreOwnerFragment extends Fragment {
             public void onClick(View v) {
                 registerStoreOwnerViewModel.register(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+                String email, password;
+                email = String.valueOf(emailEditText.getText());
+                password = String.valueOf(passwordEditText.getText());
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                                        ((WelcomeActivity) getActivity()).storeActivity();
+                                    }
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                }
+                            }
+                        });
             }
         });
     }
