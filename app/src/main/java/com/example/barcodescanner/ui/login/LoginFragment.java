@@ -26,6 +26,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,25 +85,6 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null || !isDataValid) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                    if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                        ((WelcomeActivity) getActivity()).customerActivity();
-                    }
-                }
-            }
-        });
-
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,17 +104,6 @@ public class LoginFragment extends Fragment {
         };
         emailEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(emailEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
-            }
-        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,23 +116,30 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isDataValid) {
+                    return;
+                }
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(emailEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-                String email, password;
-                email = String.valueOf(emailEditText.getText());
-                password = String.valueOf(passwordEditText.getText());
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
+                                    updateUiWithUser(mAuth.getCurrentUser());
                                     if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                                        ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
+                                        ((WelcomeActivity) getActivity()).customerActivity();
                                     }
                                 } else {
-
+                                    Exception exception = task.getException();
+                                    if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                        showLoginFailed(R.string.wrong_email_password);
+                                    } else {
+                                        showLoginFailed(R.string.login_failed);
+                                    }
+                                    loadingProgressBar.setVisibility(View.GONE);
                                 }
                             }
                         });
@@ -177,8 +156,8 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
+    private void updateUiWithUser(FirebaseUser user) {
+        String welcome = getString(R.string.welcome) + user.getDisplayName();
         // TODO : initiate successful logged in experience
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();

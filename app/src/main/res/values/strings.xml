@@ -31,6 +31,9 @@
     <string name="invalid_password">Password must contain at least 8 characters, with at least 1 uppercase and lowercase character</string>
     <string name="invalid_password_confirm">Passwords are not the same</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="register_failed">"Register failed"</string>
+    <string name="wrong_email_password">"Email or password is incorrect"</string>
+    <string name="email_exists">"Email already exists"</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

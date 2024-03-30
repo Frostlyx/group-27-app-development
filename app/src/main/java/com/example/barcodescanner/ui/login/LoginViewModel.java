@@ -6,39 +6,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.barcodescanner.data.LoginRepository;
-import com.example.barcodescanner.data.Result;
-import com.example.barcodescanner.data.model.User;
 import com.example.barcodescanner.R;
 
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
-
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
-    }
 
     LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
-    }
-
-    LiveData<LoginResult> getLoginResult() {
-        return loginResult;
-    }
-
-    public void login(String email, String password) {
-        // can be launched in a separate asynchronous job
-        Result<User> result = loginRepository.login(email, password);
-
-        if (result instanceof Result.Success) {
-            User data = ((Result.Success<User>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
-        }
     }
 
     public void loginDataChanged(String email, String password) {
