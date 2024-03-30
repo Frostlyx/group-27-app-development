@@ -25,6 +25,7 @@ public class StoreDatabaseFragment extends Fragment {
     Dialog addDialog;
     Button buttonAddDatabase;
     Button buttonAddProduct;
+    ImageButton buttonCloseAdd;
 
     private FragmentStoreDatabaseBinding binding;
 
@@ -56,6 +57,7 @@ public class StoreDatabaseFragment extends Fragment {
         addDialog.setContentView(R.layout.store_database_add_popup);
         addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         addDialog.setCancelable(true);
+        buttonCloseAdd =  addDialog.findViewById(R.id.button_close_add);
 
         binding.floatingButtonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +70,14 @@ public class StoreDatabaseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 addDialog.show();;
+            }
+        });
+
+        buttonCloseAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                plusDialog.dismiss();
+                addDialog.dismiss();
             }
         });
 
