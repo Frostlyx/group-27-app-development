@@ -64,7 +64,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
             super(itemView);
             // Define click listener for the ViewHolder's View
 
-            itemImage = itemView.findViewById(R.id.image_item);
+            itemImage = itemView.findViewById(R.id.image_substore);
         }
     }
 }
