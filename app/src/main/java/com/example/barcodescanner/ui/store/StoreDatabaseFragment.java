@@ -21,7 +21,6 @@ import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.Item;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
-import com.example.barcodescanner.ui.login.LoginFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
