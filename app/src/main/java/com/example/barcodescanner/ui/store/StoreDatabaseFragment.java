@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -97,12 +98,15 @@ public class StoreDatabaseFragment extends Fragment {
             public void onClick(View view) {
                 plusDialog.dismiss();
                 addDialog.dismiss();
-                Toast.makeText(getContext(), R.string.success_add_item, Toast.LENGTH_SHORT).show();
 
-                // Tried to use personal layout. Did not work.
-                // Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.activity_store_container), "@string/success_add_item", Snackbar.LENGTH_SHORT);
-                // snackbar.setBackgroundTint(Color.parseColor("@color/success_color_green"));
-                // snackbar.show();
+                // Create the Snackbar
+                Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_add_item), Snackbar.LENGTH_LONG);
+                // Set the Snackbar Layout
+                snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
+                snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                // Show the Snackbar
+                snackbar.show();
+
             }
         });
 
