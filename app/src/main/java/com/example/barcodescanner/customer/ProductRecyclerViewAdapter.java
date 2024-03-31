@@ -17,13 +17,13 @@ import com.example.barcodescanner.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.MyViewHolder> {
     private final ProductRecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<ProductModel> productModels;
-    ArrayList<ProductModel> filteredProductModels = new ArrayList<>();
+
+    ProductFilterer filterer = new ProductFilterer();
 
     public ProductRecyclerViewAdapter(Context context, ArrayList<ProductModel> productModels,
                                       ProductRecyclerViewInterface recyclerViewInterface) {
@@ -121,7 +121,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         notifyDataSetChanged();
     }
 
-    public void filterSearch(String input) {
+    public void searchProduct(String input) {
         ArrayList<ProductModel> filteredProductList = new ArrayList<>();
         for (ProductModel product : productModels) {
             if (product.getProductName().toLowerCase().contains(input.toLowerCase())) {
@@ -133,51 +133,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     }
 
     public void filterBy(String criteria) {
-        Iterator<ProductModel> iter = productModels.iterator();
 
-        switch (criteria) {
-            case "food":
-                while (iter.hasNext()) {
-                    ProductModel product = iter.next();
-                    if (!"Food".equals(product.getCategory())) {
-                        filteredProductModels.add(product);
-                        iter.remove();
-                    }
-                }
-
-                Log.i("Filter", "Food");
-                for (ProductModel productModel : productModels) {
-                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
-                }
-
-                break;
-
-            case "drink":
-                while (iter.hasNext()) {
-                    ProductModel product = iter.next();
-                    if (!"Drink".equals(product.getCategory())) {
-                        filteredProductModels.add(product);
-                        iter.remove();
-                    }
-                }
-
-                Log.i("Filter", "Drink");
-                for (ProductModel productModel : productModels) {
-                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
-                }
-
-                break;
-            case "reset":
-                productModels.addAll(filteredProductModels);
-                filteredProductModels.clear();
-
-                Log.i("Filter", "Clear");
-                for (ProductModel productModel : productModels) {
-                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
-                }
-
-                break;
-        }
         notifyDataSetChanged();
     }
 

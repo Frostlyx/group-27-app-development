@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     ProductRecyclerViewAdapter adapter;
     static ArrayList<ProductModel> productModels = new ArrayList<>();
+    static ArrayList<ProductModel> filteredProductModels = new ArrayList<>();
+    ProductFilterer filterer = new ProductFilterer();
+
     // TODO: placeholder for images, to replace with actual images
     int[] productImage = {R.drawable.bread};
 
@@ -111,8 +114,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         binding.toolbarTitle.setText(title);
+    }
 
-
+    public void setBottomNavigationSelectedItem(int itemId) {
+        binding.bottomNavigationView.setSelectedItemId(itemId);
     }
 
     public void replaceActivity() {

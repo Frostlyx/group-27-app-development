@@ -20,6 +20,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
     List<Market> marketList;
     RecyclerView favRecView, secondView;
     CategoryRecyclerViewAdapter myAdapter;
+    ProductFilterer productFilterer = new ProductFilterer();
 
 
 
@@ -49,29 +50,34 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
 
     private List<Market> generateMarkets(){
         List<Market> item = new ArrayList<>();
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
+        item.add(new Market("Food", "denenmis", R.drawable.bread));
+        item.add(new Market("Drink", "denenmis", R.drawable.bread));
+        item.add(new Market("Meat", "denenmis", R.drawable.bread));
+        item.add(new Market("Vegetables", "denenmis", R.drawable.bread));
+        item.add(new Market("Bread", "denenmis", R.drawable.bread));
+        item.add(new Market("Snacks", "denenmis", R.drawable.bread));
+        item.add(new Market("Food", "denenmis", R.drawable.bread));
+        item.add(new Market("Food", "denenmis", R.drawable.bread));
+        item.add(new Market("Food", "denenmis", R.drawable.bread));
+        item.add(new Market("Food", "denenmis", R.drawable.bread));
+        item.add(new Market("Food", "denenmis", R.drawable.bread));
+        item.add(new Market("Food", "denenmis", R.drawable.bread));
         return item;
     }
 
     @Override
     public void onItemClick(int position) {
-        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
+        String[] categories = requireContext().getResources().getStringArray(R.array.placeholder_categories);
 
-        if (position >= 0 && position < toastMessages.length) {
-            String message = toastMessages[position];
-            String toastMessage = getString(R.string.placeholder_toast_product_format, message);
-            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        if (position >= 0 && position < categories.length) {
+            String category = categories[position];
+            productFilterer.filterBy(category);
+
+            // Set the home item as selected in the bottom navigation view
+            ((MainActivity) requireActivity()).setBottomNavigationSelectedItem(R.id.home);
+
+            // Replace fragment
+            ((MainActivity) getActivity()).replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
         } else {
             Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
         }

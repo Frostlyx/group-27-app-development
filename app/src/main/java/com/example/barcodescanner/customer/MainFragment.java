@@ -152,7 +152,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.filterSearch(newText);
+                adapter.searchProduct(newText);
                 return true;
             }
         });
