@@ -1,5 +1,6 @@
 package com.example.barcodescanner.ui.store;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,11 +8,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.Item;
 import com.example.barcodescanner.customer.ProductModel;
+import com.example.barcodescanner.customer.ProfileFragment;
 
 import java.util.List;
 
@@ -76,6 +79,15 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
             itemName = itemView.findViewById(R.id.text_item_name);
             itemCategory = itemView.findViewById(R.id.text_item_category);
             itemPrice = itemView.findViewById(R.id.text_price);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
+                        ((StoreActivity) view.getContext()).replaceFragment(new EditProductFragment(), view.getContext().getString(R.string.edit_product_title));
+                    }
+                }
+            });
         }
     }
 }
