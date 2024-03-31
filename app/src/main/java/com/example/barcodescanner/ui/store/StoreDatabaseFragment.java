@@ -1,38 +1,52 @@
 package com.example.barcodescanner.ui.store;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.customer.ProductModel;
+import com.example.barcodescanner.databinding.FragmentMystoreBinding;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.barcodescanner.ui.login.LoginFragment;
+import com.example.barcodescanner.ui.login.RegisterStoreOwnerViewModel;
+import com.example.barcodescanner.ui.login.RegisterStoreOwnerViewModelFactory;
+import com.example.barcodescanner.ui.login.WelcomeActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 public class StoreDatabaseFragment extends Fragment {
 
-    List<ProductModel> itemList;
     Dialog plusDialog;
     Dialog addDialog;
     Button buttonAddDatabase;
     Button buttonAddProduct;
-    ImageButton buttonCloseAdd;
-    Button buttonSaveAdd;
+    Button buttonSave;
 
     private FragmentStoreDatabaseBinding binding;
+    private StoreDatabaseViewModel storeDatabaseViewModel;
+    private boolean isDataValid;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        storeDatabaseViewModel = new StoreDatabaseViewModel();
+        isDataValid = false;
+    }
 
     @Override
     public View onCreateView(
@@ -42,12 +56,11 @@ public class StoreDatabaseFragment extends Fragment {
 
         binding = FragmentStoreDatabaseBinding.inflate(inflater, container, false);
 
-        itemList = generateItems();
-
+        String[] test = new String[10];
+        test[0] = "hi";
+        test[1] = "bye";
         RecyclerView recyclerView = binding.recyclerView;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(itemList);
+        DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(test);
         recyclerView.setAdapter(databaseListAdapter);
 
         // Initializing plus dialog
@@ -63,8 +76,7 @@ public class StoreDatabaseFragment extends Fragment {
         addDialog.setContentView(R.layout.store_database_add_popup);
         addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         addDialog.setCancelable(true);
-        buttonCloseAdd =  addDialog.findViewById(R.id.button_close_add);
-        buttonSaveAdd =  addDialog.findViewById(R.id.button_save_popup);
+        buttonSave = addDialog.findViewById(R.id.button_save_popup);
 
         binding.floatingButtonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,31 +92,6 @@ public class StoreDatabaseFragment extends Fragment {
             }
         });
 
-        buttonCloseAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                plusDialog.dismiss();
-                addDialog.dismiss();
-            }
-        });
-
-        buttonSaveAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                plusDialog.dismiss();
-                addDialog.dismiss();
-
-                // Create the Snackbar
-                Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_add_item), Snackbar.LENGTH_LONG);
-                // Set the Snackbar Layout
-                snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
-                snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-                // Show the Snackbar
-                snackbar.show();
-
-            }
-        });
-
         return binding.getRoot();
 
         }
@@ -112,6 +99,80 @@ public class StoreDatabaseFragment extends Fragment {
         public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
 
+            final EditText nameEditText = addDialog.findViewById(R.id.edit_text_item_name_popup);
+            final EditText categoryEditText = addDialog.findViewById(R.id.edit_text_item_category_popup);
+            final EditText barcodeEditText = addDialog.findViewById(R.id.edit_text_barcode_popup);
+            final EditText amountEditText = addDialog.findViewById(R.id.edit_text_amount_popup);
+            final EditText priceEditText = addDialog.findViewById(R.id.edit_text_price_popup);
+
+            storeDatabaseViewModel.getStoreDatabaseFormState().observe(getViewLifecycleOwner(), storeDatabaseFormState -> {
+                if (storeDatabaseFormState == null) {
+                    return;
+                }
+                isDataValid = storeDatabaseFormState.isDataValid();
+
+                if (storeDatabaseFormState.getNameError() != null) {
+                    nameEditText.setError(getString(storeDatabaseFormState.getNameError()));
+                }
+                if (storeDatabaseFormState.getCategoryError() != null) {
+                    categoryEditText.setError(getString(storeDatabaseFormState.getCategoryError()));
+                }
+                if (storeDatabaseFormState.getBarcodeError() != null) {
+                    barcodeEditText.setError(getString(storeDatabaseFormState.getBarcodeError()));
+                }
+                if (storeDatabaseFormState.getAmountError() != null) {
+                    amountEditText.setError(getString(storeDatabaseFormState.getAmountError()));
+                }
+                if (storeDatabaseFormState.getPriceError() != null) {
+                    priceEditText.setError(getString(storeDatabaseFormState.getPriceError()));
+                }
+            });
+
+            TextWatcher afterTextChangedListener = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // ignore
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // ignore
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    double amountText;
+                    double priceText;
+                    try{
+                        amountText = Double.parseDouble(amountEditText.getText().toString());
+                    } catch (NumberFormatException e) {
+                        amountText = -1;
+                    }
+                    try{
+                        priceText = Double.parseDouble(priceEditText.getText().toString());
+                    } catch (NumberFormatException e) {
+                        priceText = -1;
+                    }
+                    storeDatabaseViewModel.storeDatabaseDataChanged(nameEditText.getText().toString(), categoryEditText.getText().toString(),
+                            barcodeEditText.getText().toString(), amountText, priceText);
+                }
+            };
+            nameEditText.addTextChangedListener(afterTextChangedListener);
+            categoryEditText.addTextChangedListener(afterTextChangedListener);
+            barcodeEditText.addTextChangedListener(afterTextChangedListener);
+            amountEditText.addTextChangedListener(afterTextChangedListener);
+            priceEditText.addTextChangedListener(afterTextChangedListener);
+
+            buttonSave.setOnClickListener(v -> {
+                if (!isDataValid) {
+                    return;
+                }
+                // Save product to database
+                addDialog.hide();
+                if (getContext() != null && getContext().getApplicationContext() != null) {
+                    Toast.makeText(getContext().getApplicationContext(), "Product added successfully", Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
         @Override
@@ -120,38 +181,7 @@ public class StoreDatabaseFragment extends Fragment {
             binding = null;
         }
 
-        private List<ProductModel> generateItems() {
-            List<Integer> imageList = generateImages();
 
-            List<ProductModel> item = new ArrayList<>();
-            item.add(new ProductModel("Bread", "B_price", imageList, "B_category", "B_discount"));
-            item.add(new ProductModel("Apple", "A_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Yoghurt", "Y_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Milk", "M_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Chocolate", "Ch_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Cookie", "Co-price", imageList, "category", "discount"));
-            item.add(new ProductModel("Lettuce", "L_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Carrot", "Ca_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Cucumber", "Cu_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Cheese", "C_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Butter", "Bu_price", imageList, "category", "discount"));
-            item.add(new ProductModel("Orange", "O_price", imageList, "category", "discount"));
-            return item;
-        }
-
-        private List<Integer> generateImages() {
-            List<Integer> images = new ArrayList<>();
-            images.add(R.drawable.bread);
-            images.add(R.drawable.bread);
-            images.add(R.drawable.bread);
-            images.add(R.drawable.bread);
-            images.add(R.drawable.bread);
-            images.add(R.drawable.bread);
-            images.add(R.drawable.bread);
-            images.add(R.drawable.bread);
-            images.add(R.drawable.bread);
-            return images;
-        }
 
         private void showDialog(){
             Dialog dialog = new Dialog(getContext());
