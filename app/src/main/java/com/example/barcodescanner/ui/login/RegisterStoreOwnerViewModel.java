@@ -74,7 +74,7 @@ public class RegisterStoreOwnerViewModel extends ViewModel {
         return username != null && !username.trim().isEmpty();
     }
 
-    // A placeholder password validation check
+    // A placeholder store name validation check
     private boolean isStoreNameValid(String storeName) {
         return storeName != null && !storeName.trim().isEmpty();
     }
@@ -84,12 +84,12 @@ public class RegisterStoreOwnerViewModel extends ViewModel {
         return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    // A placeholder password validation check
+    // A placeholder location validation check
     private boolean isLocationValid(String location) {
         return location != null && !location.trim().isEmpty();
     }
 
-    // A placeholder password validation check
+    // A placeholder kvk validation check
     private boolean isKvkValid(Integer kvk) {
         return kvk != null && Integer.toString(kvk).length() == 8;
     }
@@ -111,6 +111,7 @@ public class RegisterStoreOwnerViewModel extends ViewModel {
         return (hasUpperCase && hasLowerCase);
     }
 
+    // Checks if two strings have the same value
     private boolean isConfirmValid(String string1, String string2) {
         return string1.equals(string2);
     }

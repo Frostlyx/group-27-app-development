@@ -30,6 +30,11 @@
     <string name="invalid_kvk">Not a valid KvK number</string>
     <string name="invalid_password">Password must contain at least 8 characters, with at least 1 uppercase and lowercase character</string>
     <string name="invalid_password_confirm">Passwords are not the same</string>
+    <string name="invalid_item_name">Not a valid item name</string>
+    <string name="invalid_category_name">Not a valid category name</string>
+    <string name="invalid_barcode">Not a valid barcode. Barcode should contain 13 digits</string>
+    <string name="invalid_amount">Not a valid amount</string>
+    <string name="invalid_price">Not a valid price</string>
     <string name="login_failed">"Login failed"</string>
     <string name="register_failed">"Register failed"</string>
     <string name="code_failed">"Failed to send code"</string>
