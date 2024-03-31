@@ -1,6 +1,7 @@
 package com.example.barcodescanner.ui.store;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -20,6 +22,7 @@ import com.example.barcodescanner.customer.Item;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
 import com.example.barcodescanner.ui.login.LoginFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class StoreDatabaseFragment extends Fragment {
     Button buttonAddDatabase;
     Button buttonAddProduct;
     ImageButton buttonCloseAdd;
+    Button buttonSaveAdd;
 
     private FragmentStoreDatabaseBinding binding;
 
@@ -65,6 +69,7 @@ public class StoreDatabaseFragment extends Fragment {
         addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         addDialog.setCancelable(true);
         buttonCloseAdd =  addDialog.findViewById(R.id.button_close_add);
+        buttonSaveAdd =  addDialog.findViewById(R.id.button_save_popup);
 
         binding.floatingButtonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +90,20 @@ public class StoreDatabaseFragment extends Fragment {
             public void onClick(View view) {
                 plusDialog.dismiss();
                 addDialog.dismiss();
+            }
+        });
+
+        buttonSaveAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                plusDialog.dismiss();
+                addDialog.dismiss();
+                Toast.makeText(getContext(), R.string.success_add_item, Toast.LENGTH_SHORT).show();
+
+                // Tried to use personal layout. Did not work.
+//                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.activity_store_container), "@string/success_add_item", Snackbar.LENGTH_SHORT);
+//                snackbar.setBackgroundTint(Color.parseColor("@color/success_color_green"));
+//                snackbar.show();
             }
         });
 
