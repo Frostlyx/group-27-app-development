@@ -101,9 +101,9 @@ public class StoreDatabaseFragment extends Fragment {
                 Toast.makeText(getContext(), R.string.success_add_item, Toast.LENGTH_SHORT).show();
 
                 // Tried to use personal layout. Did not work.
-//                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.activity_store_container), "@string/success_add_item", Snackbar.LENGTH_SHORT);
-//                snackbar.setBackgroundTint(Color.parseColor("@color/success_color_green"));
-//                snackbar.show();
+                // Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.activity_store_container), "@string/success_add_item", Snackbar.LENGTH_SHORT);
+                // snackbar.setBackgroundTint(Color.parseColor("@color/success_color_green"));
+                // snackbar.show();
             }
         });
 
