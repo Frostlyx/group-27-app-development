@@ -19,7 +19,8 @@ import java.util.List;
 
 public class EditProductFragment extends Fragment {
 
-    List<ProductModel> itemList;
+    ProductModel item;
+    List<Integer> imageList;
 
     private FragmentEditProductBinding binding;
 
@@ -31,13 +32,14 @@ public class EditProductFragment extends Fragment {
 
         binding = FragmentEditProductBinding.inflate(inflater, container, false);
 
-        itemList = generateItems();
+        item = new ProductModel("name", "price", generateImages(), "category", "discount");
+        imageList = item.getProductImageList();
 
         RecyclerView recyclerView = binding.editProductImages;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        EditProductListAdapter editProductListAdapter = new EditProductListAdapter(itemList);
-        recyclerView.setAdapter(editProductListAdapter);
+        ImageListAdapter imageListAdapter = new ImageListAdapter(imageList);
+        recyclerView.setAdapter(imageListAdapter);
 
         return binding.getRoot();
 
@@ -54,21 +56,21 @@ public class EditProductFragment extends Fragment {
         binding = null;
     }
 
-    private List<ProductModel> generateItems(){
-        List<ProductModel> item = new ArrayList<>();
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-        return item;
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
     }
 
 }

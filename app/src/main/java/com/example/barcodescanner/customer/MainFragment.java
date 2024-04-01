@@ -23,6 +23,9 @@ import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MainFragment#newInstance} factory method to
@@ -54,9 +57,8 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
 
     // TODO: placeholder for items on main page
-//    ArrayList<ProductModel> productModels = new ArrayList<>();
-//    int[] productImage = {R.drawable.bread};
-    //
+    ArrayList<ProductModel> productModels = new ArrayList<>();
+    List<Integer> productImageList = generateImages();
 
     public MainFragment() {
         // Required empty public constructor
@@ -83,6 +85,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -103,9 +106,9 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
         // Sets up the recycler view
         recyclerView = view.findViewById(R.id.main_page_recyclerview);
-//        setupProductModels();
+        setupProductModels();
         adapter = new ProductRecyclerViewAdapter(requireContext(),
-                MainActivity.productModels,
+                productModels,
                 this);
         recyclerView.setAdapter(adapter);
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
@@ -152,7 +155,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.searchProduct(newText);
+                adapter.filterSearch(newText);
                 return true;
             }
         });
@@ -197,6 +200,34 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    // Makes the list of product models to put in the recycler view
+    // currently a placeholder, to be replaced with database connection
+    public void setupProductModels(){
+        String[] productNames = getResources().getStringArray(R.array.placeholder_main_page_product);
+        String[] productPrices = getResources().getStringArray(R.array.placeholder_main_page_price);
+        String[] productCategories = getResources().getStringArray(R.array.placeholder_main_page_category);
+
+        for (int i = 0; i < productNames.length; i++) {
+            productModels.add(new ProductModel(productNames[i],
+                    productPrices[i],
+                    productImageList,
+                    productCategories[i],
+                    "10%"));
+        }
+    }
+
+    //Placeholder code for imageList
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
     }
 
     // Placeholder code for clicking on recyclerview elements

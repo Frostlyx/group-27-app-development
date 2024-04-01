@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 
 import com.example.barcodescanner.R;
 
@@ -20,7 +19,7 @@ import java.util.List;
 public class ProductFragment extends Fragment {
 
 
-    List<Market> marketList;
+    List<StoreModel> storeList;
     RecyclerView favRecView, secondView;
     MyAdapter4 myAdapter;
     MyAdapter5 myAdapter2;
@@ -35,7 +34,7 @@ public class ProductFragment extends Fragment {
             // Inflate the layout for this fragment
             View rootView = inflater.inflate(R.layout.fragment_product, container, false);
             container.clearDisappearingChildren();
-            marketList = generateMarkets();
+            storeList = generateMarkets();
 
             favRecView = rootView.findViewById(R.id.carousel);
             favRecView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -43,24 +42,35 @@ public class ProductFragment extends Fragment {
             secondView = rootView.findViewById(R.id.difStore);
             secondView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-            myAdapter = new MyAdapter4(marketList);
-            myAdapter2 = new MyAdapter5(marketList);
+            myAdapter = new MyAdapter4(storeList);
+            myAdapter2 = new MyAdapter5(storeList);
             favRecView.setAdapter(myAdapter);
             secondView.setAdapter(myAdapter2);
 
             return rootView;
     }
 
-    private List<Market> generateMarkets(){
-        List<Market> item = new ArrayList<>();
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
-        item.add(new Market("deneme", "denenmis", R.drawable.bread));
+    private List<StoreModel> generateMarkets(){
+        List<StoreModel> item = new ArrayList<>();
+        item.add(new StoreModel("deneme", "denenmis", generateImages()));
+        item.add(new StoreModel("deneme", "denenmis", generateImages()));
+        item.add(new StoreModel("deneme", "denenmis", generateImages()));
+        item.add(new StoreModel("deneme", "denenmis", generateImages()));
+        item.add(new StoreModel("deneme", "denenmis", generateImages()));
+        item.add(new StoreModel("deneme", "denenmis", generateImages()));
+        item.add(new StoreModel("deneme", "denenmis", generateImages()));
+        item.add(new StoreModel("deneme", "denenmis", generateImages()));
         return item;
+    }
+
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
     }
 }
