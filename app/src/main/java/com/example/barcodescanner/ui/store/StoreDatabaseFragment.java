@@ -83,14 +83,14 @@ public class StoreDatabaseFragment extends Fragment {
         binding.floatingButtonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                plusDialog.show();;
+                plusDialog.show();
             }
         });
 
         buttonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addDialog.show();;
+                addDialog.show();
             }
         });
 
