@@ -14,21 +14,16 @@ public class StoreDatabaseViewModel extends ViewModel {
         return storeDatabaseFormState;
     }
 
-    public void storeDatabaseDataChanged(String name, String category, String barcode, double amount, double price) {
+    public void storeDatabaseDataChanged(String name, String barcode, String amount, double price, int discount) {
         Integer nameError;
-        Integer categoryError;
         Integer barcodeError;
         Integer amountError;
         Integer priceError;
+        Integer discountError;
         if (!isNameValid(name)) {
             nameError = R.string.invalid_item_name;
         } else {
             nameError = null;
-        }
-        if (!isCategoryValid(category)) {
-            categoryError = R.string.invalid_category_name;
-        } else {
-            categoryError = null;
         }
         if (!isBarcodeValid(barcode)) {
             barcodeError = R.string.invalid_barcode;
@@ -45,17 +40,17 @@ public class StoreDatabaseViewModel extends ViewModel {
         } else {
             priceError = null;
         }
-        storeDatabaseFormState.setValue(new StoreDatabaseFormState(nameError, categoryError, barcodeError, amountError, priceError));
+        if (!isDiscountValid(discount)) {
+            discountError = R.string.invalid_discount;
+        } else {
+            discountError = null;
+        }
+        storeDatabaseFormState.setValue(new StoreDatabaseFormState(nameError, barcodeError, amountError, priceError, discountError));
     }
 
     // A placeholder name validation check
     private boolean isNameValid(String name) {
         return name != null && !name.trim().isEmpty();
-    }
-
-    // A placeholder category validation check
-    private boolean isCategoryValid(String category) {
-        return category != null && !category.trim().isEmpty();
     }
 
     // A placeholder barcode validation check
@@ -64,8 +59,8 @@ public class StoreDatabaseViewModel extends ViewModel {
     }
 
     // A placeholder amount validation check
-    private boolean isAmountValid(Double amount) {
-        return amount != null && amount > 0;
+    private boolean isAmountValid(String amount) {
+        return amount != null && !amount.trim().isEmpty();
     }
 
     // A placeholder price validation check
@@ -75,5 +70,10 @@ public class StoreDatabaseViewModel extends ViewModel {
         }
         String[] div = price.toString().split("\\.");
         return div[1].length() <= 2;
+    }
+
+    // A placeholder discount validation check
+    private boolean isDiscountValid(Integer discount) {
+        return discount != null && discount >= 0;
     }
 }

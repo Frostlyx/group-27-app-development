@@ -9,33 +9,28 @@ class StoreDatabaseFormState {
     @Nullable
     private final Integer nameError;
     @Nullable
-    private final Integer categoryError;
-    @Nullable
     private final Integer barcodeError;
     @Nullable
     private final Integer amountError;
     @Nullable
     private final Integer priceError;
+    @Nullable final Integer discountError;
     private final boolean isDataValid;
 
-    StoreDatabaseFormState(@Nullable Integer nameError, @Nullable Integer categoryError, @Nullable Integer barcodeError,
-                           @Nullable Integer amountError, @Nullable Integer priceError) {
+    StoreDatabaseFormState(@Nullable Integer nameError, @Nullable Integer barcodeError,
+                           @Nullable Integer amountError, @Nullable Integer priceError, @Nullable Integer discountError) {
         this.nameError = nameError;
-        this.categoryError = categoryError;
         this.barcodeError = barcodeError;
         this.amountError = amountError;
         this.priceError = priceError;
-        this.isDataValid = nameError == null && categoryError == null && barcodeError == null &&  amountError == null && priceError == null;
+        this.discountError = discountError;
+        this.isDataValid = nameError == null && barcodeError == null &&
+                amountError == null && priceError == null && discountError == null;
     }
 
     @Nullable
     Integer getNameError() {
         return nameError;
-    }
-
-    @Nullable
-    Integer getCategoryError() {
-        return categoryError;
     }
 
     @Nullable
@@ -50,6 +45,9 @@ class StoreDatabaseFormState {
 
     @Nullable
     Integer getPriceError() { return priceError; }
+
+    @Nullable
+    Integer getDiscountError() { return discountError; }
 
     boolean isDataValid() {
         return isDataValid;
