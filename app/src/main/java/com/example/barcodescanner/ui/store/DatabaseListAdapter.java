@@ -1,20 +1,15 @@
 package com.example.barcodescanner.ui.store;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.customer.Item;
 import com.example.barcodescanner.customer.ProductModel;
-import com.example.barcodescanner.customer.ProfileFragment;
 
 import java.util.List;
 
@@ -49,7 +44,7 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         ProductModel item = itemList.get(position);
-        viewHolder.itemImage.setImageResource(item.getProductImage());
+        viewHolder.itemImage.setImageResource(item.getProductImage(0));
         viewHolder.itemName.setText(item.getProductName());
         viewHolder.itemCategory.setText(item.getCategory());
         viewHolder.itemPrice.setText(item.getProductPrice());

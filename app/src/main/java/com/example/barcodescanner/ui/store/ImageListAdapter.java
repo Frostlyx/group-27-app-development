@@ -4,53 +4,51 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.customer.ProductModel;
 
 import java.util.List;
 
-public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.ViewHolder> {
+public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ViewHolder> {
 
-    List<ProductModel> itemList;
+    List<Integer> imageList;
 
     /**
      * Initialize the dataset of the Adapter
      *
-     * @param itemList List<Item> containing the data to populate views to be used
+     * @param imageList List<Integer> containing the data to populate views to be used
      * by RecyclerView
      */
-    public StoreListAdapter(List<ProductModel> itemList) {
-        this.itemList = itemList;
+    public ImageListAdapter(List<Integer> imageList) {
+        this.imageList = imageList;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ImageListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.edit_store_column_image, viewGroup, false);
 
-        return new ViewHolder(view);
+        return new ImageListAdapter.ViewHolder(view);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ImageListAdapter.ViewHolder viewHolder, final int position) {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        ProductModel item = itemList.get(position);
-        viewHolder.itemImage.setImageResource(item.getProductImage());
+        Integer image = imageList.get(position);
+        viewHolder.itemImage.setImageResource(image);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return imageList.size();
     }
 
     /**
@@ -67,4 +65,5 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
             itemImage = itemView.findViewById(R.id.image_substore);
         }
     }
+
 }

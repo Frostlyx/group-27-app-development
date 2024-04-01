@@ -25,7 +25,7 @@ import java.util.List;
 public class ShoppingListFragment extends Fragment {
 
 
-    List<Item> itemList;
+    List<ProductModel> itemList;
     RecyclerView favRecView;
     MyAdapter2 myAdapter;
     ImageView imageView;
@@ -64,11 +64,21 @@ public class ShoppingListFragment extends Fragment {
     }
 
 
-    private List<Item> generateItems(){
-        List<Item> item = new ArrayList<>();
-        item.add(new Item("deneme", "denenmis", R.drawable.bread));
+    private List<ProductModel> generateItems(){
+        List<ProductModel> item = new ArrayList<>();
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "deneme"));
         return item;
     }
 
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
+    }
 
 }
