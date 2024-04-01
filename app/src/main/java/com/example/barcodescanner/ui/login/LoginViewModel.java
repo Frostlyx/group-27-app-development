@@ -16,25 +16,25 @@ public class LoginViewModel extends ViewModel {
         return loginFormState;
     }
 
-    public void loginDataChanged(String email, String password) {
-        Integer emailError;
+    public void loginDataChanged(String username, String password) {
+        Integer usernameError;
         Integer passwordError;
-        if (!isEmailValid(email)) {
-            emailError = R.string.invalid_email;
+        if (!isUserNameValid(username)) {
+            usernameError = R.string.invalid_username;
         } else {
-            emailError = null;
+            usernameError = null;
         }
         if (!isPasswordValid(password)) {
             passwordError = R.string.invalid_password;
         } else {
                 passwordError = null;
         }
-        loginFormState.setValue(new LoginFormState(emailError, passwordError));
+        loginFormState.setValue(new LoginFormState(usernameError, passwordError));
     }
 
-    // A placeholder email validation check
-    private boolean isEmailValid(String email) {
-        return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    // A placeholder username validation check
+    private boolean isUserNameValid(String username) {
+        return username != null && !username.trim().isEmpty();
     }
 
     // A placeholder password validation check

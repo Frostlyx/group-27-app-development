@@ -144,9 +144,9 @@ public class RegisterStoreOwnerFragment extends Fragment {
                 return;
             }
             loadingProgressBar.setVisibility(View.VISIBLE);
-            String email = emailEditText.getText().toString();
+            String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (mAuth.getCurrentUser() != null) {
                         updateUiWithUser(mAuth.getCurrentUser());

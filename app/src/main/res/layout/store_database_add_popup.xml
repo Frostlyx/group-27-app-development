@@ -52,19 +52,18 @@
             android:layout_marginTop="8dp"
             android:text="@string/item_category"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/edit_text_item_category_popup"
+            app:layout_constraintBottom_toTopOf="@+id/spinner_item_category_popup"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_item_name_popup" />
 
-        <EditText
-            android:id="@+id/edit_text_item_category_popup"
+        <Spinner
+            android:id="@+id/spinner_item_category_popup"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@color/fill_in_grey_color"
             android:ems="10"
-            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@+id/text_barcode_popup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
@@ -81,7 +80,7 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/edit_text_barcode_popup"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_item_category_popup" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner_item_category_popup" />
 
         <EditText
             android:id="@+id/edit_text_barcode_popup"
@@ -119,7 +118,7 @@
             android:layout_marginEnd="16dp"
             android:background="@color/fill_in_grey_color"
             android:ems="10"
-            android:inputType="numberDecimal"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@+id/text_price_popup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
@@ -152,6 +151,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_price_popup" />
 
+        <TextView
+            android:id="@+id/text_discount_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/discount"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/edit_text_discount_popup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_price_popup" />
+
+        <EditText
+            android:id="@+id/edit_text_discount_popup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/fill_in_grey_color"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_discount_popup" />
+
+
         <Button
             android:id="@+id/button_save_popup"
             android:layout_width="wrap_content"
@@ -160,7 +186,7 @@
             android:text="@string/save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_price_popup" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_discount_popup" />
 
         <ImageButton
             android:id="@+id/button_close_add"
