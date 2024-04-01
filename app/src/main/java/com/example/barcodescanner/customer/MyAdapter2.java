@@ -22,9 +22,9 @@ import java.util.List;
 public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder> {
 
 
-    List<Item> itemList;
+    List<ProductModel> itemList;
 
-    public MyAdapter2(List<Item> itemList) {
+    public MyAdapter2(List<ProductModel> itemList) {
         this.itemList = itemList;
     }
 
@@ -39,9 +39,9 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        Item video_item = itemList.get(position);
-        holder.image_view.setImageResource(video_item.getImage());
-        holder.product_name.setText(video_item.getName());
+        ProductModel video_item = itemList.get(position);
+        holder.image_view.setImageResource(video_item.getProductImage(0));
+        holder.product_name.setText(video_item.getProductName());
         holder.bottom_name.setText(video_item.getCategory());
         holder.position = position;
         holder.item = video_item;
@@ -57,7 +57,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
         TextView product_name;
         TextView bottom_name;
         int position;
-        Item item;
+        ProductModel item;
         TextView value;
         int count = 0;
 
@@ -71,7 +71,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("demo", "onClick: Item Clciked " + position + " item " + item.name);
+                    Log.d("demo", "onClick: Item Clciked " + position + " item " + item.productName);
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     ProfileFragment categoriesFragment = new ProfileFragment();
                     FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();

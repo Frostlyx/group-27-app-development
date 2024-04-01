@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.customer.StoreModel;
-import com.example.barcodescanner.databinding.FragmentEditStoreBinding;
+import com.example.barcodescanner.customer.ProductModel;
+import com.example.barcodescanner.databinding.FragmentEditProductBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditStoreFragment extends Fragment {
+public class EditProductFragment extends Fragment {
 
-    StoreModel store;
+    ProductModel item;
     List<Integer> imageList;
 
-    private FragmentEditStoreBinding binding;
+    private FragmentEditProductBinding binding;
 
     @Override
     public View onCreateView(
@@ -30,12 +30,12 @@ public class EditStoreFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentEditStoreBinding.inflate(inflater, container, false);
+        binding = FragmentEditProductBinding.inflate(inflater, container, false);
 
-        store = new StoreModel("name", "location", generateImages());
-        imageList = store.getStoreImageList();
+        item = new ProductModel("name", "price", generateImages(), "category", "discount");
+        imageList = item.getProductImageList();
 
-        RecyclerView recyclerView = binding.recyclerView;
+        RecyclerView recyclerView = binding.editProductImages;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         ImageListAdapter imageListAdapter = new ImageListAdapter(imageList);
@@ -58,12 +58,12 @@ public class EditStoreFragment extends Fragment {
 
     private List<Integer> generateImages() {
         List<Integer> images = new ArrayList<>();
-        images.add(R.mipmap.supermarket_outside_foreground);
-        images.add(R.mipmap.supermarket_outside1_foreground);
-        images.add(R.mipmap.supermarket_inside1_foreground);
-        images.add(R.mipmap.supermarket_inside2_foreground);
-        images.add(R.mipmap.supermarket_inside3_foreground);
-        images.add(R.mipmap.supermarket_baklava_foreground);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
         images.add(R.drawable.bread);
         images.add(R.drawable.bread);
         images.add(R.drawable.bread);
@@ -72,4 +72,5 @@ public class EditStoreFragment extends Fragment {
         images.add(R.drawable.bread);
         return images;
     }
+
 }

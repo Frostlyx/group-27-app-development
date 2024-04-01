@@ -64,6 +64,61 @@ public class StoreDatabaseFragment extends Fragment {
         DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(itemList);
         recyclerView.setAdapter(databaseListAdapter);
 
+        // Initializing plus dialog
+        plusDialog = new Dialog(getContext());
+        plusDialog.setContentView(R.layout.store_database_plus_popup);
+        plusDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        plusDialog.setCancelable(true);
+        buttonAddDatabase = plusDialog.findViewById(R.id.button_upload_database);
+        buttonAddProduct = plusDialog.findViewById(R.id.button_add_item);
+
+        // Initializing add dialog
+        addDialog = new Dialog(getContext());
+        addDialog.setContentView(R.layout.store_database_add_popup);
+        addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        addDialog.setCancelable(true);
+        buttonCloseAdd =  addDialog.findViewById(R.id.button_close_add);
+        buttonSaveAdd =  addDialog.findViewById(R.id.button_save_popup);
+
+        binding.floatingButtonAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                plusDialog.show();;
+            }
+        });
+
+        buttonAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addDialog.show();;
+            }
+        });
+
+        buttonCloseAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                plusDialog.dismiss();
+                addDialog.dismiss();
+            }
+        });
+
+        buttonSaveAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                plusDialog.dismiss();
+                addDialog.dismiss();
+
+                // Create the Snackbar
+                Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_add_item), Snackbar.LENGTH_LONG);
+                // Set the Snackbar Layout
+                snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
+                snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                // Show the Snackbar
+                snackbar.show();
+
+            }
+        });
+
         return binding.getRoot();
 
         }

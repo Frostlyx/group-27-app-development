@@ -158,5 +158,6 @@
     <string name="mystore_title">My Store</string>
     <string name="edit_store_title">Edit Store</string>
     <string name="store_database_title">Store Database</string>
+    <string name="edit_product_title">Edit Product</string>
 
 </resources>
