@@ -49,7 +49,7 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         ProductModel item = itemList.get(position);
-        viewHolder.itemImage.setImageResource(item.getProductImage());
+        viewHolder.itemImage.setImageResource(item.getProductImage(0));
         viewHolder.itemName.setText(item.getProductName());
         viewHolder.itemCategory.setText(item.getCategory());
         viewHolder.itemPrice.setText(item.getProductPrice());

@@ -24,6 +24,7 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,8 +58,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
     // TODO: placeholder for items on main page
     ArrayList<ProductModel> productModels = new ArrayList<>();
-    int[] productImage = {R.drawable.bread};
-    //
+    List<Integer> productImageList = generateImages();
 
     public MainFragment() {
         // Required empty public constructor
@@ -85,6 +85,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -211,10 +212,22 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         for (int i = 0; i < productNames.length; i++) {
             productModels.add(new ProductModel(productNames[i],
                     productPrices[i],
-                    productImage[0],
+                    productImageList,
                     productCategories[i],
                     "10%"));
         }
+    }
+
+    //Placeholder code for imageList
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
     }
 
     // Placeholder code for clicking on recyclerview elements

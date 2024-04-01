@@ -125,21 +125,31 @@ public class StoreDatabaseFragment extends Fragment {
             binding = null;
         }
 
-        private List<ProductModel> generateItems(){
+        private List<ProductModel> generateItems() {
+            List<Integer> imageList = generateImages();
+
             List<ProductModel> item = new ArrayList<>();
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
-            item.add(new ProductModel("name", "price", R.drawable.bread, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
             return item;
+        }
+
+        private List<Integer> generateImages() {
+            List<Integer> images = new ArrayList<>();
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            return images;
         }
 
         private void showDialog(){
