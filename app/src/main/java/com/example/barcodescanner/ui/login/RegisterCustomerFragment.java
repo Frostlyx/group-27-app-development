@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -133,7 +132,6 @@ public class RegisterCustomerFragment extends Fragment {
                         referenceCustomers.child(mAuth.getCurrentUser().getUid()).setValue(writeCustomerDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                updateUiWithUser(mAuth.getCurrentUser());
                                 if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                                     ((WelcomeActivity) getActivity()).customerActivity();
                                 }
@@ -152,14 +150,6 @@ public class RegisterCustomerFragment extends Fragment {
                 }
             });
         });
-    }
-
-    private void updateUiWithUser(FirebaseUser user) {
-        String welcome = getString(R.string.welcome) + user.getDisplayName();
-        // TODO : initiate successful logged in experience
-        if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        }
     }
 
     private void showRegisterCustomerFailed(@StringRes Integer errorString) {

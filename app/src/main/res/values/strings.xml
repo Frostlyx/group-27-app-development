@@ -162,4 +162,9 @@
     <string name="store_database_title">Store Database</string>
     <string name="edit_product_title">Edit Product</string>
 
+    <string name="confirm_logout_title">Confirm logout</string>
+    <string name="confirm_logout_body">Are you sure you want to logout?</string>
+    <string name="logout">Logout</string>
+    <string name="cancel">Cancel</string>
+
 </resources>
