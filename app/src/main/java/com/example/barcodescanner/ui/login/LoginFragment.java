@@ -121,7 +121,6 @@ public class LoginFragment extends Fragment {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     if (mAuth.getCurrentUser() != null) {
-                        updateUiWithUser(mAuth.getCurrentUser());
                         referenceCustomers.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -155,14 +154,6 @@ public class LoginFragment extends Fragment {
                 ((WelcomeActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
             }
         });
-    }
-
-    private void updateUiWithUser(FirebaseUser user) {
-        String welcome = getString(R.string.welcome) + user.getDisplayName();
-        // TODO : initiate successful logged in experience
-        if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        }
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

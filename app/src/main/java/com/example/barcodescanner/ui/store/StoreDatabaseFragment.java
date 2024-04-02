@@ -1,6 +1,7 @@
 package com.example.barcodescanner.ui.store;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -43,7 +42,7 @@ public class StoreDatabaseFragment extends Fragment {
     Dialog addDialog;
     Button buttonAddDatabase;
     Button buttonAddProduct;
-    ImageButton buttonCloseAdd;
+    Button buttonCloseAdd;
     Button buttonSaveAdd;
 
     private FragmentStoreDatabaseBinding binding;
@@ -83,6 +82,8 @@ public class StoreDatabaseFragment extends Fragment {
             plusDialog = new Dialog(getContext());
             plusDialog.setContentView(R.layout.store_database_plus_popup);
             plusDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
+            plusDialog.getWindow().setBackgroundDrawable(background);
             plusDialog.setCancelable(true);
             buttonAddDatabase = plusDialog.findViewById(R.id.button_upload_database);
             buttonAddProduct = plusDialog.findViewById(R.id.button_add_item);
@@ -91,16 +92,17 @@ public class StoreDatabaseFragment extends Fragment {
             addDialog = new Dialog(getContext());
             addDialog.setContentView(R.layout.store_database_add_popup);
             addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            addDialog.getWindow().setBackgroundDrawable(background);
             addDialog.setCancelable(true);
-            buttonCloseAdd =  addDialog.findViewById(R.id.button_close_add);
-            buttonSaveAdd =  addDialog.findViewById(R.id.button_save_popup);
+            buttonCloseAdd =  addDialog.findViewById(R.id.edit_product_cancel);
+            buttonSaveAdd =  addDialog.findViewById(R.id.edit_product_confirm);
 
-            final EditText nameEditText = addDialog.findViewById(R.id.edit_text_item_name_popup);
-            final Spinner categorySpinner = addDialog.findViewById(R.id.spinner_item_category_popup);
-            final EditText barcodeEditText = addDialog.findViewById(R.id.edit_text_barcode_popup);
-            final EditText amountEditText = addDialog.findViewById(R.id.edit_text_amount_popup);
-            final EditText priceEditText = addDialog.findViewById(R.id.edit_text_price_popup);
-            final EditText discountEditText = addDialog.findViewById(R.id.edit_text_discount_popup);
+            final EditText nameEditText = addDialog.findViewById(R.id.edit_text_item_name);
+            final Spinner categorySpinner = addDialog.findViewById(R.id.spinner_item_category);
+            final EditText barcodeEditText = addDialog.findViewById(R.id.edit_text_barcode);
+            final EditText amountEditText = addDialog.findViewById(R.id.edit_text_amount);
+            final EditText priceEditText = addDialog.findViewById(R.id.edit_text_price);
+            final EditText discountEditText = addDialog.findViewById(R.id.edit_text_discount);
 
             String[] categories = {"Food", "Drinks", "Other stuff"};
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
@@ -205,11 +207,11 @@ public class StoreDatabaseFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     List<Integer> imageList = generateImages();
-                    EditText itemName = addDialog.findViewById(R.id.edit_text_item_name_popup);
-                    TextView itemCategory = addDialog.findViewById(R.id.text_item_category_popup);
-                    EditText barcodeNumber = addDialog.findViewById(R.id.edit_text_barcode_popup);
-                    EditText amount = addDialog.findViewById(R.id.edit_text_amount_popup);
-                    EditText price = addDialog.findViewById(R.id.edit_text_price_popup);
+                    EditText itemName = addDialog.findViewById(R.id.edit_text_item_name);
+                    TextView itemCategory = addDialog.findViewById(R.id.text_item_category);
+                    EditText barcodeNumber = addDialog.findViewById(R.id.edit_text_barcode);
+                    EditText amount = addDialog.findViewById(R.id.edit_text_amount);
+                    EditText price = addDialog.findViewById(R.id.edit_text_price);
                     if(!itemName.getText().toString().isEmpty() && !itemCategory.getText().toString().isEmpty() && !barcodeNumber.getText().toString().isEmpty() && !amount.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
                         ProductModel infoProduct = new ProductModel(itemName.getText().toString(), price.getText().toString(), imageList, itemCategory.toString(), "discount", amount.getText().toString(), barcodeNumber.getText().toString());
                         DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");

@@ -4,7 +4,6 @@ package com.example.barcodescanner.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,31 +37,10 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
-        DatabaseReference referenceCustomers= referenceProfile.child("Customers");
-        // Sign in success, update UI with the signed-in user's information
-        if (currentUser != null) {
-            referenceCustomers.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild(currentUser.getUid())) {
-                            customerActivity();
-                        } else {
-                            storeActivity();
-
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         mAuth = FirebaseAuth.getInstance();
@@ -74,8 +52,28 @@ public class WelcomeActivity extends AppCompatActivity {
         buttonRegisterStore.setOnClickListener(view -> replaceFragment(new RegisterStoreOwnerFragment()));
 
         buttonRegisterCustomer.setOnClickListener(v -> replaceFragment(new RegisterCustomerFragment()));
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference referenceCustomers= referenceProfile.child("Customers");
+        // Sign in success, update UI with the signed-in user's information
+        if (currentUser != null) {
+            referenceCustomers.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.hasChild(currentUser.getUid())) {
+                        customerActivity();
+                    } else {
+                        storeActivity();
 
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+
+        }
 
     }
 

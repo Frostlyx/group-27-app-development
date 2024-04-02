@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#808080</color>
     <color name="red">#FF7070</color>
+    <color name="green">#2AB914</color>
     <!--Color pallate from figma-->
     <color name="app_background_color">#E8F1F2</color>
     <color name="main_color">#006494</color>
