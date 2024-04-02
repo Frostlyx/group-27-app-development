@@ -16,10 +16,10 @@ import java.util.List;
 public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.VideoViewHolder> {
 
 
-    List<Market> marketList;
+    List<StoreModel> storeList;
 
-    public MyAdapter5(List<Market> marketList) {
-        this.marketList = marketList;
+    public MyAdapter5(List<StoreModel> storeList) {
+        this.storeList = storeList;
     }
 
     @NonNull
@@ -31,15 +31,15 @@ public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.VideoViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        Market market_item = marketList.get(position);
-        holder.image_view.setImageResource(market_item.getImage());
-        holder.store_name.setText(market_item.getName());
-        holder.price_name.setText(market_item.getLocation());
+        StoreModel store_item = storeList.get(position);
+        holder.image_view.setImageResource(store_item.getStoreImage(0));
+        holder.store_name.setText(store_item.getStoreName());
+        holder.price_name.setText(store_item.getStoreLocation());
     }
 
     @Override
     public int getItemCount() {
-        return marketList.size();
+        return storeList.size();
     }
 
     public static class VideoViewHolder extends RecyclerView.ViewHolder{

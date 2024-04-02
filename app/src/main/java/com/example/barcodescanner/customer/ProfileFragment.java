@@ -7,11 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.ui.store.StoreActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,14 +24,14 @@ import com.example.barcodescanner.R;
  */
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FirebaseAuth auth;
+    FirebaseUser user;
+    Dialog logoutDialog;
+    Button btnLogoutCancel;
+    Button btnLogoutConfirm;
+    Dialog deleteAccDialog;
+    Button btnDeleteAccCancel;
+    Button btnDeleteAccConfirm;
 
     Dialog logoutDialog;
     Button btnLogoutCancel;
@@ -49,8 +53,6 @@ public class ProfileFragment extends Fragment {
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,10 +60,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -69,9 +67,34 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         final Button changePassword = view.findViewById(R.id.changePassword);
+        final Button deleteAccount = view.findViewById(R.id.deleteAccount);
         final Button logout = view.findViewById(R.id.logout_profile_page);
+        TextView textView = view.findViewById(R.id.customer_email);
+
+        // Initializing logout dialog
+        logoutDialog = new Dialog(getContext());
+        logoutDialog.setContentView(R.layout.logout_dialog_box);
+        logoutDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
+        logoutDialog.getWindow().setBackgroundDrawable(background);
+        logoutDialog.setCancelable(true);
+        btnLogoutConfirm = logoutDialog.findViewById(R.id.logout_dialog_button_confirm);
+        btnLogoutCancel = logoutDialog.findViewById(R.id.logout_dialog_button_cancel);
+
+        // Initializing delete account dialog
+        deleteAccDialog = new Dialog(getContext());
+        deleteAccDialog.setContentView(R.layout.delete_account_dialog_box);
+        deleteAccDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        deleteAccDialog.getWindow().setBackgroundDrawable(background);
+        deleteAccDialog.setCancelable(true);
+        btnDeleteAccConfirm = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_confirm);
+        btnDeleteAccCancel = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_cancel);
+
+
 
         // Initializing logout dialog
         logoutDialog = new Dialog(getContext());
@@ -86,14 +109,28 @@ public class ProfileFragment extends Fragment {
 
 
 
+        if (user == null) {
+            if (getActivity() != null && getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).replaceActivity();
+            } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                ((StoreActivity) getActivity()).replaceActivity();
+            }
+        } else {
+            textView.setText(user.getEmail());
+        }
+
+
         //Change password screen has to be made.
 
         // On click listeners
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                user.updatePassword("allahyok");
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).replaceFragment(new ChangePasswordFragment(), "Change password");
+                    ((MainActivity) getActivity()).replaceFragment(new ChangePasswordFragment(), "Change Password");
+                } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    ((StoreActivity) getActivity()).replaceFragment(new ChangePasswordFragment(), "Change Password");
                 }
             }
         });
@@ -108,6 +145,27 @@ public class ProfileFragment extends Fragment {
         btnLogoutConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logoutDialog.dismiss();
+                FirebaseAuth.getInstance().signOut();
+                if (getActivity() != null && getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).replaceActivity();
+                } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    ((StoreActivity) getActivity()).replaceActivity();
+                }
+            }
+        });
+
+        btnLogoutCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog.dismiss();
+            }
+        });
+
+        btnLogoutConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
                 ((MainActivity) getActivity()).replaceActivity();
                 logoutDialog.dismiss();
             }
@@ -116,7 +174,37 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 logoutDialog.show();
+            }
+        });
+
+        btnDeleteAccCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccDialog.dismiss();
+            }
+        });
+
+        btnDeleteAccConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccDialog.dismiss();
+                user.delete();
+                FirebaseAuth.getInstance().signOut();
+                if (getActivity() != null && getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).replaceActivity();
+                } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    ((StoreActivity) getActivity()).replaceActivity();
+                }
+            }
+        });
+
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccDialog.show();
+
             }
         });
         // Inflate the layout for this fragment

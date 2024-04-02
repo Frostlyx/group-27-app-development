@@ -19,7 +19,7 @@ import java.util.List;
 public class FavouritesFragment extends Fragment {
 
 
-    private List<Item> itemList;
+    private List<ProductModel> itemList;
     private RecyclerView favRecView;
     private MyAdapter myAdapter;
 
@@ -44,25 +44,36 @@ public class FavouritesFragment extends Fragment {
         return rootView;
     }
 
-    private List<Item> generateItems(){
-        List<Item> item = new ArrayList<>();
-        item.add(new Item("deneme", "denenmis", R.drawable.bread));
-        item.add(new Item("Tryout", "TRYKKK", R.drawable.bread));
-        item.add(new Item("Hoave Mercy", "LORdd", R.drawable.bread));
-        item.add(new Item("deneme", "denenmis", R.drawable.bread));
-        item.add(new Item("Tryout", "TRYKKK", R.drawable.bread));
-        item.add(new Item("Hoave Mercy", "LORdd", R.drawable.bread));
-        item.add(new Item("deneme", "denenmis", R.drawable.bread));
-        item.add(new Item("Tryout", "TRYKKK", R.drawable.bread));
-        item.add(new Item("Hoave Mercy", "LORdd", R.drawable.bread));
-        item.add(new Item("deneme", "denenmis", R.drawable.bread));
-        item.add(new Item("Tryout", "TRYKKK", R.drawable.bread));
-        item.add(new Item("Hoave Mercy", "LORdd", R.drawable.bread));
-        item.add(new Item("deneme", "denenmis", R.drawable.bread));
-        item.add(new Item("Tryout", "TRYKKK", R.drawable.bread));
-        item.add(new Item("Hoave Mercy", "LORdd", R.drawable.bread));
+    private List<ProductModel> generateItems(){
+        List<ProductModel> item = new ArrayList<>();
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "deneme","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy","LORdd","s","s"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
 
         return item;
+    }
+
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
     }
 
 

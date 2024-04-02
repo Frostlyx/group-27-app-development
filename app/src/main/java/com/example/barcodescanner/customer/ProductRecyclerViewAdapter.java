@@ -46,7 +46,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         // Assigns values to the views in the main_page_recycler_view_row.xml file
         // based on position of the recycler view
 
-        holder.productImage.setImageResource(productModels.get(position).getProductImage());
+        holder.productImage.setImageResource(productModels.get(position).getProductImage(0));
         holder.productName.setText(productModels.get(position).getProductName());
         holder.productPrice.setText(productModels.get(position).getProductPrice());
 

@@ -23,8 +23,24 @@
     <string name="action_register_store_owner">Register as store owner</string>
     <string name="welcome">"Welcome "</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_store_name">Not a valid store name</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_email_confirm">Emails are not the same</string>
+    <string name="invalid_location">Not a valid location</string>
+    <string name="invalid_kvk">Not a valid KvK number</string>
+    <string name="invalid_password">Password must contain at least 8 characters, with at least 1 uppercase and lowercase character</string>
+    <string name="invalid_password_confirm">Passwords are not the same</string>
+    <string name="invalid_item_name">Not a valid item name</string>
+    <string name="invalid_category_name">Not a valid category name</string>
+    <string name="invalid_barcode">Not a valid barcode. Barcode should contain 13 digits</string>
+    <string name="invalid_amount">Not a valid amount</string>
+    <string name="invalid_price">Not a valid price</string>
+    <string name="invalid_discount">Not a valid discount</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="register_failed">"Register failed"</string>
+    <string name="code_failed">"Failed to send code"</string>
+    <string name="wrong_username_password">"Username or password is incorrect"</string>
+    <string name="email_exists">"This username is taken. Please enter another."</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -44,6 +60,7 @@
     <string name="item_name">Item name</string>
     <string name="item_category">Item category</string>
     <string name="price">Price</string>
+    <string name="discount">Discount</string>
     <string name="search_item">Search for items</string>
     <string name="upload_database">Upload database</string>
     <string name="add_item">Add item</string>
@@ -154,4 +171,15 @@
     <string name="discounts_title">Discounts</string>
     <string name="shopping_list_title">Shopping List</string>
     <string name="profile_title">Profile</string>
+
+    <string name="mystore_title">My Store</string>
+    <string name="edit_store_title">Edit Store</string>
+    <string name="store_database_title">Store Database</string>
+    <string name="edit_product_title">Edit Product</string>
+
+    <string name="confirm_logout_title">Confirm logout</string>
+    <string name="confirm_logout_body">Are you sure you want to logout?</string>
+    <string name="logout">Logout</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

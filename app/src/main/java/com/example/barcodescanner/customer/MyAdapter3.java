@@ -1,7 +1,5 @@
 package com.example.barcodescanner.customer;
 
-import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,10 @@ import java.util.List;
 public class MyAdapter3 extends RecyclerView.Adapter<MyAdapter3.VideoViewHolder> {
 
 
-    List<Market> marketList;
+    List<StoreModel> storeList;
 
-    public MyAdapter3(List<Market> marketList) {
-        this.marketList = marketList;
+    public MyAdapter3(List<StoreModel> storeList) {
+        this.storeList = storeList;
     }
 
     @NonNull
@@ -33,15 +31,15 @@ public class MyAdapter3 extends RecyclerView.Adapter<MyAdapter3.VideoViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        Market market_item = marketList.get(position);
-        holder.image_view.setImageResource(market_item.getImage());
-        holder.product_name.setText(market_item.getName());
-        holder.bottom_name.setText(market_item.getLocation());
+        StoreModel store_item = storeList.get(position);
+        holder.image_view.setImageResource(store_item.getStoreImage(0));
+        holder.product_name.setText(store_item.getStoreName());
+        holder.bottom_name.setText(store_item.getStoreLocation());
     }
 
     @Override
     public int getItemCount() {
-        return marketList.size();
+        return storeList.size();
     }
 
     public static class VideoViewHolder extends RecyclerView.ViewHolder{

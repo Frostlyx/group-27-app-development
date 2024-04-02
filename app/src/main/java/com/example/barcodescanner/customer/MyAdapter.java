@@ -18,9 +18,9 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.VideoViewHolder> {
 
 
-    private  List<Item> itemList;
+    private  List<ProductModel> itemList;
 
-    public MyAdapter(List<Item> itemList) {
+    public MyAdapter(List<ProductModel> itemList) {
         this.itemList = itemList;
     }
 
@@ -33,9 +33,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.VideoViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        Item video_item = itemList.get(position);
-        holder.image_view.setImageResource(video_item.getImage());
-        holder.product_name.setText(video_item.getName());
+        ProductModel video_item = itemList.get(position);
+        holder.image_view.setImageResource(video_item.getProductImage(0));
+        holder.product_name.setText(video_item.getProductName());
         holder.bottom_name.setText(video_item.getCategory());
     }
 
