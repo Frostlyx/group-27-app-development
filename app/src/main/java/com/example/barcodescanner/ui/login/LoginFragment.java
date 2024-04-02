@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment {
         final Button backButton = view.findViewById(R.id.back);
         final Button loginButton = view.findViewById(R.id.login);
         final Button forgotPasswordButton = view.findViewById(R.id.forgotPassword);
-        final EditText emailEditText = view.findViewById(R.id.email);
+        final EditText usernameEditText = view.findViewById(R.id.username);
         final EditText passwordEditText = view.findViewById(R.id.password);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
@@ -67,8 +67,8 @@ public class LoginFragment extends Fragment {
                 return;
             }
             isDataValid = loginFormState.isDataValid();
-            if (loginFormState.getEmailError() != null) {
-                emailEditText.setError(getString(loginFormState.getEmailError()));
+            if (loginFormState.getUsernameError() != null) {
+                usernameEditText.setError(getString(loginFormState.getUsernameError()));
             }
             if (loginFormState.getPasswordError() != null) {
                 passwordEditText.setError(getString(loginFormState.getPasswordError()));
@@ -88,11 +88,11 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(emailEditText.getText().toString(),
+                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         };
-        emailEditText.addTextChangedListener(afterTextChangedListener);
+        usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
 
         backButton.setOnClickListener(v -> {
@@ -106,9 +106,9 @@ public class LoginFragment extends Fragment {
                 return;
             }
             loadingProgressBar.setVisibility(View.VISIBLE);
-            String email = emailEditText.getText().toString();
+            String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     if (mAuth.getCurrentUser() != null) {
@@ -120,7 +120,7 @@ public class LoginFragment extends Fragment {
                 } else {
                     Exception exception = task.getException();
                     if (exception instanceof FirebaseAuthInvalidCredentialsException) {
-                        showLoginFailed(R.string.wrong_email_password);
+                        showLoginFailed(R.string.wrong_username_password);
                     } else {
                         showLoginFailed(R.string.login_failed);
                     }
