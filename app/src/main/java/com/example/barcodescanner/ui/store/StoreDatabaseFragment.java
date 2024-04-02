@@ -82,8 +82,8 @@ public class StoreDatabaseFragment extends Fragment {
             plusDialog = new Dialog(getContext());
             plusDialog.setContentView(R.layout.store_database_plus_popup);
             plusDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
-            plusDialog.getWindow().setBackgroundDrawable(background);
+            Drawable plusDialogBackground = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
+            plusDialog.getWindow().setBackgroundDrawable(plusDialogBackground);
             plusDialog.setCancelable(true);
             buttonAddDatabase = plusDialog.findViewById(R.id.button_upload_database);
             buttonAddProduct = plusDialog.findViewById(R.id.button_add_item);
@@ -92,7 +92,8 @@ public class StoreDatabaseFragment extends Fragment {
             addDialog = new Dialog(getContext());
             addDialog.setContentView(R.layout.store_database_add_popup);
             addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            addDialog.getWindow().setBackgroundDrawable(background);
+            Drawable addDialogBackground = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
+            addDialog.getWindow().setBackgroundDrawable(addDialogBackground);
             addDialog.setCancelable(true);
             buttonCloseAdd =  addDialog.findViewById(R.id.edit_product_cancel);
             buttonSaveAdd =  addDialog.findViewById(R.id.edit_product_confirm);
