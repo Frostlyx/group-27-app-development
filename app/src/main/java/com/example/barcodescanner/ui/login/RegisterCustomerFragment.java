@@ -18,9 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -120,13 +124,22 @@ public class RegisterCustomerFragment extends Fragment {
             loadingProgressBar.setVisibility(View.VISIBLE);
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
-            mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
+            mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (mAuth.getCurrentUser() != null) {
-                        updateUiWithUser(mAuth.getCurrentUser());
-                        if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                            ((WelcomeActivity) getActivity()).customerActivity();
-                        }
+                        ReadWriteCustomerDetails writeCustomerDetails = new ReadWriteCustomerDetails(usernameEditText.getText().toString(),emailEditText.getText().toString(), passwordEditText.getText().toString());
+                        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                        DatabaseReference referenceCustomers= referenceProfile.child("Customers");
+                        referenceCustomers.child(mAuth.getCurrentUser().getUid()).setValue(writeCustomerDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                updateUiWithUser(mAuth.getCurrentUser());
+                                if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                                    ((WelcomeActivity) getActivity()).customerActivity();
+                                }
+                            }
+                        });
+
                     }
                 } else {
                     Exception exception = task.getException();

@@ -214,7 +214,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
                     productPrices[i],
                     productImageList,
                     productCategories[i],
-                    "10%"));
+                    "10%","s","s"));
         }
     }
 

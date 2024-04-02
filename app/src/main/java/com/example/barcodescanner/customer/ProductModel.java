@@ -8,14 +8,21 @@ public class ProductModel {
     List<Integer> productImageList;
     String category;
     String discount;
+
+
+    String productBarcode;
+
+    String productAmount;
     // other stuff idk yet
 
-    public ProductModel(String productName, String productPrice, List<Integer> productImageList, String category, String discount) {
+    public ProductModel(String productName, String productPrice, List<Integer> productImageList, String category, String discount, String productAmount, String productBarcode) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productImageList = productImageList;
         this.category = category;
         this.discount = discount;
+        this.productAmount = productAmount;
+        this.productBarcode = productBarcode;
     }
 
     public String getProductName() {
@@ -40,5 +47,13 @@ public class ProductModel {
 
     public String getDiscount() {
         return discount;
+    }
+
+    public String getProductAmount() {
+        return productAmount;
+    }
+
+    public String getProductBarcode() {
+        return productBarcode;
     }
 }
