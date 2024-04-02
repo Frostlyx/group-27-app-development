@@ -21,6 +21,11 @@ import com.example.barcodescanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +35,8 @@ public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
     private LoginViewModel loginViewModel;
     private boolean isDataValid;
+    FirebaseUser user;
+    boolean isCustomer;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -101,6 +108,8 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference referenceCustomers= referenceProfile.child("Customers");
         loginButton.setOnClickListener(v -> {
             if (!isDataValid) {
                 return;
@@ -113,9 +122,21 @@ public class LoginFragment extends Fragment {
                     // Sign in success, update UI with the signed-in user's information
                     if (mAuth.getCurrentUser() != null) {
                         updateUiWithUser(mAuth.getCurrentUser());
-                        if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                            ((WelcomeActivity) getActivity()).customerActivity();
-                        }
+                        referenceCustomers.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) &&getActivity() != null && getActivity() instanceof WelcomeActivity){
+                                    ((WelcomeActivity) getActivity()).customerActivity();
+                                } else if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) && getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                                    ((WelcomeActivity) getActivity()).storeActivity();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 } else {
                     Exception exception = task.getException();
