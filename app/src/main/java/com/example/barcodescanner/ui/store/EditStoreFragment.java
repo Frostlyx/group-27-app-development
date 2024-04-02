@@ -32,14 +32,17 @@ public class EditStoreFragment extends Fragment {
 
         binding = FragmentEditStoreBinding.inflate(inflater, container, false);
 
-        store = new StoreModel("name", "location", generateImages());
-        imageList = store.getStoreImageList();
+        store = new StoreModel("Food4You", "Den Bosch", generateImages());
 
+        imageList = store.getStoreImageList();
         RecyclerView recyclerView = binding.recyclerView;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         ImageListAdapter imageListAdapter = new ImageListAdapter(imageList);
         recyclerView.setAdapter(imageListAdapter);
+
+        binding.textviewStorename.setText(store.getStoreName());
+        binding.textviewLocation.setText(store.getStoreLocation());
 
         return binding.getRoot();
 
