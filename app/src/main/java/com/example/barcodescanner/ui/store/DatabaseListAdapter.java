@@ -3,6 +3,7 @@ package com.example.barcodescanner.ui.store;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -57,6 +58,15 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
                 }
             }
         });
+
+        viewHolder.buttonBin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, getItemCount());
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -74,6 +84,8 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
         TextView itemName;
         TextView itemCategory;
         TextView itemPrice;
+        ImageButton buttonEdit;
+        ImageButton buttonBin;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -83,6 +95,8 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
             itemName = itemView.findViewById(R.id.text_item_name);
             itemCategory = itemView.findViewById(R.id.text_item_category);
             itemPrice = itemView.findViewById(R.id.text_price);
+            buttonEdit = itemView.findViewById(R.id.image_button_edit);
+            buttonBin = itemView.findViewById(R.id.image_button_bin);
 
         }
     }
