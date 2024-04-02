@@ -17,6 +17,4 @@
     <!-- use lighter colour for secondary text -->
 
     <dimen name="item_vertical_spacing">10dp</dimen>
-
-    <dimen name="text_size_large">22sp</dimen>
 </resources>

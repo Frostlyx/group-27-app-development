@@ -15,7 +15,7 @@
         android:layout_marginStart="16dp"
         android:background="@drawable/border_image_database"
         android:scaleType="centerCrop"
-        android:src="@tools:sample/avatars"
+        android:src="@drawable/bread"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
