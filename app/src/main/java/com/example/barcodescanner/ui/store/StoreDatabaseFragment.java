@@ -265,6 +265,12 @@ public class StoreDatabaseFragment extends Fragment {
             images.add(R.drawable.bread);
             images.add(R.drawable.bread);
             images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
             return images;
         }
 
