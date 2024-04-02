@@ -1,9 +1,12 @@
 package com.example.barcodescanner.ui.login;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,6 +17,11 @@ import com.example.barcodescanner.customer.MainActivity;
 import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class WelcomeActivity extends AppCompatActivity {
     Button buttonRegisterStore;
@@ -22,16 +30,35 @@ public class WelcomeActivity extends AppCompatActivity {
     Button buttonRegisterCustomer;
 
     FirebaseAuth mAuth;
+    boolean isCustomer;
+    boolean isStoreOwner;
+    FirebaseUser user;
 
     //this is what keeps you logged in the app.
     @Override
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference referenceCustomers= referenceProfile.child("Customers");
+        // Sign in success, update UI with the signed-in user's information
+        if (currentUser != null) {
+            referenceCustomers.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChild(currentUser.getUid())) {
+                            customerActivity();
+                        } else {
+                            storeActivity();
+
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
     }
     @Override

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,12 @@ import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,20 +204,33 @@ public class StoreDatabaseFragment extends Fragment {
             buttonSaveAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!isDataValid) {
-                        return;
+                    List<Integer> imageList = generateImages();
+                    EditText itemName = addDialog.findViewById(R.id.edit_text_item_name_popup);
+                    TextView itemCategory = addDialog.findViewById(R.id.text_item_category_popup);
+                    EditText barcodeNumber = addDialog.findViewById(R.id.edit_text_barcode_popup);
+                    EditText amount = addDialog.findViewById(R.id.edit_text_amount_popup);
+                    EditText price = addDialog.findViewById(R.id.edit_text_price_popup);
+                    if(!itemName.getText().toString().isEmpty() && !itemCategory.getText().toString().isEmpty() && !barcodeNumber.getText().toString().isEmpty() && !amount.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
+                        ProductModel infoProduct = new ProductModel(itemName.getText().toString(), price.getText().toString(), imageList, itemCategory.toString(), "discount", amount.getText().toString(), barcodeNumber.getText().toString());
+                        DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
+                        DatabaseReference referenceStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        referenceStore.child(itemName.getText().toString()).setValue(infoProduct).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                plusDialog.dismiss();
+                                addDialog.dismiss();
+
+                                // Create the Snackbar
+                                Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_add_item), Snackbar.LENGTH_LONG);
+                                // Set the Snackbar Layout
+                                snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
+                                snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                                // Show the Snackbar
+                                snackbar.show();
+                            }
+                        });
+
                     }
-
-                    plusDialog.dismiss();
-                    addDialog.dismiss();
-
-                    // Create the Snackbar
-                    Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_add_item), Snackbar.LENGTH_LONG);
-                    // Set the Snackbar Layout
-                    snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
-                    snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-                    // Show the Snackbar
-                    snackbar.show();
                 }
             });
         }
@@ -226,18 +245,18 @@ public class StoreDatabaseFragment extends Fragment {
             List<Integer> imageList = generateImages();
 
             List<ProductModel> item = new ArrayList<>();
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
             return item;
         }
 

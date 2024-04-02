@@ -46,21 +46,21 @@ public class FavouritesFragment extends Fragment {
 
     private List<ProductModel> generateItems(){
         List<ProductModel> item = new ArrayList<>();
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "deneme"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd"));
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd"));
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd"));
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy","LORdd"));
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "deneme","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy","LORdd","s","s"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
+        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
+        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
 
         return item;
     }

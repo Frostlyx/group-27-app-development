@@ -66,7 +66,7 @@ public class ShoppingListFragment extends Fragment {
 
     private List<ProductModel> generateItems(){
         List<ProductModel> item = new ArrayList<>();
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "deneme"));
+        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "deneme","s","s"));
         return item;
     }
 

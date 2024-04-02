@@ -32,7 +32,7 @@ public class EditProductFragment extends Fragment {
 
         binding = FragmentEditProductBinding.inflate(inflater, container, false);
 
-        item = new ProductModel("name", "price", generateImages(), "category", "discount");
+        item = new ProductModel("name", "price", generateImages(), "category", "discount","s","s");
         imageList = item.getProductImageList();
 
         RecyclerView recyclerView = binding.editProductImages;
