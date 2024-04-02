@@ -29,6 +29,9 @@ public class ProfileFragment extends Fragment {
     Dialog logoutDialog;
     Button btnLogoutCancel;
     Button btnLogoutConfirm;
+    Dialog deleteAccDialog;
+    Button btnDeleteAccCancel;
+    Button btnDeleteAccConfirm;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -72,11 +75,20 @@ public class ProfileFragment extends Fragment {
         logoutDialog = new Dialog(getContext());
         logoutDialog.setContentView(R.layout.logout_dialog_box);
         logoutDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        Drawable logoutBackground = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
-        logoutDialog.getWindow().setBackgroundDrawable(logoutBackground);
+        Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
+        logoutDialog.getWindow().setBackgroundDrawable(background);
         logoutDialog.setCancelable(true);
         btnLogoutConfirm = logoutDialog.findViewById(R.id.logout_dialog_button_confirm);
         btnLogoutCancel = logoutDialog.findViewById(R.id.logout_dialog_button_cancel);
+
+        // Initializing delete account dialog
+        deleteAccDialog = new Dialog(getContext());
+        deleteAccDialog.setContentView(R.layout.delete_account_dialog_box);
+        deleteAccDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        deleteAccDialog.getWindow().setBackgroundDrawable(background);
+        deleteAccDialog.setCancelable(true);
+        btnDeleteAccConfirm = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_confirm);
+        btnDeleteAccCancel = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_cancel);
 
 
         if (user == null) {
@@ -130,9 +142,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        deleteAccount.setOnClickListener(new View.OnClickListener() {
+        btnDeleteAccCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                deleteAccDialog.dismiss();
+            }
+        });
+
+        btnDeleteAccConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccDialog.dismiss();
                 user.delete();
                 FirebaseAuth.getInstance().signOut();
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
@@ -140,6 +160,13 @@ public class ProfileFragment extends Fragment {
                 } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
                     ((StoreActivity) getActivity()).replaceActivity();
                 }
+            }
+        });
+
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccDialog.show();
             }
         });
         // Inflate the layout for this fragment
