@@ -49,6 +49,15 @@ public class EditProductFragment extends Fragment {
         binding.storeProductPrice.setText(item.getProductPrice());
         binding.storeProductCategory.setText(item.getCategory());
 
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
+                    ((StoreActivity) view.getContext()).replaceFragment(new StoreDatabaseFragment(), view.getContext().getString(R.string.edit_product_title));
+                }
+            }
+        });
+
         return binding.getRoot();
 
     }
