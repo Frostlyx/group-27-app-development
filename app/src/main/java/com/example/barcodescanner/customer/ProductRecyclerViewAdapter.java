@@ -21,16 +21,15 @@ import java.util.Comparator;
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.MyViewHolder> {
     private final ProductRecyclerViewInterface recyclerViewInterface;
     Context context;
+    SharedViewModel sharedViewModel;
     ArrayList<ProductModel> productModels;
 
-    ProductFilterer filterer = new ProductFilterer();
-
-    public ProductRecyclerViewAdapter(Context context, ArrayList<ProductModel> productModels,
+    public ProductRecyclerViewAdapter(Context context,
                                       ProductRecyclerViewInterface recyclerViewInterface) {
         this.context = context;
-        this.productModels = productModels;
         this.recyclerViewInterface = recyclerViewInterface;
-
+        this.sharedViewModel = ((MainActivity) context).getSharedViewModel();
+        this.productModels = sharedViewModel.getProductModels().getValue();
     }
     @NonNull
     @Override
@@ -129,11 +128,6 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
             }
         }
         productModels = filteredProductList;
-        notifyDataSetChanged();
-    }
-
-    public void filterBy(String criteria) {
-
         notifyDataSetChanged();
     }
 

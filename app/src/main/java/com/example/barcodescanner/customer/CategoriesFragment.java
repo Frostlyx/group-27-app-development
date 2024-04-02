@@ -20,15 +20,13 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
     List<Market> marketList;
     RecyclerView favRecView, secondView;
     CategoryRecyclerViewAdapter myAdapter;
-    ProductFilterer productFilterer = new ProductFilterer();
+    private SharedViewModel sharedViewModel;
 
 
 
     public CategoriesFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +42,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         myAdapter = new CategoryRecyclerViewAdapter(marketList, this);
         favRecView.setAdapter(myAdapter);
 
+        sharedViewModel = ((MainActivity) getActivity()).getSharedViewModel();
 
         return rootView;
     }
@@ -71,7 +70,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
 
         if (position >= 0 && position < categories.length) {
             String category = categories[position];
-            productFilterer.filterBy(category);
+            sharedViewModel.filterBy(category);
 
             // Set the home item as selected in the bottom navigation view
             ((MainActivity) requireActivity()).setBottomNavigationSelectedItem(R.id.home);
