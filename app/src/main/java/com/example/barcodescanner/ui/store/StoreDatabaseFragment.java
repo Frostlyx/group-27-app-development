@@ -1,6 +1,7 @@
 package com.example.barcodescanner.ui.store;
 
 import android.app.Dialog;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class StoreDatabaseFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(itemList);
         recyclerView.setAdapter(databaseListAdapter);
+
 
         // Initializing plus dialog
         plusDialog = new Dialog(getContext());
@@ -147,4 +149,23 @@ public class StoreDatabaseFragment extends Fragment {
             dialog.setContentView(R.layout.store_database_plus_popup);
             dialog.show();
         }
+
+    //changing rotation
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new StoreDatabaseFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new StoreDatabaseFragment())
+                    .commit();
+        }
+    }
 }

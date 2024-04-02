@@ -19,16 +19,20 @@
         <activity
             android:name=".customer.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
-        </activity>
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:screenOrientation="fullSensor" />
         <activity android:name=".customer.CaptureAct"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
+            android:configChanges="orientation|screenSize"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"/>
         <activity
             android:name=".ui.login.WelcomeActivity"
-            android:exported="true" >
-            <intent-filter>
+            android:screenOrientation="fullSensor"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -38,7 +42,8 @@
         <activity
             android:name=".ui.store.StoreActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor"
+            android:configChanges="orientation|screenSize">
         </activity>
 
     </application>

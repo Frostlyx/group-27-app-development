@@ -47,6 +47,8 @@
             android:layout_marginBottom="18dp">
 
             <TextView
+                android:textSize="20dp"
+
                 android:paddingStart="20dp"
                 android:id="@+id/changePassword"
                 android:layout_width="match_parent"
@@ -55,7 +57,6 @@
                 android:background="#13293D"
                 android:gravity="left|center_vertical"
                 android:minWidth="0dp"
-                android:textSize="20dp"
                 android:paddingLeft="5dp"
                 android:scaleType="center"
                 android:text="Changing your Password"
@@ -75,6 +76,7 @@
 
             <TextView
                 android:textSize="20dp"
+
                 android:paddingStart="20dp"
                 android:id="@+id/deleteAccount"
                 android:layout_width="match_parent"

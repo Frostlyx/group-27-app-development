@@ -3,9 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/remzi"
-    tools:context=".customer.FavouritesFragment"
-    android:background="#FFFFFF">
+    android:id="@+id/frame_layout"
+    tools:context=".customer.ShoppingListFragment"
+    android:background="#FFFFFF"
+    android:clickable="true"
+    android:focusable="true">
+
 
     <SearchView
         android:id="@+id/search__bar"
@@ -14,7 +17,7 @@
         android:queryHint="Searh"
         android:layout_centerHorizontal="true"
         android:background="@drawable/seach_view_bg"
-        android:layout_margin="20dp"/>
+        android:layout_margin="5dp"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -22,7 +25,20 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="15dp"
+        android:paddingHorizontal="15dp"
         />
+
+    <TextView
+        android:text="Calculate the Cheapest Store"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:id="@+id/cheapBtn"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/inc_button"/>
+
 
 </RelativeLayout>

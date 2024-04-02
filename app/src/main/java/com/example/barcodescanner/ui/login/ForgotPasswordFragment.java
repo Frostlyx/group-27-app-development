@@ -1,5 +1,6 @@
 package com.example.barcodescanner.ui.login;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.customer.FavouritesFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 
@@ -80,4 +82,24 @@ public class ForgotPasswordFragment extends Fragment {
                     Toast.LENGTH_LONG).show();
         }
     }
+
+    //changing rotation
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.forgot_password_container, new ForgotPasswordFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.forgot_password_container, new ForgotPasswordFragment())
+                    .commit();
+        }
+    }
+
 }

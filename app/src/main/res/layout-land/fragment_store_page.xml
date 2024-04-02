@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".customer.ProductFragment"
+    tools:context=".customer.StorePageFragment"
     android:background="#FFFFFF">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/remzi"
-        >
+        android:id="@+id/remzi">
 
         <SearchView
             android:id="@+id/search__barProduct"
@@ -33,20 +32,6 @@
                 android:layout_width="361dp"
                 android:layout_height="240dp"/>
 
-            <CheckBox
-                android:id="@+id/cbHeart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/selector_wishlist_item"
-                android:layout_alignParentEnd="true" />
-
-            <CheckBox
-                android:id="@+id/disco"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/discount_item"
-                android:layout_alignParentStart="true" />
-
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -59,7 +44,7 @@
         <RelativeLayout
             android:id="@+id/lays"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:layout_below="@id/carousel"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="50dp">
@@ -68,22 +53,14 @@
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Product Name"
+                android:text="Store Name"
                 android:id="@+id/pName"/>
 
             <TextView
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Base Price"
-                android:id="@+id/bName"
-                android:layout_alignParentEnd="true"
-                />
-            <TextView
-                android:textSize="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Product Category"
+                android:text="Location"
                 android:id="@+id/cName"
                 android:layout_below="@id/pName"
                 android:paddingTop="10dp"/>
@@ -91,21 +68,20 @@
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Discount"
-                android:id="@+id/dName"
-                android:layout_below="@id/bName"
-                android:layout_alignParentEnd="true"
+                android:text="Additional Information"
+                android:id="@+id/aName"
+                android:layout_below="@id/cName"
                 android:paddingTop="10dp"/>
 
             <TextView
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="This product in different stores:"
+                android:text="Items of this Store:"
                 android:id="@+id/endName"
-                android:layout_below="@id/dName"
+                android:layout_below="@id/aName"
                 android:layout_centerHorizontal="true"
-                android:paddingTop="20dp"/>
+                android:layout_marginTop="60dp"/>
 
         </RelativeLayout>
 

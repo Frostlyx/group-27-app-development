@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProductFragment extends Fragment {
+public class StorePageFragment extends Fragment {
 
 
     List<Market> marketList;
@@ -34,7 +34,7 @@ public class ProductFragment extends Fragment {
     MyAdapter4 myAdapter;
     MyAdapter5 myAdapter2;
 
-    public ProductFragment() {
+    public StorePageFragment() {
         // Required empty public constructor
     }
 
@@ -42,7 +42,7 @@ public class ProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_product, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_store_page, container, false);
         container.clearDisappearingChildren();
         marketList = generateMarkets();
 
@@ -83,7 +83,6 @@ public class ProductFragment extends Fragment {
         return item;
     }
 
-    //changing rotation
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -92,14 +91,13 @@ public class ProductFragment extends Fragment {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // Replace the current fragment with the landscape version
             getChildFragmentManager().beginTransaction()
-                    .replace(R.id.remzi, new ProductFragment())
+                    .replace(R.id.remzi, new StorePageFragment())
                     .commit();
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             // Replace the current fragment with the portrait version
             getChildFragmentManager().beginTransaction()
-                    .replace(R.id.remzi, new ProductFragment())
+                    .replace(R.id.remzi, new StorePageFragment())
                     .commit();
         }
     }
-
 }

@@ -1,7 +1,9 @@
 package com.example.barcodescanner.customer;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.ui.store.EditStoreFragment;
+import com.example.barcodescanner.ui.store.MyStoreFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,8 @@ public class ShoppingListFragment extends Fragment {
     public ShoppingListFragment() {
         // Required empty public constructor
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +61,7 @@ public class ShoppingListFragment extends Fragment {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 CheapestFragment categoriesFragment = new CheapestFragment();
                 FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
-                fm.replace(R.id.remzi, categoriesFragment).commit();
+                fm.replace(R.id.frame_layout, categoriesFragment).commit();
             }
         });
 
@@ -69,6 +75,29 @@ public class ShoppingListFragment extends Fragment {
         item.add(new Item("deneme", "denenmis", R.drawable.bread));
         return item;
     }
+
+
+    //changing rotation
+    //changing rotation
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, new ShoppingListFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, new ShoppingListFragment())
+                    .commit();
+        }
+    }
+
+
 
 
 }

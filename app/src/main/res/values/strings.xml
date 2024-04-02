@@ -99,7 +99,7 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
 
-<!--TODO: placeholder for items on main page-->
+    <!--TODO: placeholder for items on main page-->
     <string name="placeholder_toast_product_format">%s clicked!</string>
     <string name="placeholder_toast_favourites_format">%s favourited!</string>
     <string name="placeholder_toast_shopping_list_format">%s added to list!</string>
@@ -141,7 +141,7 @@
         <item>4.95</item>
         <item>3.50</item>
     </string-array>
-<!--    -->
+    <!--    -->
 
     <string name="home_title">Home</string>
     <string name="favourites_title">Favourites</string>

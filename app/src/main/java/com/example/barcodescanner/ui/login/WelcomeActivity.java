@@ -1,9 +1,14 @@
 package com.example.barcodescanner.ui.login;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.annotation.ContentView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,9 +16,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.MainActivity;
+import com.example.barcodescanner.customer.ShoppingListFragment;
 import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.List;
 
 public class WelcomeActivity extends AppCompatActivity {
     Button buttonRegisterStore;
@@ -34,10 +42,36 @@ public class WelcomeActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the activity is WelcomeActivity
+        if (getSupportFragmentManager().getFragments().isEmpty()) {
+            // Check if the orientation has changed to landscape
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                // Perform the necessary action (e.g., starting a new activity)
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+            }else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                // Perform the necessary action (e.g., starting a new activity)
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
         mAuth = FirebaseAuth.getInstance();
         buttonRegisterStore = findViewById(R.id.registerStoreAccount);
         buttonLogin = findViewById(R.id.loginNow);
@@ -74,4 +108,6 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(WelcomeActivity.this, WelcomeActivity.class);
         startActivity(intent);
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.barcodescanner.ui.store;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ChangePasswordFragment;
+import com.example.barcodescanner.customer.FavouritesFragment;
 import com.example.barcodescanner.customer.MainActivity;
 import com.example.barcodescanner.customer.ProfileFragment;
 import com.example.barcodescanner.databinding.FragmentMystoreBinding;
@@ -28,6 +30,8 @@ public class MyStoreFragment extends Fragment {
 
         binding = FragmentMystoreBinding.inflate(inflater, container, false);
         return binding.getRoot();
+
+
 
     }
 
@@ -67,5 +71,25 @@ public class MyStoreFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    //changing rotation
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new MyStoreFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new MyStoreFragment())
+                    .commit();
+        }
+    }
+
 
 }

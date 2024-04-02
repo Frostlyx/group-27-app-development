@@ -1,8 +1,11 @@
 package com.example.barcodescanner.customer;
 
+import static com.example.barcodescanner.customer.CategoriesFragment.getScreenWidth;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -110,8 +114,15 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
                 productModels,
                 this);
         recyclerView.setAdapter(adapter);
-        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);
+        if(getScreenWidth() > 1200) {
+            GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 4);
+            recyclerView.setLayoutManager(layoutManager);
+        }else {
+            GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
+            recyclerView.setLayoutManager(layoutManager);
+        }
+
+
 
         // Buttons listeners
         barcodeScannerButton.setOnClickListener(v -> {
@@ -169,6 +180,8 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
         barLauncher.launch(options);
     }
+
+
 
     // Barcode scanner shenanigans part 2
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
@@ -258,4 +271,24 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
             Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
         }
     }
+
+    //Changing rotation
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new MainFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new MainFragment())
+                    .commit();
+        }
+    }
+
 }
