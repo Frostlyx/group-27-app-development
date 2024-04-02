@@ -124,23 +124,29 @@ public class StoreDatabaseFragment extends Fragment {
             List<Integer> imageList = generateImages();
 
             List<ProductModel> item = new ArrayList<>();
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount"));
+            item.add(new ProductModel("Bread", "B_price", imageList, "B_category", "B_discount"));
+            item.add(new ProductModel("Apple", "A_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Yoghurt", "Y_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Milk", "M_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Chocolate", "Ch_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Cookie", "Co-price", imageList, "category", "discount"));
+            item.add(new ProductModel("Lettuce", "L_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Carrot", "Ca_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Cucumber", "Cu_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Cheese", "C_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Butter", "Bu_price", imageList, "category", "discount"));
+            item.add(new ProductModel("Orange", "O_price", imageList, "category", "discount"));
             return item;
         }
 
         private List<Integer> generateImages() {
             List<Integer> images = new ArrayList<>();
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
+            images.add(R.drawable.bread);
             images.add(R.drawable.bread);
             images.add(R.drawable.bread);
             images.add(R.drawable.bread);

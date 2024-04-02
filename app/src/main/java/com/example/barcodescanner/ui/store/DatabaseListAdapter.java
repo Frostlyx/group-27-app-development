@@ -48,6 +48,15 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
         viewHolder.itemName.setText(item.getProductName());
         viewHolder.itemCategory.setText(item.getCategory());
         viewHolder.itemPrice.setText(item.getProductPrice());
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
+                    ((StoreActivity) view.getContext()).replaceFragment(new EditProductFragment(item), view.getContext().getString(R.string.edit_product_title));
+                }
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -75,14 +84,6 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
             itemCategory = itemView.findViewById(R.id.text_item_category);
             itemPrice = itemView.findViewById(R.id.text_price);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
-                        ((StoreActivity) view.getContext()).replaceFragment(new EditProductFragment(), view.getContext().getString(R.string.edit_product_title));
-                    }
-                }
-            });
         }
     }
 }
