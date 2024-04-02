@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CategoriesFragment extends Fragment implements CategoryRecyclerViewInterface {
 
-    List<Market> marketList;
+    List<StoreModel> marketList;
     RecyclerView favRecView, secondView;
     CategoryRecyclerViewAdapter myAdapter;
     private SharedViewModel sharedViewModel;
@@ -47,20 +47,20 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         return rootView;
     }
 
-    private List<Market> generateMarkets(){
-        List<Market> item = new ArrayList<>();
-        item.add(new Market("Food", "denenmis", R.drawable.bread));
-        item.add(new Market("Drink", "denenmis", R.drawable.bread));
-        item.add(new Market("Meat", "denenmis", R.drawable.bread));
-        item.add(new Market("Vegetables", "denenmis", R.drawable.bread));
-        item.add(new Market("Bread", "denenmis", R.drawable.bread));
-        item.add(new Market("Snacks", "denenmis", R.drawable.bread));
-        item.add(new Market("Food", "denenmis", R.drawable.bread));
-        item.add(new Market("Food", "denenmis", R.drawable.bread));
-        item.add(new Market("Food", "denenmis", R.drawable.bread));
-        item.add(new Market("Food", "denenmis", R.drawable.bread));
-        item.add(new Market("Food", "denenmis", R.drawable.bread));
-        item.add(new Market("Food", "denenmis", R.drawable.bread));
+    private List<StoreModel> generateMarkets(){
+        List<StoreModel> item = new ArrayList<>();
+        item.add(new StoreModel("Food", "denenmis", generateImages()));
+        item.add(new StoreModel("Drink", "denenmis", generateImages()));
+        item.add(new StoreModel("Meat", "denenmis", generateImages()));
+        item.add(new StoreModel("Vegetables", "denenmis", generateImages()));
+        item.add(new StoreModel("Bread", "denenmis", generateImages()));
+        item.add(new StoreModel("Snacks", "denenmis", generateImages()));
+        item.add(new StoreModel("Food", "denenmis", generateImages()));
+        item.add(new StoreModel("Food", "denenmis", generateImages()));
+        item.add(new StoreModel("Food", "denenmis", generateImages()));
+        item.add(new StoreModel("Food", "denenmis", generateImages()));
+        item.add(new StoreModel("Food", "denenmis", generateImages()));
+        item.add(new StoreModel("Food", "denenmis", generateImages()));
         return item;
     }
 
@@ -80,5 +80,15 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         } else {
             Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
         }
+    }
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
     }
 }

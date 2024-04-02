@@ -11,6 +11,7 @@ import com.example.barcodescanner.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class SharedViewModel extends ViewModel {
     private MutableLiveData<ArrayList<ProductModel>> productModels = new MutableLiveData<>();
@@ -26,9 +27,9 @@ public class SharedViewModel extends ViewModel {
         for (int i = 0; i < productNames.length; i++) {
             initProductModels.add(new ProductModel(productNames[i],
                     productPrices[i],
-                    productImage[0],
+                    generateImages(),
                     productCategories[i],
-                    "10%"));
+                    "10%", "S", "S"));
         }
         productModels.setValue(initProductModels);
         filteredProductModels.setValue(new ArrayList<>());
@@ -106,5 +107,15 @@ public class SharedViewModel extends ViewModel {
 
         productModels.setValue(tempProductModels);
         filteredProductModels.setValue(tempFilteredProductModels);
+    }
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
     }
 }

@@ -3,19 +3,28 @@ package com.example.barcodescanner.customer;
 import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.ui.login.ReadWriteCustomerDetails;
 import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,10 +41,6 @@ public class ProfileFragment extends Fragment {
     Dialog deleteAccDialog;
     Button btnDeleteAccCancel;
     Button btnDeleteAccConfirm;
-
-    Dialog logoutDialog;
-    Button btnLogoutCancel;
-    Button btnLogoutConfirm;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -73,6 +78,7 @@ public class ProfileFragment extends Fragment {
         final Button changePassword = view.findViewById(R.id.changePassword);
         final Button deleteAccount = view.findViewById(R.id.deleteAccount);
         final Button logout = view.findViewById(R.id.logout_profile_page);
+        TextView username_text = view.findViewById(R.id.textView4);
         TextView textView = view.findViewById(R.id.customer_email);
 
         // Initializing logout dialog
@@ -93,6 +99,7 @@ public class ProfileFragment extends Fragment {
         deleteAccDialog.setCancelable(true);
         btnDeleteAccConfirm = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_confirm);
         btnDeleteAccCancel = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_cancel);
+        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("  ");
 
 
 
@@ -126,7 +133,6 @@ public class ProfileFragment extends Fragment {
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.updatePassword("allahyok");
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).replaceFragment(new ChangePasswordFragment(), "Change Password");
                 } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
@@ -152,22 +158,6 @@ public class ProfileFragment extends Fragment {
                 } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
                     ((StoreActivity) getActivity()).replaceActivity();
                 }
-            }
-        });
-
-        btnLogoutCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logoutDialog.dismiss();
-            }
-        });
-
-        btnLogoutConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ((MainActivity) getActivity()).replaceActivity();
-                logoutDialog.dismiss();
             }
         });
 
