@@ -1,25 +1,21 @@
 package com.example.barcodescanner.customer;
 
-import android.content.Intent;
+import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.ui.login.ForgotPasswordFragment;
-import com.example.barcodescanner.ui.login.LoginFragment;
-import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,14 +26,12 @@ public class ProfileFragment extends Fragment {
 
     FirebaseAuth auth;
     FirebaseUser user;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Dialog logoutDialog;
+    Button btnLogoutCancel;
+    Button btnLogoutConfirm;
+    Dialog deleteAccDialog;
+    Button btnDeleteAccCancel;
+    Button btnDeleteAccConfirm;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -55,8 +49,6 @@ public class ProfileFragment extends Fragment {
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,10 +56,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -82,6 +70,25 @@ public class ProfileFragment extends Fragment {
         final Button deleteAccount = view.findViewById(R.id.deleteAccount);
         final Button logout = view.findViewById(R.id.logout_profile_page);
         TextView textView = view.findViewById(R.id.customer_email);
+
+        // Initializing logout dialog
+        logoutDialog = new Dialog(getContext());
+        logoutDialog.setContentView(R.layout.logout_dialog_box);
+        logoutDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
+        logoutDialog.getWindow().setBackgroundDrawable(background);
+        logoutDialog.setCancelable(true);
+        btnLogoutConfirm = logoutDialog.findViewById(R.id.logout_dialog_button_confirm);
+        btnLogoutCancel = logoutDialog.findViewById(R.id.logout_dialog_button_cancel);
+
+        // Initializing delete account dialog
+        deleteAccDialog = new Dialog(getContext());
+        deleteAccDialog.setContentView(R.layout.delete_account_dialog_box);
+        deleteAccDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        deleteAccDialog.getWindow().setBackgroundDrawable(background);
+        deleteAccDialog.setCancelable(true);
+        btnDeleteAccConfirm = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_confirm);
+        btnDeleteAccCancel = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_cancel);
 
 
         if (user == null) {
@@ -108,9 +115,45 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        btnLogoutCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog.dismiss();
+            }
+        });
+
+        btnLogoutConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog.dismiss();
+                FirebaseAuth.getInstance().signOut();
+                if (getActivity() != null && getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).replaceActivity();
+                } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    ((StoreActivity) getActivity()).replaceActivity();
+                }
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logoutDialog.show();
+            }
+        });
+
+        btnDeleteAccCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccDialog.dismiss();
+            }
+        });
+
+        btnDeleteAccConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccDialog.dismiss();
+                user.delete();
                 FirebaseAuth.getInstance().signOut();
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).replaceActivity();
@@ -123,13 +166,7 @@ public class ProfileFragment extends Fragment {
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.delete();
-                FirebaseAuth.getInstance().signOut();
-                if (getActivity() != null && getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).replaceActivity();
-                } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
-                    ((StoreActivity) getActivity()).replaceActivity();
-                }
+                deleteAccDialog.show();
             }
         });
         // Inflate the layout for this fragment
