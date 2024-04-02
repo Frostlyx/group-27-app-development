@@ -30,11 +30,17 @@
     <string name="invalid_kvk">Not a valid KvK number</string>
     <string name="invalid_password">Password must contain at least 8 characters, with at least 1 uppercase and lowercase character</string>
     <string name="invalid_password_confirm">Passwords are not the same</string>
+    <string name="invalid_item_name">Not a valid item name</string>
+    <string name="invalid_category_name">Not a valid category name</string>
+    <string name="invalid_barcode">Not a valid barcode. Barcode should contain 13 digits</string>
+    <string name="invalid_amount">Not a valid amount</string>
+    <string name="invalid_price">Not a valid price</string>
+    <string name="invalid_discount">Not a valid discount</string>
     <string name="login_failed">"Login failed"</string>
     <string name="register_failed">"Register failed"</string>
     <string name="code_failed">"Failed to send code"</string>
-    <string name="wrong_email_password">"Email or password is incorrect"</string>
-    <string name="email_exists">"Email already exists"</string>
+    <string name="wrong_username_password">"Username or password is incorrect"</string>
+    <string name="email_exists">"This username is taken. Please enter another."</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -54,6 +60,7 @@
     <string name="item_name">Item name</string>
     <string name="item_category">Item category</string>
     <string name="price">Price</string>
+    <string name="discount">Discount</string>
     <string name="search_item">Search for items</string>
     <string name="upload_database">Upload database</string>
     <string name="add_item">Add item</string>

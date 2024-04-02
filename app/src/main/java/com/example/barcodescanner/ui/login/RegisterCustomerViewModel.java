@@ -78,6 +78,7 @@ public class RegisterCustomerViewModel extends ViewModel {
         return (hasUpperCase && hasLowerCase);
     }
 
+    // Checks if two strings have the same value
     private boolean isConfirmValid(String string1, String string2) {
         return string1.equals(string2);
     }
