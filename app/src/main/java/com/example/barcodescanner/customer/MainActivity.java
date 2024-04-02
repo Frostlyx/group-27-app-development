@@ -1,5 +1,6 @@
 package com.example.barcodescanner.customer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,10 +13,12 @@ import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.ActivityMainBinding;
 import com.example.barcodescanner.ui.login.WelcomeActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-
+    private SharedViewModel sharedViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        sharedViewModel = new SharedViewModel(this);
 
         // On startup, open main fragment
         replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
@@ -84,12 +89,18 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         binding.toolbarTitle.setText(title);
+    }
 
-
+    public void setBottomNavigationSelectedItem(int itemId) {
+        binding.bottomNavigationView.setSelectedItemId(itemId);
     }
 
     public void replaceActivity() {
         Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
         startActivity(intent);
+    }
+
+    public SharedViewModel getSharedViewModel() {
+        return sharedViewModel;
     }
 }

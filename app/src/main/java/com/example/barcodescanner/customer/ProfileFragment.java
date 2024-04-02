@@ -33,6 +33,10 @@ public class ProfileFragment extends Fragment {
     Button btnDeleteAccCancel;
     Button btnDeleteAccConfirm;
 
+    Dialog logoutDialog;
+    Button btnLogoutCancel;
+    Button btnLogoutConfirm;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -91,6 +95,20 @@ public class ProfileFragment extends Fragment {
         btnDeleteAccCancel = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_cancel);
 
 
+
+        // Initializing logout dialog
+        logoutDialog = new Dialog(getContext());
+        logoutDialog.setContentView(R.layout.logout_dialog_box);
+        logoutDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Drawable logoutBackground = ContextCompat.getDrawable(getContext(), R.drawable.logout_dialog_background);
+        logoutDialog.getWindow().setBackgroundDrawable(logoutBackground);
+        logoutDialog.setCancelable(true);
+        btnLogoutConfirm = logoutDialog.findViewById(R.id.logout_dialog_button_confirm);
+        btnLogoutCancel = logoutDialog.findViewById(R.id.logout_dialog_button_cancel);
+
+
+
+
         if (user == null) {
             if (getActivity() != null && getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).replaceActivity();
@@ -101,8 +119,10 @@ public class ProfileFragment extends Fragment {
             textView.setText(user.getEmail());
         }
 
+
         //Change password screen has to be made.
 
+        // On click listeners
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,9 +155,26 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        btnLogoutCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog.dismiss();
+            }
+        });
+
+        btnLogoutConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((MainActivity) getActivity()).replaceActivity();
+                logoutDialog.dismiss();
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 logoutDialog.show();
             }
         });
@@ -167,6 +204,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 deleteAccDialog.show();
+
             }
         });
         // Inflate the layout for this fragment
