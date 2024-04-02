@@ -16,9 +16,9 @@ import java.util.List;
 public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRecyclerViewAdapter.VideoViewHolder> {
 
     private final CategoryRecyclerViewInterface categoryRecyclerViewInterface;
-    List<Market> marketList;
+    List<StoreModel> marketList;
 
-    public CategoryRecyclerViewAdapter(List<Market> marketList, CategoryRecyclerViewInterface categoryRecyclerViewInterface) {
+    public CategoryRecyclerViewAdapter(List<StoreModel> marketList, CategoryRecyclerViewInterface categoryRecyclerViewInterface) {
         this.categoryRecyclerViewInterface = categoryRecyclerViewInterface;
         this.marketList = marketList;
     }
@@ -32,10 +32,10 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        Market market_item = marketList.get(position);
-        holder.image_view.setImageResource(market_item.getImage());
-        holder.store_name.setText(market_item.getName());
-        holder.price_name.setText(market_item.getLocation());
+        StoreModel market_item = marketList.get(position);
+        holder.image_view.setImageResource(market_item.getStoreImage(5));
+        holder.store_name.setText(market_item.getStoreName());
+        holder.price_name.setText(market_item.getStoreLocation());
     }
 
     @Override
