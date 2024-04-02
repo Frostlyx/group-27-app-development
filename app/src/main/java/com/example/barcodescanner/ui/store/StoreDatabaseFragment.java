@@ -80,7 +80,7 @@ public class StoreDatabaseFragment extends Fragment {
 
             // Initializing plus dialog
             plusDialog = new Dialog(getContext());
-            plusDialog.setContentView(R.layout.store_database_plus_popup);
+            plusDialog.setContentView(R.layout.dialog_store_database_plus);
             plusDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             Drawable plusDialogBackground = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
             plusDialog.getWindow().setBackgroundDrawable(plusDialogBackground);
@@ -90,7 +90,7 @@ public class StoreDatabaseFragment extends Fragment {
 
             // Initializing add dialog
             addDialog = new Dialog(getContext());
-            addDialog.setContentView(R.layout.store_database_add_popup);
+            addDialog.setContentView(R.layout.dialog_store_database_add);
             addDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             Drawable addDialogBackground = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
             addDialog.getWindow().setBackgroundDrawable(addDialogBackground);
@@ -279,7 +279,7 @@ public class StoreDatabaseFragment extends Fragment {
 
         private void showDialog(){
             Dialog dialog = new Dialog(getContext());
-            dialog.setContentView(R.layout.store_database_plus_popup);
+            dialog.setContentView(R.layout.dialog_store_database_plus);
             dialog.show();
         }
 }

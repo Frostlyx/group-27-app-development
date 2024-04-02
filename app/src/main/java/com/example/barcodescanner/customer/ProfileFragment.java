@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
 
         // Initializing logout dialog
         logoutDialog = new Dialog(getContext());
-        logoutDialog.setContentView(R.layout.logout_dialog_box);
+        logoutDialog.setContentView(R.layout.dialog_logout_box);
         logoutDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
         logoutDialog.getWindow().setBackgroundDrawable(background);
@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
 
         // Initializing delete account dialog
         deleteAccDialog = new Dialog(getContext());
-        deleteAccDialog.setContentView(R.layout.delete_account_dialog_box);
+        deleteAccDialog.setContentView(R.layout.dialog_delete_account_box);
         deleteAccDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         deleteAccDialog.getWindow().setBackgroundDrawable(background);
         deleteAccDialog.setCancelable(true);
