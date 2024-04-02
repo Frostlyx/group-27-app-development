@@ -15,6 +15,7 @@ import com.example.barcodescanner.R;
 import com.example.barcodescanner.ui.login.ForgotPasswordFragment;
 import com.example.barcodescanner.ui.login.LoginFragment;
 import com.example.barcodescanner.ui.login.WelcomeActivity;
+import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -84,7 +85,11 @@ public class ProfileFragment extends Fragment {
 
 
         if (user == null) {
-            ((MainActivity) getActivity()).replaceActivity();
+            if (getActivity() != null && getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).replaceActivity();
+            } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                ((StoreActivity) getActivity()).replaceActivity();
+            }
         } else {
             textView.setText(user.getEmail());
         }
@@ -97,7 +102,8 @@ public class ProfileFragment extends Fragment {
                 user.updatePassword("allahyok");
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).replaceFragment(new ChangePasswordFragment(), "Change Password");
-
+                } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    ((StoreActivity) getActivity()).replaceFragment(new ChangePasswordFragment(), "Change Password");
                 }
             }
         });
@@ -106,7 +112,11 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                ((MainActivity) getActivity()).replaceActivity();
+                if (getActivity() != null && getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).replaceActivity();
+                } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    ((StoreActivity) getActivity()).replaceActivity();
+                }
             }
         });
 
@@ -115,7 +125,11 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 user.delete();
                 FirebaseAuth.getInstance().signOut();
-                ((MainActivity) getActivity()).replaceActivity();
+                if (getActivity() != null && getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).replaceActivity();
+                } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    ((StoreActivity) getActivity()).replaceActivity();
+                }
             }
         });
         // Inflate the layout for this fragment
