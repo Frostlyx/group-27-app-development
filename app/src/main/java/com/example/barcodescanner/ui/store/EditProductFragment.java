@@ -24,6 +24,10 @@ public class EditProductFragment extends Fragment {
 
     private FragmentEditProductBinding binding;
 
+    public EditProductFragment(ProductModel item) {
+        this.item = item;
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -32,14 +36,36 @@ public class EditProductFragment extends Fragment {
 
         binding = FragmentEditProductBinding.inflate(inflater, container, false);
 
-        item = new ProductModel("name", "price", generateImages(), "category", "discount","s","s");
-        imageList = item.getProductImageList();
+        binding.imageMain.setImageResource(item.getProductImage(0));
 
+        imageList = item.getProductImageList();
         RecyclerView recyclerView = binding.editProductImages;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         ImageListAdapter imageListAdapter = new ImageListAdapter(imageList);
         recyclerView.setAdapter(imageListAdapter);
+
+        binding.storeProductName.setText(item.getProductName());
+        binding.storeProductPrice.setText(item.getProductPrice());
+        binding.storeProductCategory.setText(item.getCategory());
+
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
+                    ((StoreActivity) view.getContext()).replaceFragment(new StoreDatabaseFragment(), view.getContext().getString(R.string.edit_product_title));
+                }
+            }
+        });
+
+        binding.productDeleteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
+                    ((StoreActivity) view.getContext()).replaceFragment(new StoreDatabaseFragment(), view.getContext().getString(R.string.edit_product_title));
+                }
+            }
+        });
 
         return binding.getRoot();
 
@@ -54,23 +80,6 @@ public class EditProductFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    private List<Integer> generateImages() {
-        List<Integer> images = new ArrayList<>();
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        return images;
     }
 
 }

@@ -41,13 +41,6 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     ProductRecyclerViewAdapter adapter;
     private SharedViewModel sharedViewModel;
 
-
-
-    // TODO: placeholder for items on main page
-//    ArrayList<ProductModel> productModels = new ArrayList<>();
-//    int[] productImage = {R.drawable.bread};
-    //
-
     public MainFragment() {
         // Required empty public constructor
     }
@@ -61,6 +54,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         sharedViewModel = ((MainActivity) getActivity()).getSharedViewModel();
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
