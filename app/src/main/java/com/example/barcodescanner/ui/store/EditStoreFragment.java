@@ -1,6 +1,7 @@
 package com.example.barcodescanner.ui.store;
 
 import android.app.Dialog;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.customer.CategoriesFragment;
 import com.example.barcodescanner.customer.StoreModel;
 import com.example.barcodescanner.databinding.FragmentEditStoreBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -178,4 +180,6 @@ public class EditStoreFragment extends Fragment {
         images.add(R.drawable.bread);
         return images;
     }
+
+
 }
