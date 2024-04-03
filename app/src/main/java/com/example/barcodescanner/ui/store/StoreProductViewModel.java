@@ -35,7 +35,8 @@ public class StoreProductViewModel {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     //Toast.makeText(getContext().getApplicationContext(), "ss", Toast.LENGTH_SHORT).show();
-                    item.add(new ProductModel(snapshot.child("productName").getValue().toString(), snapshot.child("productName").getValue().toString(), imageList, snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString()));
+                    item.add(new ProductModel(snapshot.child("productName").getValue().toString(), snapshot.child("productPrice").getValue().toString(), imageList, snapshot.child("category").getValue().toString(),snapshot.child("discount").getValue().toString(),snapshot.child("productAmount").getValue().toString(),snapshot.child("productBarcode").getValue().toString()));
+
                 }
             }
 
@@ -79,26 +80,4 @@ public class StoreProductViewModel {
         return images;
     }
 
-    public void refresh() {
-        List<Integer> imageList = generateImages();
-
-        ArrayList<ProductModel> item = new ArrayList<>();
-
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-        DatabaseReference referenceCurrentStore = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        referenceCurrentStore.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    //Toast.makeText(getContext().getApplicationContext(), "ss", Toast.LENGTH_SHORT).show();
-                    item.add(new ProductModel(snapshot.child("productName").getValue().toString(), snapshot.child("productName").getValue().toString(), imageList, snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString()));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-        productModels.setValue(item);
-    }
 }

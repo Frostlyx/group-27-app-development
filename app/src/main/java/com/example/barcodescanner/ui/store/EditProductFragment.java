@@ -25,7 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentEditProductBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -48,6 +51,7 @@ public class EditProductFragment extends Fragment {
     private FragmentEditProductBinding binding;
     private boolean isDataValid;
 
+    private String selectedItem;
     public EditProductFragment(ProductModel item) {
         this.item = item;
     }
@@ -143,7 +147,7 @@ public class EditProductFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Perform action when an item is selected
-                String selectedItem = (String) parent.getItemAtPosition(position);
+                selectedItem = (String) parent.getItemAtPosition(position);
                 Toast.makeText(getContext(), "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
             }
 
@@ -244,9 +248,41 @@ public class EditProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // whatever the fuck was inputted in the dialog code
+                DatabaseReference referenceStore = FirebaseDatabase.getInstance().getReference("Stores");
+                DatabaseReference referenceCurrentStore= referenceStore.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                referenceCurrentStore.child(item.getProductName()).child("category").setValue(selectedItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
+                referenceCurrentStore.child(item.getProductName()).child("discount").setValue(discountEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
+                referenceCurrentStore.child(item.getProductName()).child("productAmount").setValue(amountEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        editDialog.dismiss();
+                    }
+                });
+                referenceCurrentStore.child(item.getProductName()).child("productBarcode").setValue(amountEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
+                referenceCurrentStore.child(item.getProductName()).child("productName").setValue(nameEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
+                referenceCurrentStore.child(item.getProductName()).child("productPrice").setValue(priceEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        editDialog.dismiss();
+                    }
+                });
 
-
-                editDialog.dismiss();
             }
         });
 
@@ -268,9 +304,11 @@ public class EditProductFragment extends Fragment {
         buttonConfirmDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // implement delete
-
-
+                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
+                DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
+                removalProduct.getRef().removeValue();
                 deleteDialog.dismiss();
                 if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
                     ((StoreActivity) view.getContext()).replaceFragment(new StoreDatabaseFragment(), view.getContext().getString(R.string.edit_product_title));
