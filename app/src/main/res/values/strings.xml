@@ -40,8 +40,10 @@
     <string name="login_failed">"Login failed"</string>
     <string name="register_failed">"Register failed"</string>
     <string name="code_failed">"Failed to send code"</string>
+    <string name="data_failed">"Data invalid"</string>
     <string name="wrong_username_password">"Username or password is incorrect"</string>
-    <string name="email_exists">"This username is taken. Please enter another."</string>
+    <string name="username_exists">"This username is taken. Please enter another."</string>
+    <string name="email_exists">"This email is taken. Please enter another."</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

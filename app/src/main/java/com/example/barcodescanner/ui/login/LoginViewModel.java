@@ -24,8 +24,6 @@ public class LoginViewModel extends ViewModel {
         return loginFormState;
     }
 
-    boolean alreadyExists = false;
-
     public void loginDataChanged(String username, String password) {
         Integer usernameError;
         Integer passwordError;
@@ -44,25 +42,7 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
-        referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                outer : for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        if(username.equalsIgnoreCase(userSnapshot.child("username").getValue(String.class))) {
-                            alreadyExists = true;
-                            break outer;
-                        }
-                    }
-                }
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-        return username != null && !username.trim().isEmpty() && !alreadyExists;
+        return username != null && !username.trim().isEmpty();
     }
 
     // A placeholder password validation check

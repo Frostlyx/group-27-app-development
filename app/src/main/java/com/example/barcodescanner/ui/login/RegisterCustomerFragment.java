@@ -23,6 +23,7 @@ import com.example.barcodescanner.customer.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +45,7 @@ public class RegisterCustomerFragment extends Fragment {
     FirebaseAuth mAuth;
     private RegisterCustomerViewModel registerCustomerViewModel;
     private boolean isDataValid;
+    private boolean alreadyExists;
 
     private List<ProductModel> ShoppingList;
 
@@ -55,6 +57,7 @@ public class RegisterCustomerFragment extends Fragment {
         registerCustomerViewModel = new ViewModelProvider(this, new RegisterCustomerViewModelFactory())
                 .get(RegisterCustomerViewModel.class);
         isDataValid = false;
+        alreadyExists = false;
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -117,6 +120,27 @@ public class RegisterCustomerFragment extends Fragment {
                 registerCustomerViewModel.registerCustomerDataChanged(usernameEditText.getText().toString(),
                         emailEditText.getText().toString(), confirmEmailEditText.getText().toString(),
                         passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString());
+                String username = usernameEditText.getText().toString();
+                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        outer : for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                if(username.equalsIgnoreCase(userSnapshot.child("username").getValue(String.class))) {
+                                    alreadyExists = true;
+                                    break outer;
+                                } else {
+                                    alreadyExists = false;
+                                }
+                            }
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
@@ -133,6 +157,10 @@ public class RegisterCustomerFragment extends Fragment {
 
         registerButton.setOnClickListener(v -> {
             if (!isDataValid) {
+                showRegisterCustomerFailed(R.string.data_failed);
+                return;
+            } else if (alreadyExists) {
+                showRegisterCustomerFailed(R.string.username_exists);
                 return;
             }
             loadingProgressBar.setVisibility(View.VISIBLE);
@@ -159,6 +187,8 @@ public class RegisterCustomerFragment extends Fragment {
                     Exception exception = task.getException();
                     if (exception instanceof FirebaseAuthUserCollisionException) {
                         showRegisterCustomerFailed(R.string.email_exists);
+                    } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                        showRegisterCustomerFailed(R.string.invalid_email);
                     } else {
                         showRegisterCustomerFailed(R.string.register_failed);
                     }
