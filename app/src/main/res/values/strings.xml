@@ -70,6 +70,7 @@
     <string name="barcode">Barcode</string>
     <string name="amount">Weight/amount</string>
     <string name="save">Save</string>
+    <string name="confirm">Confirm</string>
     <string name="success_add_item">Item was successfully added to your store!</string>
     <string name="success_edit_item">Item was successfully edited!</string>
     <string name="success_edit_store">Store information successfully edited!</string>
