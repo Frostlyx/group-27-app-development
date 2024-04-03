@@ -16,12 +16,18 @@ import androidx.fragment.app.Fragment;
 import com.example.barcodescanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ForgotPasswordFragment extends Fragment {
 
+    String email;
     public ForgotPasswordFragment() {
         // Required empty public constructor
     }
@@ -45,6 +51,7 @@ public class ForgotPasswordFragment extends Fragment {
         final Button backButton = view.findViewById(R.id.back);
         final Button passwordResetButton = view.findViewById(R.id.send_code);
         final EditText editEmail = view.findViewById(R.id.email);
+        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
 
         backButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
@@ -52,22 +59,41 @@ public class ForgotPasswordFragment extends Fragment {
             }
         });
 
-        passwordResetButton.setOnClickListener(v -> FirebaseAuth.getInstance().sendPasswordResetEmail(editEmail.getText().toString())
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (getContext() != null && getContext().getApplicationContext() != null) {
-                            Toast.makeText(getContext().getApplicationContext(), "A link has been sent your mail", Toast.LENGTH_LONG).show();
+
+        passwordResetButton.setOnClickListener(v ->
+                referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        outer : for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                if(editEmail.getText().toString().equalsIgnoreCase(userSnapshot.child("username").getValue(String.class))) {
+                                    email = userSnapshot.child("email").getValue(String.class);
+                                    break outer;
+                                }
+                            }
                         }
-                        if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                            ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
-                        }
-                    } else {
-                        Exception exception = task.getException();
-                        if (exception instanceof FirebaseAuthInvalidCredentialsException) {
-                            showForgotPasswordFailed(R.string.invalid_email);
-                        } else {
-                            showForgotPasswordFailed(R.string.code_failed);
-                        }
+                        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        if (getContext() != null && getContext().getApplicationContext() != null) {
+                                            Toast.makeText(getContext().getApplicationContext(), "A link has been sent your mail", Toast.LENGTH_LONG).show();
+                                        }
+                                        if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                                            ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
+                                        }
+                                    } else {
+                                        Exception exception = task.getException();
+                                        if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                            showForgotPasswordFailed(R.string.invalid_email);
+                                        } else {
+                                            showForgotPasswordFailed(R.string.code_failed);
+                                        }
+                                    }
+                                });
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
                     }
                 }));
     }

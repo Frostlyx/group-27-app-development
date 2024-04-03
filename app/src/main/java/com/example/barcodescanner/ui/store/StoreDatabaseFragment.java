@@ -25,12 +25,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
+import com.example.barcodescanner.ui.login.LoginFragment;
+import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +50,7 @@ public class StoreDatabaseFragment extends Fragment {
     Button buttonAddProduct;
     Button buttonCloseAdd;
     Button buttonSaveAdd;
+    FirebaseAuth mAuth;
 
     private FragmentStoreDatabaseBinding binding;
     private StoreDatabaseViewModel storeDatabaseViewModel;
@@ -248,18 +255,22 @@ public class StoreDatabaseFragment extends Fragment {
             List<Integer> imageList = generateImages();
 
             List<ProductModel> item = new ArrayList<>();
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
-            item.add(new ProductModel("name", "price", imageList, "category", "discount","s","s"));
+
+            DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
+            DatabaseReference referenceCurrentStore = referenceProfile.child("65JxPIWmXbZVT2mhKFsqOLKUZVB2");
+            referenceCurrentStore.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Toast.makeText(getContext().getApplicationContext(), "ss", Toast.LENGTH_SHORT).show();
+                        item.add(new ProductModel(snapshot.child("productName").getValue().toString(), snapshot.child("productName").getValue().toString(), imageList, snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString()));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
             return item;
         }
 
