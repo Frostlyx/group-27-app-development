@@ -257,12 +257,11 @@ public class StoreDatabaseFragment extends Fragment {
             List<ProductModel> item = new ArrayList<>();
 
             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-            DatabaseReference referenceCurrentStore = referenceProfile.child("65JxPIWmXbZVT2mhKFsqOLKUZVB2");
+            DatabaseReference referenceCurrentStore = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             referenceCurrentStore.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Toast.makeText(getContext().getApplicationContext(), "ss", Toast.LENGTH_SHORT).show();
                         item.add(new ProductModel(snapshot.child("productName").getValue().toString(), snapshot.child("productName").getValue().toString(), imageList, snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString()));
                     }
                 }
