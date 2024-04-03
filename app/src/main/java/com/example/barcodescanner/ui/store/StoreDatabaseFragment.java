@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -116,7 +115,6 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     // Perform action when an item is selected
                     selectedItem = (String) parent.getItemAtPosition(position);
-                    Toast.makeText(getContext(), "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
