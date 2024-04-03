@@ -18,12 +18,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.customer.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +43,10 @@ public class RegisterCustomerFragment extends Fragment {
     FirebaseAuth mAuth;
     private RegisterCustomerViewModel registerCustomerViewModel;
     private boolean isDataValid;
+
+    private List<ProductModel> ShoppingList;
+
+    private List<ProductModel> FavouriteList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,12 +137,13 @@ public class RegisterCustomerFragment extends Fragment {
             loadingProgressBar.setVisibility(View.VISIBLE);
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
+
             mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (mAuth.getCurrentUser() != null) {
-                        ReadWriteCustomerDetails writeCustomerDetails = new ReadWriteCustomerDetails(usernameEditText.getText().toString(),emailEditText.getText().toString(), passwordEditText.getText().toString());
+                        ReadWriteCustomerDetails writeCustomerDetails = new ReadWriteCustomerDetails(usernameEditText.getText().toString(), emailEditText.getText().toString(), passwordEditText.getText().toString(),ShoppingList, FavouriteList);
                         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
-                        DatabaseReference referenceCustomers= referenceProfile.child("Customers");
+                        DatabaseReference referenceCustomers = referenceProfile.child("Customers");
                         referenceCustomers.child(mAuth.getCurrentUser().getUid()).setValue(writeCustomerDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -160,4 +175,5 @@ public class RegisterCustomerFragment extends Fragment {
                     Toast.LENGTH_LONG).show();
         }
     }
+
 }

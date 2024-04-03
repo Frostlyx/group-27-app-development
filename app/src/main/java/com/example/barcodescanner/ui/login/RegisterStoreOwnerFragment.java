@@ -152,7 +152,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
             mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (mAuth.getCurrentUser() != null) {
-                        ReadWriteCustomerDetails writeCustomerDetails = new ReadWriteCustomerDetails(usernameEditText.getText().toString(),emailEditText.getText().toString(), passwordEditText.getText().toString());
+                        ReadWriteUserDetails writeCustomerDetails = new ReadWriteUserDetails(usernameEditText.getText().toString(),emailEditText.getText().toString(), passwordEditText.getText().toString(), kvkEditText.getText().toString(), locationEditText.getText().toString());
                         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
                         DatabaseReference referenceStoreOwners= referenceProfile.child("Store Owners");
                         DatabaseReference referenceStore = FirebaseDatabase.getInstance().getReference("Stores");
