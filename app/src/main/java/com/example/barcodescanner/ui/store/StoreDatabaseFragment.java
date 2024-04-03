@@ -98,11 +98,11 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
             buttonCloseAdd =  addDialog.findViewById(R.id.edit_product_cancel);
             buttonSaveAdd =  addDialog.findViewById(R.id.edit_product_confirm);
 
-            final EditText nameEditText = addDialog.findViewById(R.id.edit_store_name);
+            final EditText itemName = addDialog.findViewById(R.id.edit_item_name);
             final Spinner categorySpinner = addDialog.findViewById(R.id.spinner_item_category);
-            final EditText barcodeEditText = addDialog.findViewById(R.id.edit_text_barcode);
-            final EditText amountEditText = addDialog.findViewById(R.id.edit_store_location);
-            final EditText priceEditText = addDialog.findViewById(R.id.edit_store_kvk);
+            final EditText barcodeNumber = addDialog.findViewById(R.id.edit_text_barcode);
+            final EditText amount = addDialog.findViewById(R.id.edit_item_amount);
+            final EditText price = addDialog.findViewById(R.id.edit_item_price);
             final EditText discountEditText = addDialog.findViewById(R.id.edit_text_discount);
 
             String[] categories = {"Food", "Drinks", "Other stuff"};
@@ -132,16 +132,16 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 isDataValid = storeDatabaseFormState.isDataValid();
 
                 if (storeDatabaseFormState.getNameError() != null) {
-                    nameEditText.setError(getString(storeDatabaseFormState.getNameError()));
+                    itemName.setError(getString(storeDatabaseFormState.getNameError()));
                 }
                 if (storeDatabaseFormState.getBarcodeError() != null) {
-                    barcodeEditText.setError(getString(storeDatabaseFormState.getBarcodeError()));
+                    barcodeNumber.setError(getString(storeDatabaseFormState.getBarcodeError()));
                 }
                 if (storeDatabaseFormState.getAmountError() != null) {
-                    amountEditText.setError(getString(storeDatabaseFormState.getAmountError()));
+                    amount.setError(getString(storeDatabaseFormState.getAmountError()));
                 }
                 if (storeDatabaseFormState.getPriceError() != null) {
-                    priceEditText.setError(getString(storeDatabaseFormState.getPriceError()));
+                    price.setError(getString(storeDatabaseFormState.getPriceError()));
                 }
                 if (storeDatabaseFormState.getDiscountError() != null) {
                     discountEditText.setError(getString(storeDatabaseFormState.getDiscountError()));
@@ -164,7 +164,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                     double priceText;
                     int discountText;
                     try{
-                        priceText = Double.parseDouble(priceEditText.getText().toString());
+                        priceText = Double.parseDouble(price.getText().toString());
                     } catch (NumberFormatException e) {
                         priceText = -1;
                     }
@@ -173,14 +173,14 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                     } catch (NumberFormatException e) {
                         discountText = -1;
                     }
-                    storeDatabaseViewModel.storeDatabaseDataChanged(nameEditText.getText().toString(),
-                            barcodeEditText.getText().toString(), amountEditText.getText().toString(), priceText, discountText);
+                    storeDatabaseViewModel.storeDatabaseDataChanged(itemName.getText().toString(),
+                            barcodeNumber.getText().toString(), amount.getText().toString(), priceText, discountText);
                 }
             };
-            nameEditText.addTextChangedListener(afterTextChangedListener);
-            barcodeEditText.addTextChangedListener(afterTextChangedListener);
-            amountEditText.addTextChangedListener(afterTextChangedListener);
-            priceEditText.addTextChangedListener(afterTextChangedListener);
+            itemName.addTextChangedListener(afterTextChangedListener);
+            barcodeNumber.addTextChangedListener(afterTextChangedListener);
+            amount.addTextChangedListener(afterTextChangedListener);
+            price.addTextChangedListener(afterTextChangedListener);
             discountEditText.addTextChangedListener(afterTextChangedListener);
 
             binding.floatingButtonAddProduct.setOnClickListener(new View.OnClickListener() {
@@ -209,10 +209,6 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 @Override
                 public void onClick(View view) {
                     List<Integer> imageList = generateImages();
-                    EditText itemName = addDialog.findViewById(R.id.edit_store_name);
-                    EditText barcodeNumber = addDialog.findViewById(R.id.edit_text_barcode);
-                    EditText amount = addDialog.findViewById(R.id.edit_store_location);
-                    EditText price = addDialog.findViewById(R.id.edit_store_kvk);
                     if(!itemName.getText().toString().isEmpty() && !selectedItem.isEmpty() && !barcodeNumber.getText().toString().isEmpty() && !amount.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
                         ProductModel infoProduct = new ProductModel(itemName.getText().toString(), price.getText().toString(), imageList, selectedItem, "discount", amount.getText().toString(), barcodeNumber.getText().toString());
                         DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");

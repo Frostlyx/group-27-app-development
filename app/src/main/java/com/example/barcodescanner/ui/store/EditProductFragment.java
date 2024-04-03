@@ -27,12 +27,10 @@ import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentEditProductBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditProductFragment extends Fragment {
@@ -131,11 +129,11 @@ public class EditProductFragment extends Fragment {
         buttonConfirmDelete = deleteDialog.findViewById(R.id.delete_product_dialog_button_confirm);
         buttonCancelDelete = deleteDialog.findViewById(R.id.delete_product_dialog_button_cancel);
 
-        final EditText nameEditText = editDialog.findViewById(R.id.edit_store_name);
+        final EditText nameEditText = editDialog.findViewById(R.id.edit_item_name);
         final Spinner categorySpinner = editDialog.findViewById(R.id.spinner_item_category);
         final EditText barcodeEditText = editDialog.findViewById(R.id.edit_text_barcode);
-        final EditText amountEditText = editDialog.findViewById(R.id.edit_store_location);
-        final EditText priceEditText = editDialog.findViewById(R.id.edit_store_kvk);
+        final EditText amountEditText = editDialog.findViewById(R.id.edit_item_amount);
+        final EditText priceEditText = editDialog.findViewById(R.id.edit_item_price);
         final EditText discountEditText = editDialog.findViewById(R.id.edit_text_discount);
 
         String[] categories = {"Food", "Drinks", "Other stuff"};

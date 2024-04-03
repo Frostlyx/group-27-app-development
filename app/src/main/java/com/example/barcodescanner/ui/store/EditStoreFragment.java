@@ -1,7 +1,6 @@
 package com.example.barcodescanner.ui.store;
 
 import android.app.Dialog;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,12 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.customer.CategoriesFragment;
-import com.example.barcodescanner.customer.ShoppingListFragment;
 import com.example.barcodescanner.customer.StoreModel;
 import com.example.barcodescanner.databinding.FragmentEditStoreBinding;
-import com.example.barcodescanner.ui.login.ReadWriteUserDetails;
-import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -105,9 +100,9 @@ public class EditStoreFragment extends Fragment {
         editStoreCancel =  editStoreDialog.findViewById(R.id.edit_store_cancel);
         editStoreConfirm =  editStoreDialog.findViewById(R.id.edit_store_confirm);
 
-        final EditText storeNameEditText = editStoreDialog.findViewById(R.id.edit_store_name);
-        final EditText storeLocationEditText = editStoreDialog.findViewById(R.id.edit_store_location);
-        final EditText storeKvKEditText = editStoreDialog.findViewById(R.id.edit_store_kvk);
+        final EditText storeNameEditText = editStoreDialog.findViewById(R.id.edit_item_name);
+        final EditText storeLocationEditText = editStoreDialog.findViewById(R.id.edit_item_amount);
+        final EditText storeKvKEditText = editStoreDialog.findViewById(R.id.edit_item_price);
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
