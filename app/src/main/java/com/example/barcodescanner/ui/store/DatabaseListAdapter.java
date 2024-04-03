@@ -1,5 +1,6 @@
 package com.example.barcodescanner.ui.store;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,24 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapter.ViewHolder> {
 
-    List<ProductModel> itemList;
+    private StoreProductRecyclerViewInterface storeProductRecyclerViewInterface;
+    Context context;
+    StoreProductViewModel storeProductViewModel;
+    ArrayList<ProductModel> productModels;
 
-    /**
-     * Initialize the dataset of the Adapter
-     *
-     * @param itemList List<Item> containing the data to populate views to be used
-     * by RecyclerView
-     */
-    public DatabaseListAdapter(List<ProductModel> itemList) {
-        this.itemList = itemList;
+    public DatabaseListAdapter(Context context,StoreProductRecyclerViewInterface storeProductRecyclerViewInterface) {
+        this.context = context;
+        this.storeProductRecyclerViewInterface = storeProductRecyclerViewInterface;
+        this.storeProductViewModel = ((StoreActivity) context).getStoreProductViewModel();
+        this.productModels = storeProductViewModel.getProductModels().getValue();
     }
 
     // Create new views (invoked by the layout manager)
@@ -38,7 +36,7 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.store_database_row_item, viewGroup, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, storeProductRecyclerViewInterface);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -47,38 +45,38 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        ProductModel item = itemList.get(position);
+        ProductModel item = productModels.get(position);
         viewHolder.itemImage.setImageResource(item.getProductImage(0));
         viewHolder.itemName.setText(item.getProductName());
         viewHolder.itemCategory.setText(item.getCategory());
         viewHolder.itemPrice.setText(item.getProductPrice());
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
-                    ((StoreActivity) view.getContext()).replaceFragment(new EditProductFragment(item), view.getContext().getString(R.string.edit_product_title));
-                }
-            }
-        });
-
-        viewHolder.buttonBin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                itemList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, getItemCount());
-                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-                DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
-                removalProduct.getRef().removeValue();
-            }
-        });
+//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
+//                    ((StoreActivity) view.getContext()).replaceFragment(new EditProductFragment(item), view.getContext().getString(R.string.edit_product_title));
+//                }
+//            }
+//        });
+//
+//        viewHolder.buttonBin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                productModels.remove(position);
+//                notifyItemRemoved(position);
+//                notifyItemRangeChanged(position, getItemCount());
+//                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
+//                DatabaseReference removalProduct = referenceProfile.child("65JxPIWmXbZVT2mhKFsqOLKUZVB2").child(item.getProductName());
+//                removalProduct.getRef().removeValue();
+//            }
+//        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return productModels.size();
     }
 
     /**
@@ -93,7 +91,7 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
         ImageButton buttonEdit;
         ImageButton buttonBin;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, StoreProductRecyclerViewInterface storeProductRecyclerViewInterface) {
             super(itemView);
             // Define click listener for the ViewHolder's View
 
@@ -103,6 +101,56 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
             itemPrice = itemView.findViewById(R.id.text_price);
             buttonEdit = itemView.findViewById(R.id.image_button_edit);
             buttonBin = itemView.findViewById(R.id.image_button_bin);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (storeProductRecyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            storeProductRecyclerViewInterface.onItemClick(position);
+                        }
+                    }
+
+//                    if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
+//                        ((StoreActivity) view.getContext()).replaceFragment(new EditProductFragment(item), view.getContext().getString(R.string.edit_product_title));
+//                    }
+                }
+            });
+
+            buttonEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (storeProductRecyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            storeProductRecyclerViewInterface.onEditClick(position);
+                        }
+                    }
+                }
+            });
+
+            buttonBin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (storeProductRecyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            storeProductRecyclerViewInterface.onDeleteClick(position);
+                        }
+                    }
+
+//                    productModels.remove(position);
+//                    notifyItemRemoved(position);
+//                    notifyItemRangeChanged(position, getItemCount());
+//                    DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
+//                    DatabaseReference removalProduct = referenceProfile.child("65JxPIWmXbZVT2mhKFsqOLKUZVB2").child(item.getProductName());
+//                    removalProduct.getRef().removeValue();
+                }
+            });
 
         }
     }

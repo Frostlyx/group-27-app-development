@@ -25,13 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
-import com.example.barcodescanner.ui.login.LoginFragment;
-import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,9 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoreDatabaseFragment extends Fragment {
-
-    List<ProductModel> itemList;
+public class StoreDatabaseFragment extends Fragment implements StoreProductRecyclerViewInterface {
     Dialog plusDialog;
     Dialog addDialog;
     Button buttonAddDatabase;
@@ -51,6 +46,9 @@ public class StoreDatabaseFragment extends Fragment {
     Button buttonCloseAdd;
     Button buttonSaveAdd;
     FirebaseAuth mAuth;
+    RecyclerView recyclerView;
+    private StoreProductViewModel storeProductViewModel;
+    DatabaseListAdapter databaseListAdapter;
 
     private FragmentStoreDatabaseBinding binding;
     private StoreDatabaseViewModel storeDatabaseViewModel;
@@ -68,15 +66,13 @@ public class StoreDatabaseFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
+        storeProductViewModel = ((StoreActivity) getActivity()).getStoreProductViewModel();
         binding = FragmentStoreDatabaseBinding.inflate(inflater, container, false);
 
-        itemList = generateItems();
-
-        RecyclerView recyclerView = binding.recyclerView;
+        recyclerView = binding.recyclerView;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        DatabaseListAdapter databaseListAdapter = new DatabaseListAdapter(itemList);
+        databaseListAdapter = new DatabaseListAdapter(requireContext(), this);
         recyclerView.setAdapter(databaseListAdapter);
 
         return binding.getRoot();
@@ -237,10 +233,12 @@ public class StoreDatabaseFragment extends Fragment {
                                 snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
                                 // Show the Snackbar
                                 snackbar.show();
+                                databaseListAdapter.notifyDataSetChanged();
                             }
                         });
 
                     }
+
                 }
             });
         }
@@ -257,7 +255,7 @@ public class StoreDatabaseFragment extends Fragment {
             List<ProductModel> item = new ArrayList<>();
 
             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-            DatabaseReference referenceCurrentStore = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            DatabaseReference referenceCurrentStore = referenceProfile.child("kgK9taXQpTdl96bFHq5Tr5YArtk1");
             referenceCurrentStore.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -292,4 +290,48 @@ public class StoreDatabaseFragment extends Fragment {
             dialog.setContentView(R.layout.dialog_store_database_plus);
             dialog.show();
         }
+
+    @Override
+    public void onItemClick(int position) {
+        ProductModel item = storeProductViewModel.getProductModels().getValue().get(position);
+        DatabaseListAdapter.ViewHolder viewHolder = (DatabaseListAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+        if (viewHolder != null) {
+            viewHolder.itemImage.setImageResource(item.getProductImage(0));
+            viewHolder.itemName.setText(item.getProductName());
+            viewHolder.itemCategory.setText(item.getCategory());
+            viewHolder.itemPrice.setText(item.getProductPrice());
+        }
+        if (getContext() != null && getContext() instanceof StoreActivity) {
+            ((StoreActivity) getContext()).replaceFragment(new EditProductFragment(item), getContext().getString(R.string.edit_product_title));
+        }
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        ProductModel item = storeProductViewModel.getProductModels().getValue().get(position);
+        DatabaseListAdapter.ViewHolder viewHolder = (DatabaseListAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+        if (viewHolder != null) {
+            viewHolder.itemImage.setImageResource(item.getProductImage(0));
+            viewHolder.itemName.setText(item.getProductName());
+            viewHolder.itemCategory.setText(item.getCategory());
+            viewHolder.itemPrice.setText(item.getProductPrice());
+        }
+        ArrayList<ProductModel> tempProductModels = storeProductViewModel.getProductModels().getValue();
+        tempProductModels.remove(position);
+        storeProductViewModel.setProductModels(tempProductModels);
+
+
+        databaseListAdapter.notifyItemRemoved(position);
+        databaseListAdapter.notifyItemRangeChanged(position, databaseListAdapter.getItemCount());
+        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
+        DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
+        removalProduct.getRef().removeValue();
+    }
+
+    //kgK9taXQpTdl96bFHq5Tr5YArtk1
+
+    @Override
+    public void onEditClick(int position) {
+
+    }
 }

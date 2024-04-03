@@ -16,6 +16,7 @@ import com.example.barcodescanner.ui.login.WelcomeActivity;
 public class StoreActivity extends AppCompatActivity {
 
     ActivityStoreBinding binding;
+    private StoreProductViewModel storeProductViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,8 @@ public class StoreActivity extends AppCompatActivity {
 
         binding = ActivityStoreBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        storeProductViewModel = new StoreProductViewModel(this);
 
         replaceFragment(new MyStoreFragment(), getResources().getString(R.string.mystore_title));
 
@@ -47,6 +50,10 @@ public class StoreActivity extends AppCompatActivity {
     public void replaceActivity() {
         Intent intent = new Intent(StoreActivity.this, WelcomeActivity.class);
         startActivity(intent);
+    }
+
+    public StoreProductViewModel getStoreProductViewModel() {
+        return storeProductViewModel;
     }
 
 }
