@@ -53,6 +53,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
     private FragmentStoreDatabaseBinding binding;
     private StoreDatabaseViewModel storeDatabaseViewModel;
     private boolean isDataValid;
+    private String selectedItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
             final EditText discountEditText = addDialog.findViewById(R.id.edit_text_discount);
 
             String[] categories = {"Food", "Drinks", "Other stuff"};
+            selectedItem = categories[0];
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             categorySpinner.setAdapter(arrayAdapter);
@@ -117,7 +119,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     // Perform action when an item is selected
-                    String selectedItem = (String) parent.getItemAtPosition(position);
+                    selectedItem = (String) parent.getItemAtPosition(position);
                     Toast.makeText(getContext(), "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
                 }
 
@@ -212,12 +214,11 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 public void onClick(View view) {
                     List<Integer> imageList = generateImages();
                     EditText itemName = addDialog.findViewById(R.id.edit_text_item_name);
-                    TextView itemCategory = addDialog.findViewById(R.id.text_item_category);
                     EditText barcodeNumber = addDialog.findViewById(R.id.edit_text_barcode);
                     EditText amount = addDialog.findViewById(R.id.edit_text_amount);
                     EditText price = addDialog.findViewById(R.id.edit_text_price);
-                    if(!itemName.getText().toString().isEmpty() && !itemCategory.getText().toString().isEmpty() && !barcodeNumber.getText().toString().isEmpty() && !amount.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
-                        ProductModel infoProduct = new ProductModel(itemName.getText().toString(), price.getText().toString(), imageList, itemCategory.toString(), "discount", amount.getText().toString(), barcodeNumber.getText().toString());
+                    if(!itemName.getText().toString().isEmpty() && !selectedItem.isEmpty() && !barcodeNumber.getText().toString().isEmpty() && !amount.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
+                        ProductModel infoProduct = new ProductModel(itemName.getText().toString(), price.getText().toString(), imageList, selectedItem, "discount", amount.getText().toString(), barcodeNumber.getText().toString());
                         DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
                         DatabaseReference referenceStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                         referenceStore.child(itemName.getText().toString()).setValue(infoProduct).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -233,6 +234,9 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                                 snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
                                 // Show the Snackbar
                                 snackbar.show();
+                                ArrayList<ProductModel> tempProductModels = storeProductViewModel.getProductModels().getValue();
+                                tempProductModels.add(infoProduct);
+                                storeProductViewModel.setProductModels(tempProductModels);
                                 databaseListAdapter.notifyDataSetChanged();
                             }
                         });
@@ -247,28 +251,6 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
         public void onDestroyView() {
             super.onDestroyView();
             binding = null;
-        }
-
-        private List<ProductModel> generateItems() {
-            List<Integer> imageList = generateImages();
-
-            List<ProductModel> item = new ArrayList<>();
-
-            DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-            DatabaseReference referenceCurrentStore = referenceProfile.child("kgK9taXQpTdl96bFHq5Tr5YArtk1");
-            referenceCurrentStore.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        item.add(new ProductModel(snapshot.child("productName").getValue().toString(), snapshot.child("productName").getValue().toString(), imageList, snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString(),snapshot.child("productName").getValue().toString()));
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-            return item;
         }
 
         private List<Integer> generateImages() {
@@ -327,8 +309,6 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
         DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
         removalProduct.getRef().removeValue();
     }
-
-    //kgK9taXQpTdl96bFHq5Tr5YArtk1
 
     @Override
     public void onEditClick(int position) {
