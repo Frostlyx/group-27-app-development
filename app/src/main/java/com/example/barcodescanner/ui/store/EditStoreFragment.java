@@ -28,6 +28,7 @@ import com.example.barcodescanner.ui.login.ReadWriteUserDetails;
 import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -152,6 +153,7 @@ public class EditStoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // implement
+                if(!storeKvKEditText.getText().toString().isEmpty() && !storeLocationEditText.getText().toString().isEmpty() && !storeNameEditText.getText().toString().isEmpty()){
                 DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
                 DatabaseReference referenceStoreOwners= referenceProfile.child("Store Owners");
                 referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("kvkNumber").setValue(storeKvKEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -168,9 +170,28 @@ public class EditStoreFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         editStoreDialog.dismiss();
+
+                        // Create the Snackbar
+                        Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_edit_store), Snackbar.LENGTH_LONG);
+                        // Set the Snackbar Layout
+                        snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
+                        snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                        // Show the Snackbar
+                        snackbar.show();
                     }
                 });
 
+            }else {
+                    if (storeKvKEditText.getText().toString().isEmpty()){
+                        storeKvKEditText.setError("Invalid");
+                    }
+                    if (storeLocationEditText.getText().toString().isEmpty()){
+                        storeLocationEditText.setError("Invalid");
+                    }
+                    if (storeNameEditText.getText().toString().isEmpty()){
+                        storeNameEditText.setError("Invalid");
+                    }
+                }
             }
         });
 
