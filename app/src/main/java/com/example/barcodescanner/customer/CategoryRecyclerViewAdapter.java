@@ -26,7 +26,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     @NonNull
     @Override
     public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_productstore, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_categories, parent, false);
         return new VideoViewHolder(itemView, categoryRecyclerViewInterface);
     }
 
@@ -35,7 +35,6 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         StoreModel market_item = marketList.get(position);
         holder.image_view.setImageResource(market_item.getStoreImage(5));
         holder.store_name.setText(market_item.getStoreName());
-        holder.price_name.setText(market_item.getStoreLocation());
     }
 
     @Override
@@ -46,13 +45,11 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     public static class VideoViewHolder extends RecyclerView.ViewHolder{
         ImageView image_view;
         TextView store_name;
-        TextView price_name;
 
         public VideoViewHolder(@NonNull View itemView, CategoryRecyclerViewInterface categoryRecyclerViewInterface) {
             super(itemView);
             image_view = itemView.findViewById(R.id.store_img);
             store_name = itemView.findViewById(R.id.sName);
-            price_name = itemView.findViewById(R.id.priName);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,84 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_default"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#13293D">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:id="@+id/signupCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="29dp"
         android:layout_marginTop="285dp"
-        android:layout_marginEnd="0dp"
         android:layout_marginRight="29dp"
         android:layout_marginBottom="18dp">
 
-        <Button
+        <TextView
             android:id="@+id/logout_profile_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="start|center_vertical"
             android:background="#13293D"
-            android:gravity="left|center_vertical"
-            android:minWidth="0dp"
             android:paddingLeft="5dp"
-            android:scaleType="center"
             android:text="Logout"
-            android:textColor="#DEFFFFFF" />
-    </androidx.cardview.widget.CardView>
+            android:textColor="#DEFFFFFF"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:id="@+id/signupCard2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="29dp"
         android:layout_marginTop="198dp"
-        android:layout_marginEnd="0dp"
         android:layout_marginRight="29dp"
         android:layout_marginBottom="18dp">
 
-        <Button
+        <TextView
             android:id="@+id/changePassword"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
             android:background="#13293D"
-            android:gravity="left|center_vertical"
-            android:minWidth="0dp"
             android:paddingLeft="5dp"
-            android:scaleType="center"
             android:text="Changing your Password"
-            android:textColor="#DEFFFFFF" />
+            android:textColor="#DEFFFFFF"
+            android:textSize="16sp" />
 
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:id="@+id/signupCard3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="29dp"
         android:layout_marginTop="240dp"
-        android:layout_marginEnd="0dp"
         android:layout_marginRight="29dp"
         android:layout_marginBottom="18dp">
 
-        <Button
+        <TextView
             android:id="@+id/deleteAccount"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
             android:background="#13293D"
-            android:gravity="left|center_vertical"
-            android:minWidth="0dp"
             android:paddingLeft="5dp"
-            android:scaleType="center"
             android:text="Delete account"
-            android:textColor="#DEFFFFFF" />
+            android:textColor="#DEFFFFFF"
+            android:textSize="16sp" />
 
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView4"
@@ -98,6 +90,5 @@
         android:layout_marginTop="150dp"
         android:text="email@whatever.com"
         android:textColor="#FFFFFF" />
-
 
 </RelativeLayout>

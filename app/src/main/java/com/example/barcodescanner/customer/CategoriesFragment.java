@@ -1,11 +1,14 @@
 package com.example.barcodescanner.customer;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,8 +39,13 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         marketList = generateMarkets();
 
         favRecView = rootView.findViewById(R.id.recyclerviewcat);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-        favRecView.setLayoutManager(layoutManager);
+        if(getScreenWidth() > 1200) {
+            GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 4);
+            favRecView.setLayoutManager(layoutManager);
+        }else {
+            GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
+            favRecView.setLayoutManager(layoutManager);
+        }
 
         myAdapter = new CategoryRecyclerViewAdapter(marketList, this);
         favRecView.setAdapter(myAdapter);
@@ -91,4 +99,27 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         images.add(R.drawable.bread);
         return images;
     }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new CategoriesFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new CategoriesFragment())
+                    .commit();
+        }
+    }
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
 }

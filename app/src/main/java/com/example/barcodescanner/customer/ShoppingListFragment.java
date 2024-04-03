@@ -1,7 +1,9 @@
 package com.example.barcodescanner.customer;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -55,7 +57,7 @@ public class ShoppingListFragment extends Fragment {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 CheapestFragment categoriesFragment = new CheapestFragment();
                 FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
-                fm.replace(R.id.remzi, categoriesFragment).commit();
+                fm.replace(R.id.frame_layout, categoriesFragment).commit();
             }
         });
 
@@ -79,6 +81,24 @@ public class ShoppingListFragment extends Fragment {
         images.add(R.drawable.bread);
         images.add(R.drawable.bread);
         return images;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, new ShoppingListFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, new ShoppingListFragment())
+                    .commit();
+        }
     }
 
 }

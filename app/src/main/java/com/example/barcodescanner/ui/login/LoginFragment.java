@@ -1,5 +1,6 @@
 package com.example.barcodescanner.ui.login;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -185,4 +186,23 @@ public class LoginFragment extends Fragment {
                     Toast.LENGTH_LONG).show();
         }
     }
+
+    //changing rotation
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.login_container, new LoginFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.login_container, new LoginFragment())
+                    .commit();
+        }
+    }
+
 }

@@ -25,7 +25,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentEditProductBinding;
+import com.google.firebase.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditProductFragment extends Fragment {

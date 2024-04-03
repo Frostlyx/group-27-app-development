@@ -1,6 +1,7 @@
 package com.example.barcodescanner.customer;
 
 import android.app.Dialog;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,9 +76,9 @@ public class ProfileFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-        final Button changePassword = view.findViewById(R.id.changePassword);
-        final Button deleteAccount = view.findViewById(R.id.deleteAccount);
-        final Button logout = view.findViewById(R.id.logout_profile_page);
+        final TextView changePassword = view.findViewById(R.id.changePassword);
+        final TextView deleteAccount = view.findViewById(R.id.deleteAccount);
+        final TextView logout = view.findViewById(R.id.logout_profile_page);
         TextView username_text = view.findViewById(R.id.textView4);
         TextView textView = view.findViewById(R.id.customer_email);
 
@@ -181,5 +182,24 @@ public class ProfileFragment extends Fragment {
         });
         // Inflate the layout for this fragment
         return view;
+    }
+
+    //changing rotation
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the orientation has changed
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Replace the current fragment with the landscape version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new ProfileFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with the portrait version
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.layout_default, new ProfileFragment())
+                    .commit();
+        }
     }
 }

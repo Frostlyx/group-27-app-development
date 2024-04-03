@@ -2,6 +2,7 @@ package com.example.barcodescanner.ui.login;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -98,5 +99,27 @@ public class WelcomeActivity extends AppCompatActivity {
     public void welcomeActivity() {
         Intent intent = new Intent(WelcomeActivity.this, WelcomeActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check if the activity is WelcomeActivity
+        if (getSupportFragmentManager().getFragments().isEmpty()) {
+            // Check if the orientation has changed to landscape
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                // Perform the necessary action (e.g., starting a new activity)
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+            }else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                // Perform the necessary action (e.g., starting a new activity)
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+
     }
 }

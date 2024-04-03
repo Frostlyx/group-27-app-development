@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/layout_default"
     android:layout_height="match_parent"
     tools:context="ui.store.StoreDatabaseFragment">
 
@@ -29,9 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        tools:itemCount="50"
-        tools:listitem="@layout/store_database_row_item" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_button_add_product"

@@ -34,12 +34,12 @@
 
     </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/edit_product_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/main_edit_image"
-            android:scrollbars="horizontal" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/edit_product_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_edit_image"
+        android:scrollbars="horizontal" />
 
     <RelativeLayout
         android:id="@+id/lower_layout"
