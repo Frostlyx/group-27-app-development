@@ -36,10 +36,13 @@ import java.util.List;
 public class StoreDatabaseFragment extends Fragment implements StoreProductRecyclerViewInterface {
     Dialog plusDialog;
     Dialog addDialog;
+    Dialog deleteDialog;
     Button buttonAddDatabase;
     Button buttonAddProduct;
     Button buttonCloseAdd;
     Button buttonSaveAdd;
+    Button buttonCancelDelete;
+    Button buttonConfirmDelete;
     FirebaseAuth mAuth;
     RecyclerView recyclerView;
     private StoreProductViewModel storeProductViewModel;
@@ -96,6 +99,16 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
             addDialog.setCancelable(true);
             buttonCloseAdd =  addDialog.findViewById(R.id.edit_product_cancel);
             buttonSaveAdd =  addDialog.findViewById(R.id.edit_product_confirm);
+
+            // Initializing delete prompt dialog
+            deleteDialog = new Dialog(getContext());
+            deleteDialog.setContentView(R.layout.dialog_delete_product_box);
+            deleteDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            Drawable deleteDialogBackground = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
+            deleteDialog.getWindow().setBackgroundDrawable(deleteDialogBackground);
+            deleteDialog.setCancelable(true);
+            buttonConfirmDelete = deleteDialog.findViewById(R.id.delete_product_dialog_button_confirm);
+            buttonCancelDelete = deleteDialog.findViewById(R.id.delete_product_dialog_button_cancel);
 
             final EditText itemName = addDialog.findViewById(R.id.edit_item_name);
             final Spinner categorySpinner = addDialog.findViewById(R.id.spinner_item_category);
@@ -280,24 +293,42 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
 
     @Override
     public void onDeleteClick(int position) {
-        ProductModel item = storeProductViewModel.getProductModels().getValue().get(position);
-        DatabaseListAdapter.ViewHolder viewHolder = (DatabaseListAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
-        if (viewHolder != null) {
-            viewHolder.itemImage.setImageResource(item.getProductImage(0));
-            viewHolder.itemName.setText(item.getProductName());
-            viewHolder.itemCategory.setText(item.getCategory());
-            viewHolder.itemPrice.setText(item.getProductPrice());
-        }
-        ArrayList<ProductModel> tempProductModels = storeProductViewModel.getProductModels().getValue();
-        tempProductModels.remove(position);
-        storeProductViewModel.setProductModels(tempProductModels);
+
+        deleteDialog.show();
+
+        buttonCancelDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteDialog.dismiss();
+            }
+        });
+
+        buttonConfirmDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                deleteDialog.dismiss();
+
+                ProductModel item = storeProductViewModel.getProductModels().getValue().get(position);
+                DatabaseListAdapter.ViewHolder viewHolder = (DatabaseListAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+                if (viewHolder != null) {
+                    viewHolder.itemImage.setImageResource(item.getProductImage(0));
+                    viewHolder.itemName.setText(item.getProductName());
+                    viewHolder.itemCategory.setText(item.getCategory());
+                    viewHolder.itemPrice.setText(item.getProductPrice());
+                }
+                ArrayList<ProductModel> tempProductModels = storeProductViewModel.getProductModels().getValue();
+                tempProductModels.remove(position);
+                storeProductViewModel.setProductModels(tempProductModels);
 
 
-        databaseListAdapter.notifyItemRemoved(position);
-        databaseListAdapter.notifyItemRangeChanged(position, databaseListAdapter.getItemCount());
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-        DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
-        removalProduct.getRef().removeValue();
+                databaseListAdapter.notifyItemRemoved(position);
+                databaseListAdapter.notifyItemRangeChanged(position, databaseListAdapter.getItemCount());
+                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
+                DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
+                removalProduct.getRef().removeValue();
+            }
+        });
     }
 
     @Override
