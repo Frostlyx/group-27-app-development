@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
@@ -54,7 +56,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.VideoViewHolder> {
             image_view = itemView.findViewById(R.id.image_view);
             product_name = itemView.findViewById(R.id.product_name);
             bottom_name = itemView.findViewById(R.id.bottom_name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    ProductFragment categoriesFragment = new ProductFragment();
+                    FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
+                    fm.replace(R.id.frame_layout, categoriesFragment).commit();
+                }
+            });
+
         }
+
+
     }
 
 }

@@ -115,7 +115,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/lays"
             android:scrollbars="horizontal"
-            />
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp" />
 
     </RelativeLayout>
 </ScrollView>
