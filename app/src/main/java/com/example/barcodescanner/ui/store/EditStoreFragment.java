@@ -1,12 +1,19 @@
 package com.example.barcodescanner.ui.store;
 
+import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,11 +32,13 @@ import java.util.List;
 
 public class EditStoreFragment extends Fragment {
 
+    Dialog editStoreDialog;
+    Button editStoreCancel;
+    Button editStoreConfirm;
     StoreModel store;
     List<Integer> imageList;
     String storeName;
     String location;
-
     private FragmentEditStoreBinding binding;
 
     @Override
@@ -67,10 +76,6 @@ public class EditStoreFragment extends Fragment {
             }
         });
 
-
-
-
-
         return binding.getRoot();
 
     }
@@ -81,10 +86,66 @@ public class EditStoreFragment extends Fragment {
         final Button editInformationButton = view.findViewById(R.id.button_edit_information);
         final Button addPicturesButton = view.findViewById(R.id.button_add_pictures);
 
+        //Initializing edit store dialog
+        editStoreDialog = new Dialog(getContext());
+        editStoreDialog.setContentView(R.layout.dialog_edit_store_information_box);
+        editStoreDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
+        editStoreDialog.getWindow().setBackgroundDrawable(background);
+        editStoreDialog.setCancelable(true);
+        editStoreCancel =  editStoreDialog.findViewById(R.id.edit_store_cancel);
+        editStoreConfirm =  editStoreDialog.findViewById(R.id.edit_store_confirm);
+
+        final EditText storeNameEditText = editStoreDialog.findViewById(R.id.edit_store_name);
+        final EditText storeLocationEditText = editStoreDialog.findViewById(R.id.edit_store_location);
+        final EditText storeKvKEditText = editStoreDialog.findViewById(R.id.edit_store_kvk);
+
+        TextWatcher afterTextChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // ignore
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // ignore
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String storeName;
+                String storeLocation;
+
+                // TODO: check if valid information
+
+                // edit information in database
+                Toast.makeText(getContext(), "Your message here", Toast.LENGTH_SHORT).show();
+            }
+        };
+        storeNameEditText.addTextChangedListener(afterTextChangedListener);
+        storeLocationEditText.addTextChangedListener(afterTextChangedListener);
+        storeKvKEditText.addTextChangedListener(afterTextChangedListener);
+
         editInformationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                editStoreDialog.show();
+            }
+        });
 
+        editStoreCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editStoreDialog.dismiss();
+            }
+        });
+
+        editStoreConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // implement
+
+                editStoreDialog.dismiss();
             }
         });
 

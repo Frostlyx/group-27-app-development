@@ -22,18 +22,18 @@
 
 
         <TextView
-            android:id="@+id/item_name_title"
+            android:id="@+id/store_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/item_name"
-            app:layout_constraintBottom_toTopOf="@+id/edit_text_item_name"
+            app:layout_constraintBottom_toTopOf="@+id/edit_store_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/edit_text_item_name"
+            android:id="@+id/edit_store_name"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -46,7 +46,7 @@
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_name_title" />
+            app:layout_constraintTop_toBottomOf="@+id/store_name_title" />
 
         <TextView
             android:id="@+id/text_item_category"
@@ -58,7 +58,7 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/spinner_item_category"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_item_name" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_store_name" />
 
         <Spinner
             android:id="@+id/spinner_item_category"
@@ -95,14 +95,14 @@
             android:background="@color/fill_in_grey_color"
             android:ems="10"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/text_amount"
+            app:layout_constraintBottom_toTopOf="@+id/store_location_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_barcode" />
 
         <TextView
-            android:id="@+id/text_amount"
+            android:id="@+id/store_location_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -110,12 +110,12 @@
             android:layout_marginBottom="1dp"
             android:text="@string/amount"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/edit_text_amount"
+            app:layout_constraintBottom_toTopOf="@+id/edit_store_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_barcode" />
 
         <EditText
-            android:id="@+id/edit_text_amount"
+            android:id="@+id/edit_store_location"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -123,26 +123,26 @@
             android:background="@color/fill_in_grey_color"
             android:ems="10"
             android:inputType="text"
-            app:layout_constraintBottom_toTopOf="@+id/text_price"
+            app:layout_constraintBottom_toTopOf="@+id/store_kvk_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_amount" />
+            app:layout_constraintTop_toBottomOf="@+id/store_location_title" />
 
         <TextView
-            android:id="@+id/text_price"
+            android:id="@+id/store_kvk_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/price"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/edit_text_price"
+            app:layout_constraintBottom_toTopOf="@+id/edit_store_kvk"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_amount" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_store_location" />
 
         <EditText
-            android:id="@+id/edit_text_price"
+            android:id="@+id/edit_store_kvk"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -153,7 +153,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_price" />
+            app:layout_constraintTop_toBottomOf="@+id/store_kvk_title" />
 
         <TextView
             android:id="@+id/text_discount_popup"
@@ -165,7 +165,7 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/edit_text_discount"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_price" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_store_kvk" />
 
         <EditText
             android:id="@+id/edit_text_discount"

@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,11 +28,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,11 +98,11 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
             buttonCloseAdd =  addDialog.findViewById(R.id.edit_product_cancel);
             buttonSaveAdd =  addDialog.findViewById(R.id.edit_product_confirm);
 
-            final EditText nameEditText = addDialog.findViewById(R.id.edit_text_item_name);
+            final EditText nameEditText = addDialog.findViewById(R.id.edit_store_name);
             final Spinner categorySpinner = addDialog.findViewById(R.id.spinner_item_category);
             final EditText barcodeEditText = addDialog.findViewById(R.id.edit_text_barcode);
-            final EditText amountEditText = addDialog.findViewById(R.id.edit_text_amount);
-            final EditText priceEditText = addDialog.findViewById(R.id.edit_text_price);
+            final EditText amountEditText = addDialog.findViewById(R.id.edit_store_location);
+            final EditText priceEditText = addDialog.findViewById(R.id.edit_store_kvk);
             final EditText discountEditText = addDialog.findViewById(R.id.edit_text_discount);
 
             String[] categories = {"Food", "Drinks", "Other stuff"};
@@ -213,10 +209,10 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 @Override
                 public void onClick(View view) {
                     List<Integer> imageList = generateImages();
-                    EditText itemName = addDialog.findViewById(R.id.edit_text_item_name);
+                    EditText itemName = addDialog.findViewById(R.id.edit_store_name);
                     EditText barcodeNumber = addDialog.findViewById(R.id.edit_text_barcode);
-                    EditText amount = addDialog.findViewById(R.id.edit_text_amount);
-                    EditText price = addDialog.findViewById(R.id.edit_text_price);
+                    EditText amount = addDialog.findViewById(R.id.edit_store_location);
+                    EditText price = addDialog.findViewById(R.id.edit_store_kvk);
                     if(!itemName.getText().toString().isEmpty() && !selectedItem.isEmpty() && !barcodeNumber.getText().toString().isEmpty() && !amount.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
                         ProductModel infoProduct = new ProductModel(itemName.getText().toString(), price.getText().toString(), imageList, selectedItem, "discount", amount.getText().toString(), barcodeNumber.getText().toString());
                         DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");

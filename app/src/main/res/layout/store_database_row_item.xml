@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_item_name" />
 
     <TextView
-        android:id="@+id/text_price"
+        android:id="@+id/store_kvk_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
