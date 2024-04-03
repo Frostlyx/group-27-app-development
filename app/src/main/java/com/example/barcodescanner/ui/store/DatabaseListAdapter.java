@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -65,6 +67,9 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
                 itemList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, getItemCount());
+                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
+                DatabaseReference removalProduct = referenceProfile.child("65JxPIWmXbZVT2mhKFsqOLKUZVB2").child(item.getProductName());
+                removalProduct.getRef().removeValue();
             }
         });
     }
