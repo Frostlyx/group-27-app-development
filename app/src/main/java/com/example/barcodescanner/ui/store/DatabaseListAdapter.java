@@ -98,7 +98,7 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
             itemImage = itemView.findViewById(R.id.image_item);
             itemName = itemView.findViewById(R.id.text_item_name);
             itemCategory = itemView.findViewById(R.id.text_item_category);
-            itemPrice = itemView.findViewById(R.id.store_kvk_title);
+            itemPrice = itemView.findViewById(R.id.text_item_price);
             buttonEdit = itemView.findViewById(R.id.image_button_edit);
             buttonBin = itemView.findViewById(R.id.image_button_bin);
 
