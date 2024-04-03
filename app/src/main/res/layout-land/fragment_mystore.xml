@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_color"
+    android:id="@+id/layout_default"
+    tools:context=".ui.store.MyStoreFragment">
+
+    <Button
+        android:id="@+id/button_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/accent_color_medium"
+        android:textColor="@color/app_background_color"
+        app:layout_constraintBottom_toTopOf="@+id/button_item_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="10dp"
+        android:src="@mipmap/mystore_profile_foreground"
+        app:layout_constraintBottom_toBottomOf="@+id/button_profile"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="@+id/button_profile"
+        app:layout_constraintTop_toTopOf="@+id/button_profile" />
+
+    <TextView
+        android:id="@+id/text_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/profile"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+        android:textColor="@color/app_background_color"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintBottom_toBottomOf="@+id/button_profile"
+        app:layout_constraintEnd_toEndOf="@+id/button_profile"
+        app:layout_constraintStart_toStartOf="@+id/button_profile"
+        app:layout_constraintTop_toTopOf="@+id/button_profile" />
+
+    <Button
+        android:id="@+id/button_item_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/accent_color_medium"
+        android:textColor="@color/app_background_color"
+        app:layout_constraintBottom_toTopOf="@+id/button_store_page_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_profile" />
+
+    <ImageView
+        android:id="@+id/image_item_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="10dp"
+        android:src="@mipmap/mystore_items_foreground"
+        app:layout_constraintBottom_toBottomOf="@+id/button_item_view"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@+id/button_item_view"
+        app:layout_constraintTop_toTopOf="@+id/button_item_view" />
+
+    <TextView
+        android:id="@+id/text_item_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/view_items"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+        android:textColor="@color/app_background_color"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintBottom_toBottomOf="@+id/button_item_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/button_item_view"
+        app:layout_constraintTop_toBottomOf="@+id/button_profile" />
+
+    <Button
+        android:id="@+id/button_store_page_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/accent_color_medium"
+        android:textColor="@color/app_background_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_item_view" />
+
+    <ImageView
+        android:id="@+id/image_store_page_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="10dp"
+        android:src="@mipmap/mystore_store_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="@+id/button_store_page_view"
+        app:layout_constraintTop_toBottomOf="@+id/button_item_view" />
+
+    <TextView
+        android:id="@+id/text_store_page_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/view_store_page"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+        android:textColor="@color/app_background_color"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintBottom_toBottomOf="@+id/button_store_page_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/button_store_page_view"
+        app:layout_constraintTop_toBottomOf="@+id/button_item_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

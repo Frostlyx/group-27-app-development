@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".customer.StorePageFragment"
+    android:background="#FFFFFF">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/remzi">
+
+        <SearchView
+            android:id="@+id/search__barProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Search"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/seach_view_bg"
+            android:layout_margin="20dp"/>
+
+        <RelativeLayout
+            android:id="@+id/mainImg"
+            android:layout_width="361dp"
+            android:layout_height="240dp"
+            android:layout_below="@+id/search__barProduct"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:src="@drawable/bread"
+                android:layout_width="361dp"
+                android:layout_height="240dp"/>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/carousel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mainImg"
+            android:scrollbars="horizontal"/>
+
+        <RelativeLayout
+            android:id="@+id/lays"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/carousel"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="50dp">
+
+            <TextView
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Store Name"
+                android:id="@+id/pName"/>
+
+            <TextView
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:id="@+id/cName"
+                android:layout_below="@id/pName"
+                android:paddingTop="10dp"/>
+            <TextView
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Additional Information"
+                android:id="@+id/aName"
+                android:layout_below="@id/cName"
+                android:paddingTop="10dp"/>
+
+            <TextView
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Items of this Store:"
+                android:id="@+id/endName"
+                android:layout_below="@id/aName"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"/>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/difStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lays"
+            android:scrollbars="horizontal"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp" />
+
+    </RelativeLayout>
+</ScrollView>

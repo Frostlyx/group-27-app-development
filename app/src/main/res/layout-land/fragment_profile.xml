@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_default"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#13293D">
+
+    <RelativeLayout
+        android:id="@+id/signupCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="29dp"
+        android:layout_marginTop="225dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginBottom="18dp">
+
+        <TextView
+            android:id="@+id/logout_profile_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:background="#13293D"
+            android:paddingLeft="5dp"
+            android:text="Logout"
+            android:textColor="#DEFFFFFF"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/signupCard2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="29dp"
+        android:layout_marginTop="138dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginBottom="18dp">
+
+        <TextView
+            android:id="@+id/changePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:background="#13293D"
+            android:paddingLeft="5dp"
+            android:text="Changing your Password"
+            android:textColor="#DEFFFFFF"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/signupCard3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="29dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginBottom="18dp">
+
+        <TextView
+            android:id="@+id/deleteAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:background="#13293D"
+            android:paddingLeft="5dp"
+            android:text="Delete account"
+            android:textColor="#DEFFFFFF"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:text="User name"
+        android:textColor="@color/white"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/customer_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="90dp"
+        android:text="email@whatever.com"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>
