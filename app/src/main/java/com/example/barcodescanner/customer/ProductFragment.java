@@ -1,8 +1,13 @@
 package com.example.barcodescanner.customer;
 
+import static com.example.barcodescanner.customer.CategoriesFragment.getScreenWidth;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +45,9 @@ public class ProductFragment extends Fragment {
             favRecView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
             secondView = rootView.findViewById(R.id.difStore);
-            secondView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+            GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
+            secondView.setLayoutManager(layoutManager);
 
             myAdapter = new MyAdapter4(storeList);
             myAdapter2 = new MyAdapter5(storeList);
@@ -73,4 +80,5 @@ public class ProductFragment extends Fragment {
         images.add(R.drawable.bread);
         return images;
     }
+
 }
