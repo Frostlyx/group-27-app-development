@@ -22,6 +22,8 @@ import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +62,9 @@ public class ChangePasswordFragment extends Fragment {
         final Button changePasswordButton = view.findViewById(R.id.change_password);
         final EditText passwordEditText = view.findViewById(R.id.password);
         final EditText confirmPasswordEditText = view.findViewById(R.id.confirm_password);
+        DatabaseReference referenceCustomer = FirebaseDatabase.getInstance().getReference("Users").child("Customers").child(mAuth.getCurrentUser().getUid()).child("password");
+        DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Users").child("Store Owners").child(mAuth.getCurrentUser().getUid()).child("password");
+
 
         changePasswordViewModel.getChangePasswordFormState().observe(getViewLifecycleOwner(), changePasswordFormState -> {
             if (changePasswordFormState == null) {
@@ -105,13 +110,21 @@ public class ChangePasswordFragment extends Fragment {
             }
         });
 
+
         changePasswordButton.setOnClickListener(v -> {
             if (!isDataValid) {
                 return;
             }
             String password = passwordEditText.getText().toString();
-
-            // TODO : implement change password function (Atahan)
+            mAuth.getCurrentUser().updatePassword(password);
+            Toast.makeText(getContext().getApplicationContext(), "Password changed successfully", Toast.LENGTH_SHORT).show();
+            if (getActivity() != null && getActivity() instanceof MainActivity) {
+                referenceCustomer.setValue(password);
+                ((MainActivity) getActivity()).replaceFragment(new ProfileFragment(), "Profile fragment");
+            } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                referenceStores.setValue(password);
+                ((StoreActivity) getActivity()).replaceFragment(new ProfileFragment(), "Profile fragment");
+            }
         });
     }
 

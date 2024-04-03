@@ -38,6 +38,8 @@ public class LoginFragment extends Fragment {
     FirebaseUser user;
     boolean isCustomer;
 
+    String email;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -110,6 +112,7 @@ public class LoginFragment extends Fragment {
 
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference referenceCustomers= referenceProfile.child("Customers");
+
         loginButton.setOnClickListener(v -> {
             if (!isDataValid) {
                 return;
@@ -117,36 +120,54 @@ public class LoginFragment extends Fragment {
             loadingProgressBar.setVisibility(View.VISIBLE);
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
-            mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    if (mAuth.getCurrentUser() != null) {
-                        referenceCustomers.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) &&getActivity() != null && getActivity() instanceof WelcomeActivity){
-                                    ((WelcomeActivity) getActivity()).customerActivity();
-                                } else if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) && getActivity() != null && getActivity() instanceof WelcomeActivity) {
-                                    ((WelcomeActivity) getActivity()).storeActivity();
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
+            referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    outer : for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            if(username.equalsIgnoreCase(userSnapshot.child("username").getValue(String.class))) {
+                                email = userSnapshot.child("email").getValue(String.class);
+                                break outer;
                             }
-                        });
+                        }
                     }
-                } else {
-                    Exception exception = task.getException();
-                    if (exception instanceof FirebaseAuthInvalidCredentialsException) {
-                        showLoginFailed(R.string.wrong_username_password);
-                    } else {
-                        showLoginFailed(R.string.login_failed);
-                    }
-                    loadingProgressBar.setVisibility(View.GONE);
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            if (mAuth.getCurrentUser() != null) {
+                                referenceCustomers.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) &&getActivity() != null && getActivity() instanceof WelcomeActivity){
+                                            ((WelcomeActivity) getActivity()).customerActivity();
+                                        } else if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) && getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                                            ((WelcomeActivity) getActivity()).storeActivity();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        } else {
+                            Exception exception = task.getException();
+                            if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                showLoginFailed(R.string.wrong_username_password);
+                            } else {
+                                showLoginFailed(R.string.login_failed);
+                            }
+                            loadingProgressBar.setVisibility(View.GONE);
+                        }
+                    });
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
                 }
             });
+
         });
 
         forgotPasswordButton.setOnClickListener(v -> {
