@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.CategoriesFragment;
+import com.example.barcodescanner.customer.ShoppingListFragment;
 import com.example.barcodescanner.customer.StoreModel;
 import com.example.barcodescanner.databinding.FragmentEditStoreBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -180,6 +181,7 @@ public class EditStoreFragment extends Fragment {
         images.add(R.drawable.bread);
         return images;
     }
+
 
 
 }
