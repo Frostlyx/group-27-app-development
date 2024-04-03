@@ -69,6 +69,7 @@
     <string name="amount">Weight/amount</string>
     <string name="save">Save</string>
     <string name="success_add_item">Item was successfully added to your store!</string>
+    <string name="success_edit_item">Item was successfully edited!</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

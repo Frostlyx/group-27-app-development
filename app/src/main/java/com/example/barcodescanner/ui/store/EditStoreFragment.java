@@ -24,6 +24,11 @@ import com.example.barcodescanner.customer.CategoriesFragment;
 import com.example.barcodescanner.customer.ShoppingListFragment;
 import com.example.barcodescanner.customer.StoreModel;
 import com.example.barcodescanner.databinding.FragmentEditStoreBinding;
+import com.example.barcodescanner.ui.login.ReadWriteUserDetails;
+import com.example.barcodescanner.ui.login.WelcomeActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -147,8 +152,25 @@ public class EditStoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // implement
+                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                DatabaseReference referenceStoreOwners= referenceProfile.child("Store Owners");
+                referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("kvkNumber").setValue(storeKvKEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
+                referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("location").setValue(storeLocationEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
+                referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Storename").setValue(storeNameEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        editStoreDialog.dismiss();
+                    }
+                });
 
-                editStoreDialog.dismiss();
             }
         });
 
