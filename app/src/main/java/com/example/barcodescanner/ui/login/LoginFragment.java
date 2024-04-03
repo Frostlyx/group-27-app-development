@@ -36,9 +36,6 @@ public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
     private LoginViewModel loginViewModel;
     private boolean isDataValid;
-    FirebaseUser user;
-    boolean isCustomer;
-
     String email;
 
     public LoginFragment() {
