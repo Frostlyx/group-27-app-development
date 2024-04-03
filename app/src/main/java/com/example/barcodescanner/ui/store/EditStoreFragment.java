@@ -183,13 +183,13 @@ public class EditStoreFragment extends Fragment {
 
             }else {
                     if (storeKvKEditText.getText().toString().isEmpty()){
-                        storeKvKEditText.setError("Invalid");
+                        storeKvKEditText.setError("Text field cannot be empty, please re-enter the store information");
                     }
                     if (storeLocationEditText.getText().toString().isEmpty()){
-                        storeLocationEditText.setError("Invalid");
+                        storeLocationEditText.setError("Text field cannot be empty, please re-enter the store information");
                     }
                     if (storeNameEditText.getText().toString().isEmpty()){
-                        storeNameEditText.setError("Invalid");
+                        storeNameEditText.setError("Text field cannot be empty, please re-enter the store information");
                     }
                 }
             }
