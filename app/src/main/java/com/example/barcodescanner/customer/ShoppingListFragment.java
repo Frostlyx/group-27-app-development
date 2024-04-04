@@ -81,11 +81,15 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
 
 
         Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
+        ArrayList<ProductModel> deleteList = new ArrayList<>();
         for (Map.Entry<ProductModel, Integer> entry : tempShoppingList.entrySet()) {
             if (entry.getValue() <= 0) {
-                tempShoppingList.remove(entry.getKey());
-                referenceShoppingList.child(entry.getKey().getProductBarcode()).removeValue();
+                deleteList.add(entry.getKey());
             }
+        }
+        for (ProductModel pm : deleteList) {
+            tempShoppingList.remove(pm);
+            referenceShoppingList.child(pm.getProductBarcode()).removeValue();
         }
         userListViewModel.setShoppingList(tempShoppingList);
     }
