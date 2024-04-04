@@ -93,6 +93,7 @@ public class ProfileFragment extends Fragment {
             }
         } else {
             textView.setText(user.getEmail());
+            username_text.setText(user.getDisplayName());
         }
 
         //Change password screen has to be made.

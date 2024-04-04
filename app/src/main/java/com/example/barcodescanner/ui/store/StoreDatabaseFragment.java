@@ -473,7 +473,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 storeProductViewModel.setProductModel(position, item);
 
                 DatabaseReference referenceStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                referenceStore.child(nameEditText.getText().toString()).setValue(item);
+                referenceStore.child(barcodeEditText.getText().toString()).setValue(item);
 
                 databaseListAdapter.notifyDataSetChanged();
 

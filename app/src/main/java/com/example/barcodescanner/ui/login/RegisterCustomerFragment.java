@@ -160,7 +160,7 @@ public class RegisterCustomerFragment extends Fragment {
                 showRegisterCustomerFailed(R.string.data_failed);
                 return;
             } else if (alreadyExists) {
-                showRegisterCustomerFailed(R.string.username_exists);
+                usernameEditText.setError("This username is taken. Please enter another.");
                 return;
             }
             loadingProgressBar.setVisibility(View.VISIBLE);

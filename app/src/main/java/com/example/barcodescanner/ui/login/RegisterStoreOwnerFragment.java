@@ -174,7 +174,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
                 showRegisterStoreOwnerFailed(R.string.data_failed);
                 return;
             } else if (alreadyExists) {
-                showRegisterStoreOwnerFailed(R.string.username_exists);
+                usernameEditText.setError("This username is taken. Please enter another.");
                 return;
             }
             loadingProgressBar.setVisibility(View.VISIBLE);
