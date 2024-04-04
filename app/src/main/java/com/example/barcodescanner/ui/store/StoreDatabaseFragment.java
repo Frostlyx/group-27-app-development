@@ -441,40 +441,9 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
 
                 ProductModel item = storeProductViewModel.getProductModels().getValue().get(position);
 
-                DatabaseReference referenceStore = FirebaseDatabase.getInstance().getReference("Stores");
-                DatabaseReference referenceCurrentStore= referenceStore.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                referenceCurrentStore.child(item.getProductName()).child("category").setValue(selectedEditItem).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("discount").setValue(barcodeEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("productAmount").setValue(amountEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        editDialog.dismiss();
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("productBarcode").setValue(barcodeEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("productName").setValue(nameEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("productPrice").setValue(priceEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        editDialog.dismiss();
-                    }
-                });
+                DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
+                DatabaseReference removalProduct = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
+                removalProduct.getRef().removeValue();
 
                 item.setProductName(nameEditText.getText().toString());
                 item.setCategory(selectedEditItem);
@@ -484,7 +453,12 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
 
                 storeProductViewModel.setProductModel(position, item);
 
+                DatabaseReference referenceStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                referenceStore.child(nameEditText.getText().toString()).setValue(item);
+
                 databaseListAdapter.notifyDataSetChanged();
+
+                editDialog.dismiss();
 
             }
         });

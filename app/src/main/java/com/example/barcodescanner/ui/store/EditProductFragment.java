@@ -252,40 +252,9 @@ public class EditProductFragment extends Fragment {
             public void onClick(View v) {
 
                 // whatever the fuck was inputted in the dialog code
-                DatabaseReference referenceStore = FirebaseDatabase.getInstance().getReference("Stores");
-                DatabaseReference referenceCurrentStore= referenceStore.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                referenceCurrentStore.child(item.getProductName()).child("category").setValue(selectedItem).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("discount").setValue(discountEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("productAmount").setValue(amountEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        editDialog.dismiss();
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("productBarcode").setValue(barcodeEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("productName").setValue(nameEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceCurrentStore.child(item.getProductName()).child("productPrice").setValue(priceEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        editDialog.dismiss();
-                    }
-                });
+                DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
+                DatabaseReference removalProduct = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
+                removalProduct.getRef().removeValue();
 
                 item.setProductName(nameEditText.getText().toString());
                 item.setCategory(selectedItem);
@@ -295,9 +264,14 @@ public class EditProductFragment extends Fragment {
 
                 storeProductViewModel.setProductModel(position, item);
 
+                DatabaseReference referenceStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                referenceStore.child(nameEditText.getText().toString()).setValue(item);
+
                 binding.storeProductName.setText(item.getProductName());
                 binding.storeProductPrice.setText(item.getProductPrice());
                 binding.storeProductCategory.setText(item.getCategory());
+
+                editDialog.dismiss();
 
             }
         });
