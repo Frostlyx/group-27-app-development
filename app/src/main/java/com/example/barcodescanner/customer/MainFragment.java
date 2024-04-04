@@ -208,6 +208,24 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Check if the fragment is being destroyed due to a configuration change
+        boolean isBeingRecreated = getActivity().isChangingConfigurations();
+
+        // Check if the fragment is being removed from the back stack
+        boolean isBeingRemoved = !isBeingRecreated && !getActivity().isFinishing();
+
+        // If neither of the above cases, call resetFilter
+        if (isBeingRemoved) {
+            if (sharedViewModel.isFiltered) {
+                sharedViewModel.isFiltered = false;
+            } else {
+                sharedViewModel.resetFilter();
+            }
+        }
+    }
 
     // Barcode scanner shenanigans
     private void scanCode() {

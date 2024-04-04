@@ -26,6 +26,7 @@ public class SharedViewModel extends ViewModel {
     int[] productImage = {R.drawable.bread};
 
     private MutableLiveData<Boolean> isFetched = new MutableLiveData<>(false);
+    public boolean isFiltered = false;
 
     public SharedViewModel(Context context) {
         fetchDatabase();
@@ -166,6 +167,8 @@ public class SharedViewModel extends ViewModel {
 
         productModels.setValue(tempProductModels);
         filteredProductModels.setValue(tempFilteredProductModels);
+
+        isFiltered = true;
     }
     private List<Integer> generateImages() {
         List<Integer> images = new ArrayList<>();
