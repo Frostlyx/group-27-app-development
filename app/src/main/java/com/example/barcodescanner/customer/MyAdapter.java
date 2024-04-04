@@ -61,9 +61,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.VideoViewHolder> {
                 @Override
                 public void onClick(View v) {
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    ProductFragment categoriesFragment = new ProductFragment();
-                    FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
-                    fm.replace(R.id.frame_layout, categoriesFragment).commit();
+//                    ProductFragment categoriesFragment = new ProductFragment();
+//                    FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
+//                    fm.replace(R.id.frame_layout, categoriesFragment).commit();
                 }
             });
 

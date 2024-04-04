@@ -22,7 +22,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/search__bar"
-        android:id="@+id/recyclerview"
+        android:id="@+id/shop_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="15dp"

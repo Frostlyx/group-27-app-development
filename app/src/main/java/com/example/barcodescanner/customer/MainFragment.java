@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.ui.store.DatabaseListAdapter;
+import com.example.barcodescanner.ui.store.EditProductFragment;
+import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.ScanContract;
@@ -187,14 +190,15 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     // Placeholder code for clicking on recyclerview elements
     @Override
     public void onItemClick(int position) {
-        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
-
-        if (position >= 0 && position < toastMessages.length) {
-            String message = toastMessages[position];
-            String toastMessage = getString(R.string.placeholder_toast_product_format, message);
-            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+        ProductModel item = userListViewModel.getProductModels().getValue().get(position);
+        ProductRecyclerViewAdapter.MyViewHolder viewHolder = (ProductRecyclerViewAdapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+        if (viewHolder != null) {
+            viewHolder.productImage.setImageResource(item.getProductImage(0));
+            viewHolder.productName.setText(item.getProductName());
+            viewHolder.productPrice.setText(item.getProductPrice());
+        }
+        if (getContext() != null && getContext() instanceof MainActivity) {
+            ((MainActivity) getContext()).replaceFragment(new ProductFragment(item, position), getContext().getString(R.string.product_page_title));
         }
     }
 

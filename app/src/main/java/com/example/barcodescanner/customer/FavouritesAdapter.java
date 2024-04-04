@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.ui.store.StoreProductRecyclerViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,10 +83,13 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    ProductFragment categoriesFragment = new ProductFragment();
-                    FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
-                    fm.replace(R.id.frame_layout, categoriesFragment).commit();
+                    if (productRecyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            productRecyclerViewInterface.onItemClick(position);
+                        }
+                    }
                 }
             });
 
