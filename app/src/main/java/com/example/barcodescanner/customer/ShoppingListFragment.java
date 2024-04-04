@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.example.barcodescanner.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -107,17 +108,22 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
     @Override
     public void onItemClick(int position) {
         // Still has to be implemented
+        Map<ProductModel, Integer> shoppingList = userListViewModel.getShoppingList().getValue();
+        itemList = new ArrayList<>();
+        for (ProductModel key : shoppingList.keySet()) {
+            itemList.add(key);
+        }
 
-//        ProductModel item = userListViewModel.getShoppingList().getValue().get(position);
-//        ShoppingListAdapter.VideoViewHolder viewHolder = (ShoppingListAdapter.VideoViewHolder) shopRecView.findViewHolderForAdapterPosition(position);
-//        if (viewHolder != null) {
-//            viewHolder.image_view.setImageResource(item.getProductImage(0));
-//            viewHolder.product_name.setText(item.getProductName());
-//            viewHolder.bottom_name.setText(item.getCategory());
-//        }
-//        if (getContext() != null && getContext() instanceof MainActivity) {
-//            ((MainActivity) getContext()).replaceFragment(new ProductFragment(item, position), getContext().getString(R.string.product_page_title));
-//        }
+        ProductModel item = itemList.get(position);
+        ShoppingListAdapter.VideoViewHolder viewHolder = (ShoppingListAdapter.VideoViewHolder) shopRecView.findViewHolderForAdapterPosition(position);
+        if (viewHolder != null) {
+            viewHolder.image_view.setImageResource(item.getProductImage(0));
+            viewHolder.product_name.setText(item.getProductName());
+            viewHolder.bottom_name.setText(item.getCategory());
+        }
+        if (getContext() != null && getContext() instanceof MainActivity) {
+            ((MainActivity) getContext()).replaceFragment(new ProductFragment(item, position), getContext().getString(R.string.product_page_title));
+        }
 
     }
 
