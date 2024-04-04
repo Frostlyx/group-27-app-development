@@ -28,8 +28,11 @@ import com.example.barcodescanner.databinding.FragmentEditProductBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -253,26 +256,44 @@ public class EditProductFragment extends Fragment {
 
                 // whatever the fuck was inputted in the dialog code
                 DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
-                DatabaseReference removalProduct = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
-                removalProduct.getRef().removeValue();
-
-                item.setProductName(nameEditText.getText().toString());
-                item.setCategory(selectedItem);
-                item.setProductBarcode(barcodeEditText.getText().toString());
-                item.setProductAmount(amountEditText.getText().toString());
-                item.setProductPrice(priceEditText.getText().toString());
-
-                storeProductViewModel.setProductModel(position, item);
+                DatabaseReference removalProduct = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductBarcode());
 
                 DatabaseReference referenceStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                referenceStore.child(barcodeEditText.getText().toString()).setValue(item);
 
-                binding.storeProductName.setText(item.getProductName());
-                binding.storeProductPrice.setText(item.getProductPrice());
-                binding.storeProductCategory.setText(item.getCategory());
+                referenceStore.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (!dataSnapshot.hasChild(barcodeEditText.getText().toString()) && !item.getProductBarcode().equals(barcodeEditText.getText().toString())) {
 
-                editDialog.dismiss();
+                            removalProduct.getRef().removeValue();
 
+                            item.setProductName(nameEditText.getText().toString());
+                            item.setCategory(selectedItem);
+                            item.setProductBarcode(barcodeEditText.getText().toString());
+                            item.setProductAmount(amountEditText.getText().toString());
+                            item.setProductPrice(priceEditText.getText().toString());
+
+                            storeProductViewModel.setProductModel(position, item);
+
+                            referenceStore.child(barcodeEditText.getText().toString()).setValue(item);
+
+                            binding.storeProductName.setText(item.getProductName());
+                            binding.storeProductPrice.setText(item.getProductPrice());
+                            binding.storeProductCategory.setText(item.getCategory());
+
+                            editDialog.dismiss();
+                        }else{
+                            barcodeEditText.setError("Barcode can not be the same as another product.");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+
+
+                });
             }
         });
 
