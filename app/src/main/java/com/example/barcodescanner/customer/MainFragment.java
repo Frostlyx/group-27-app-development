@@ -21,10 +21,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.ui.store.DatabaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +50,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     SearchView searchView;
     ProductRecyclerViewAdapter adapter;
     private SharedViewModel sharedViewModel;
+    private ShoppingListViewModel shoppingListViewModel;
 
     public MainFragment() {
         // Required empty public constructor
@@ -57,6 +65,8 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         sharedViewModel = ((MainActivity) getActivity()).getSharedViewModel();
+        shoppingListViewModel = ((MainActivity) getActivity()).getShoppingListViewModel();
+        shoppingListViewModel.setProductModels(sharedViewModel.getProductModels().getValue());
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
@@ -195,6 +205,7 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     // Same code as onItemClick
     @Override
     public void onFavouritesClick(int position) {
+        System.out.println("1");
         String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
 
         if (position >= 0 && position < toastMessages.length) {
@@ -210,14 +221,49 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     @Override
     public void onShoppingListClick(int position) {
         String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
+        if (!(position >= 0 && position < toastMessages.length)) {
+            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ProductModel item = shoppingListViewModel.getProductModels().getValue().get(position);
+        Map<ProductModel, Integer> tempShoppingList = shoppingListViewModel.getShoppingList().getValue();
+        boolean duplicate = false;
+        for (Map.Entry<ProductModel, Integer> entry : tempShoppingList.entrySet()) {
+            ProductModel pm = entry.getKey();
+            if (pm.getProductName().equals(item.getProductName())) {
+                duplicate = true;
+                break;
+            }
+        }
+        if (!duplicate) {
+            tempShoppingList.put(item, 1);
+            shoppingListViewModel.setShoppingList(tempShoppingList);
 
-        if (position >= 0 && position < toastMessages.length) {
             String message = toastMessages[position];
-            String toastMessage = getString(R.string.placeholder_toast_shopping_list_format, message);
+            String toastMessage = getString(R.string.placeholder_toast_shopping_list_success_format, message);
             Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+            String message = toastMessages[position];
+            String toastMessage = getString(R.string.placeholder_toast_shopping_list_fail_format, message);
+            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
         }
+
+
+//        ProductRecyclerViewAdapter.notifyItemRemoved(position);
+//        ProductRecyclerViewAdapter.notifyItemRangeChanged(position, ProductRecyclerViewAdapter.getItemCount());
+//        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
+//        DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
+//        removalProduct.getRef().removeValue();
+    }
+
+    @Override
+    public void increment(ProductModel item) {
+
+    }
+
+    @Override
+    public void decrement(ProductModel item) {
+
     }
 
     //Changing rotation

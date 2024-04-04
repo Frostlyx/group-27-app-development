@@ -21,21 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder> {
+public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.VideoViewHolder> {
 
-    Map<ProductModel, Integer> shoppingList;
+    static Map<ProductModel, Integer> shoppingList;
     List<ProductModel> itemList;
+    private ProductRecyclerViewInterface productRecyclerViewInterface;
 
-    public MyAdapter2(Map<ProductModel, Integer> shoppingList) {
+    public ShoppingListAdapter(Map<ProductModel, Integer> shoppingList, ProductRecyclerViewInterface productRecyclerViewInterface) {
 
         this.shoppingList = shoppingList;
+        this.productRecyclerViewInterface = productRecyclerViewInterface;
         itemList = new ArrayList<>();
         for (Map.Entry<ProductModel, Integer> entry : shoppingList.entrySet()) {
             itemList.add(entry.getKey());
         }
-    }
-    public MyAdapter2(List<ProductModel> itemList) {
-        this.itemList = itemList;
     }
 
     @NonNull
@@ -44,7 +43,7 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shoplist, parent, false);
 
 
-        return new VideoViewHolder(itemView);
+        return new VideoViewHolder(itemView, productRecyclerViewInterface);
     }
 
     @Override
@@ -55,6 +54,8 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
         holder.bottom_name.setText(video_item.getCategory());
         holder.position = position;
         holder.item = video_item;
+        holder.count = shoppingList.get(video_item);
+        holder.value.setText(String.valueOf(holder.count));
     }
 
     @Override
@@ -69,9 +70,9 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
         int position;
         ProductModel item;
         TextView value;
-        int count = 0;
+        int count;
 
-        public VideoViewHolder(@NonNull View itemView) {
+        public VideoViewHolder(@NonNull View itemView, ProductRecyclerViewInterface productRecyclerViewInterface) {
             super(itemView);
             image_view = itemView.findViewById(R.id.image_view);
             product_name = itemView.findViewById(R.id.product_name);
@@ -92,18 +93,13 @@ public class MyAdapter2 extends RecyclerView.Adapter<MyAdapter2.VideoViewHolder>
             itemView.findViewById(R.id.incBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    count++;
-                    value.setText(String.valueOf(count));
-
+                    productRecyclerViewInterface.increment(item);
                 }
             });
             itemView.findViewById(R.id.decBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (count>0){
-                        count--;
-                        value.setText(String.valueOf(count));
-                    }
+                    productRecyclerViewInterface.decrement(item);
                 }
             });
 
