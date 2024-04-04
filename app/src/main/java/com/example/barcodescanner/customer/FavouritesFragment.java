@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.barcodescanner.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,11 +126,18 @@ public class FavouritesFragment extends Fragment implements ProductRecyclerViewI
 
     @Override
     public void check(ProductModel item) {
+        DatabaseReference referenceUsers = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference referenceCustomers = referenceUsers.child("Customers");
+        DatabaseReference referenceCurrentUser = referenceCustomers.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        DatabaseReference referenceFavouritesList = referenceCurrentUser.child("Favourites List");
+
         ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
         if (notFavouritesList.contains(item)) {
             notFavouritesList.remove(item);
+            referenceFavouritesList.child(item.getProductBarcode()).setValue(item);
         } else {
             notFavouritesList.add(item);
+            referenceFavouritesList.child(item.getProductBarcode()).removeValue();
         }
     }
 }

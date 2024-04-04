@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.barcodescanner.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,11 +74,17 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
     @Override
     public void onDestroy() {
         super.onDestroy();
+        DatabaseReference referenceUsers = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference referenceCustomers = referenceUsers.child("Customers");
+        DatabaseReference referenceCurrentUser = referenceCustomers.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        DatabaseReference referenceShoppingList = referenceCurrentUser.child("Shopping List");
+
 
         Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         for (Map.Entry<ProductModel, Integer> entry : tempShoppingList.entrySet()) {
             if (entry.getValue() <= 0) {
                 tempShoppingList.remove(entry.getKey());
+                referenceShoppingList.child(entry.getKey().getProductBarcode()).removeValue();
             }
         }
         userListViewModel.setShoppingList(tempShoppingList);

@@ -24,12 +24,21 @@ import com.example.barcodescanner.R;
 import com.example.barcodescanner.ui.store.DatabaseListAdapter;
 import com.example.barcodescanner.ui.store.EditProductFragment;
 import com.example.barcodescanner.ui.store.StoreActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +47,7 @@ import java.util.Map;
 public class MainFragment extends Fragment implements ProductRecyclerViewInterface {
 
     ImageButton barcodeScannerButton;
-//    Button order_1;
+    //    Button order_1;
 //    Button order_2;
 //    Button order_3;
 //    Button order_4;
@@ -50,6 +59,11 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     ProductRecyclerViewAdapter adapter;
     private SharedViewModel sharedViewModel;
     private UserListViewModel userListViewModel;
+    DatabaseReference referenceUsers = FirebaseDatabase.getInstance().getReference("Users");
+    DatabaseReference referenceCustomers = referenceUsers.child("Customers");
+    DatabaseReference referenceCurrentUser = referenceCustomers.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    DatabaseReference referenceShoppingList = referenceCurrentUser.child("Shopping List");
+    DatabaseReference referenceFavouritesList = referenceCurrentUser.child("Favourites List");
 
     public MainFragment() {
         // Required empty public constructor
@@ -66,6 +80,54 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         sharedViewModel = ((MainActivity) getActivity()).getSharedViewModel();
         userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
         userListViewModel.setProductModels(sharedViewModel.getProductModels().getValue());
+        List<Integer> imageList = generateImages();
+        referenceFavouritesList.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
+                if (dataSnapshot.hasChildren()){
+                    for (DataSnapshot products : dataSnapshot.getChildren()) {
+                        ProductModel databaseItem = new ProductModel(products.child("productName").getValue().toString(), products.child("productPrice").getValue().toString(), imageList, products.child("category").getValue().toString(), products.child("discount").getValue().toString(), products.child("productAmount").getValue().toString(), products.child("productBarcode").getValue().toString());
+                        if (!tempFavouritesList.contains(databaseItem)) {
+                            tempFavouritesList.add(databaseItem);
+                            userListViewModel.setFavouritesList(tempFavouritesList);
+                        }}}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        referenceShoppingList.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
+                if (dataSnapshot.hasChildren()){
+                    for (DataSnapshot products : dataSnapshot.getChildren()) {
+                        ProductModel databaseItem = new ProductModel(products.child("productName").getValue().toString(), products.child("productPrice").getValue().toString(),imageList, products.child("category").getValue().toString(), products.child("discount").getValue().toString(), products.child("productAmount").getValue().toString(), products.child("productBarcode").getValue().toString());
+                        boolean duplicate = false;
+                        for (Map.Entry<ProductModel, Integer> entry : tempShoppingList.entrySet()) {
+                            ProductModel pm = entry.getKey();
+                            if (pm.getProductName().equals(databaseItem.getProductName())) {
+                                duplicate = true;
+                                break;
+                            }
+                        }
+                        if (!duplicate) {
+                            tempShoppingList.put(databaseItem, 1);
+                            userListViewModel.setShoppingList(tempShoppingList);
+                        }
+
+                    }}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
@@ -205,67 +267,97 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     // Same code as onItemClick
     @Override
     public void onFavouritesClick(int position) {
-        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
-        if (!(position >= 0 && position < toastMessages.length)) {
-            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
+
         ProductModel item = userListViewModel.getProductModels().getValue().get(position);
-        ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
-        if (!tempFavouritesList.contains(item)) {
-            tempFavouritesList.add(item);
-            userListViewModel.setFavouritesList(tempFavouritesList);
+        referenceFavouritesList.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                referenceFavouritesList.child(item.getProductBarcode()).setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
+                        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
+                        if (!(position >= 0 && position < toastMessages.length)) {
+                            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (!tempFavouritesList.contains(item)) {
+                            tempFavouritesList.add(item);
+                            userListViewModel.setFavouritesList(tempFavouritesList);
 
-            String message = item.getProductName();
-            String toastMessage = getString(R.string.placeholder_toast_favourites_format, message);
-            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        } else {
-            tempFavouritesList.remove(item);
-            userListViewModel.setFavouritesList(tempFavouritesList);
+                            String message = item.getProductName();
+                            String toastMessage = getString(R.string.placeholder_toast_favourites_format, message);
+                            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                        } else {
+                            tempFavouritesList.remove(item);
+                            userListViewModel.setFavouritesList(tempFavouritesList);
+                            referenceFavouritesList.child(item.getProductBarcode()).removeValue();
 
-            String message = item.getProductName();
-            String toastMessage = getString(R.string.placeholder_toast_unfavourites_format, message);
-            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        }
+                            String message = item.getProductName();
+                            String toastMessage = getString(R.string.placeholder_toast_unfavourites_format, message);
+                            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     // Same code as onItemClick
     @Override
     public void onShoppingListClick(int position) {
-        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
-        if (!(position >= 0 && position < toastMessages.length)) {
-            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
-            return;
-        }
         ProductModel item = userListViewModel.getProductModels().getValue().get(position);
-        Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
-        boolean duplicate = false;
-        for (Map.Entry<ProductModel, Integer> entry : tempShoppingList.entrySet()) {
-            ProductModel pm = entry.getKey();
-            if (pm.getProductName().equals(item.getProductName())) {
-                duplicate = true;
-                break;
+
+        referenceShoppingList.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                referenceShoppingList.child(item.getProductBarcode()).setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
+                        String[] toastMessages = requireContext().getResources().getStringArray(R.array.placeholder_main_page_product);
+                        if (!(position >= 0 && position < toastMessages.length)) {
+                            Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        boolean duplicate = false;
+                        for (Map.Entry<ProductModel, Integer> entry : tempShoppingList.entrySet()) {
+                            ProductModel pm = entry.getKey();
+                            if (pm.getProductName().equals(item.getProductName())) {
+                                duplicate = true;
+                                break;
+                            }
+                        }
+                        if (!duplicate) {
+                            tempShoppingList.put(item, 1);
+                            userListViewModel.setShoppingList(tempShoppingList);
+                            String message = item.getProductName();
+                            String toastMessage = getString(R.string.placeholder_toast_shopping_list_success_format, message);
+                            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                        } else {
+                            String message = item.getProductName();
+                            String toastMessage = getString(R.string.placeholder_toast_shopping_list_fail_format, message);
+                            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
-        }
-        if (!duplicate) {
-            tempShoppingList.put(item, 1);
-            userListViewModel.setShoppingList(tempShoppingList);
-
-            String message = item.getProductName();
-            String toastMessage = getString(R.string.placeholder_toast_shopping_list_success_format, message);
-            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        } else {
-            String message = item.getProductName();
-            String toastMessage = getString(R.string.placeholder_toast_shopping_list_fail_format, message);
-            Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        }
 
 
-//        ProductRecyclerViewAdapter.notifyItemRemoved(position);
-//        ProductRecyclerViewAdapter.notifyItemRangeChanged(position, ProductRecyclerViewAdapter.getItemCount());
-//        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-//        DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
-//        removalProduct.getRef().removeValue();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -300,6 +392,20 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     }
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    private List<Integer> generateImages() {
+        List<Integer> images = new ArrayList<>();
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        images.add(R.drawable.bread);
+        return images;
     }
 
 }

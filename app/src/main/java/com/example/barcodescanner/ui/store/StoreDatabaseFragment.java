@@ -467,7 +467,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 referenceStore.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (!dataSnapshot.hasChild(barcodeEditText.getText().toString()) && !item.getProductBarcode().equals(barcodeEditText.getText().toString())){
+                        if (!dataSnapshot.hasChild(barcodeEditText.getText().toString()) || item.getProductBarcode().equals(barcodeEditText.getText().toString())){
                             removalProduct.getRef().removeValue();
 
                             item.setProductName(nameEditText.getText().toString());
