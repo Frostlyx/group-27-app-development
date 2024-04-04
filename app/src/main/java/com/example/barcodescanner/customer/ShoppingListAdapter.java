@@ -32,8 +32,8 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         this.shoppingList = shoppingList;
         this.productRecyclerViewInterface = productRecyclerViewInterface;
         itemList = new ArrayList<>();
-        for (Map.Entry<ProductModel, Integer> entry : shoppingList.entrySet()) {
-            itemList.add(entry.getKey());
+        for (ProductModel pm : shoppingList.keySet()) {
+            itemList.add(pm);
         }
     }
 

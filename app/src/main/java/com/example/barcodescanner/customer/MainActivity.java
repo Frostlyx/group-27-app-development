@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.ActivityMainBinding;
@@ -28,46 +29,50 @@ public class MainActivity extends AppCompatActivity {
         sharedViewModel = new SharedViewModel(this);
         userListViewModel = new UserListViewModel(this);
 
-        // On startup, open main fragment
-        replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
+        sharedViewModel.isDataFetched().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isFetched) {
+                if (isFetched) {
+                    // On startup, open main fragment
+                    replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
 
-        // attempt at deselecting
-        binding.bottomNavigationView.setSelectedItemId(R.id.home);
+                    // attempt at deselecting
+                    binding.bottomNavigationView.setSelectedItemId(R.id.home);
 //        Menu menu = binding.bottomNavigationView.getMenu();
 //        for (int i = 0; i < menu.size(); i++) {
 //            MenuItem menuItem = menu.getItem(i);
 //            menuItem.setChecked(false);
 //        }
 
-        // Opens fragment for the selected page in the bottom navigation bar
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+                    // Opens fragment for the selected page in the bottom navigation bar
+                    binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            switch (item.getItemId()){
-                case R.id.favourites:
-                    replaceFragment(new FavouritesFragment(), getResources().getString(R.string.favourites_title));
-                    break;
+                        switch (item.getItemId()){
+                            case R.id.favourites:
+                                replaceFragment(new FavouritesFragment(), getResources().getString(R.string.favourites_title));
+                                break;
 
-                case R.id.categories:
-                    replaceFragment(new CategoriesFragment(), getResources().getString(R.string.categories_title));
-                    break;
+                            case R.id.categories:
+                                replaceFragment(new CategoriesFragment(), getResources().getString(R.string.categories_title));
+                                break;
 
-                case R.id.home:
-                    replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
-                    break;
+                            case R.id.home:
+                                replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
+                                break;
 
-                case R.id.shopping_list:
-                    replaceFragment(new ShoppingListFragment(), getResources().getString(R.string.shopping_list_title));
-                    break;
+                            case R.id.shopping_list:
+                                replaceFragment(new ShoppingListFragment(), getResources().getString(R.string.shopping_list_title));
+                                break;
 
-                case R.id.profile:
-                    replaceFragment(new ProfileFragment(), getResources().getString(R.string.profile_title));
-                    break;
-            }
+                            case R.id.profile:
+                                replaceFragment(new ProfileFragment(), getResources().getString(R.string.profile_title));
+                                break;
+                        }
 
-            return true;
-        });
+                        return true;
+                    });
 
-        // Opens main page when home button gets pressed.
+                    // Opens main page when home button gets pressed.
 //        binding.toolbarHome.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -79,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
 //                replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
 //            }
 //        });
+                }
+            }
+        });
     }
 
     public void replaceFragment(Fragment fragment, String title) {

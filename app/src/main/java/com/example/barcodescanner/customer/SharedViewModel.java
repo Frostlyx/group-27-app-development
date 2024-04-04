@@ -26,7 +26,7 @@ public class SharedViewModel extends ViewModel {
     // TODO: placeholder for images, to replace with actual images
     int[] productImage = {R.drawable.bread};
 
-    boolean onGoing = true;
+    private MutableLiveData<Boolean> isFetched = new MutableLiveData<>(false);
 
     public SharedViewModel(Context context) {
         fetchDatabase();
@@ -36,37 +36,37 @@ public class SharedViewModel extends ViewModel {
 
         DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
 
-        String[] productNames = new String[5];
-        String[] productPrices = new String[5];
-        String[] productCategories = new String[5];
-        String[] productBarcode = new String[5];
-        String[] productAmount = new String[5];
-        String[] productDiscount = new String[5];
         referenceStores.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<ProductModel> initProductModels = new ArrayList<>();
                 for (DataSnapshot Stores : snapshot.getChildren()){
-                    int i = 0;
                     for (DataSnapshot products : Stores.getChildren()){
-                        productNames[i] = products.child("productName").getValue().toString();
-                        productCategories[i] = products.child("category").getValue().toString();
-                        productPrices[i] = products.child("productPrice").getValue().toString();
-                        productBarcode[i] = products.child("productPrice").getValue().toString();
-                        productAmount[i] = products.child("productPrice").getValue().toString();
-                        if (products.child("productPrice").getValue().toString().isEmpty()){
-                            productDiscount[i] = " ";
+                        String productName = products.child("productName").getValue().toString();
+                        String productCategory = products.child("category").getValue().toString();
+                        String productPrice = products.child("productPrice").getValue().toString();
+                        String productBarcode = products.child("productBarcode").getValue().toString();
+                        String productAmount = products.child("productAmount").getValue().toString();
+                        String productDiscount;
+                        if (products.child("discount").getValue().toString().isEmpty()){
+                            productDiscount = " ";
                         } else {
-                            productDiscount[i] = products.child("productPrice").getValue().toString();
-                            i++;
+                            productDiscount = products.child("discount").getValue().toString();
                         }
+                        initProductModels.add(new ProductModel(
+                                productName,
+                                productPrice,
+                                generateImages(),
+                                productCategory,
+                                productDiscount,
+                                productAmount,
+                                productBarcode
+                        ));
                     }
                 }
-
-
-
-
-
-
+                productModels.setValue(initProductModels);
+                filteredProductModels.setValue(new ArrayList<>());
+                isFetched.setValue(true);
             }
 
             @Override
@@ -75,20 +75,7 @@ public class SharedViewModel extends ViewModel {
             }
 
         });
-        ArrayList<ProductModel> initProductModels = new ArrayList<>();
-        for (int i = 0; i < productNames.length; i++) {
-            initProductModels.add(new ProductModel(
-                           /* productNames[i],
-                            productPrices[i],
-                            generateImages(),
-                            productCategories[i],
-                            productDiscount[i],
-                            productAmount[i],
-                            productBarcode[i]*/
-                    "s","s",generateImages(),"s","s","s","s"));
-        }
-        productModels.setValue(initProductModels);
-        filteredProductModels.setValue(new ArrayList<>());
+
     }
 
     public void setProductModels(ArrayList<ProductModel> newProductModels) {
@@ -105,6 +92,10 @@ public class SharedViewModel extends ViewModel {
 
     public LiveData<ArrayList<ProductModel>> getFilteredProductModels() {
         return filteredProductModels;
+    }
+
+    public LiveData<Boolean> isDataFetched() {
+        return isFetched;
     }
 
     public void resetFilter() {
