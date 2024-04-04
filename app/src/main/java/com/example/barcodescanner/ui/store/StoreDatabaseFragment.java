@@ -287,7 +287,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
             viewHolder.itemPrice.setText(item.getProductPrice());
         }
         if (getContext() != null && getContext() instanceof StoreActivity) {
-            ((StoreActivity) getContext()).replaceFragment(new EditProductFragment(item), getContext().getString(R.string.edit_product_title));
+            ((StoreActivity) getContext()).replaceFragment(new EditProductFragment(item, position), getContext().getString(R.string.edit_product_title));
         }
     }
 

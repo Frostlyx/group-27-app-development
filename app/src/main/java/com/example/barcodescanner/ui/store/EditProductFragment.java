@@ -43,15 +43,19 @@ public class EditProductFragment extends Fragment {
     Button buttonCancelDelete;
     Button buttonConfirmDelete;
     ProductModel item;
+    int position;
     List<Integer> imageList;
     private StoreDatabaseViewModel storeDatabaseViewModel;
+
+    private StoreProductViewModel storeProductViewModel;
 
     private FragmentEditProductBinding binding;
     private boolean isDataValid;
 
     private String selectedItem;
-    public EditProductFragment(ProductModel item) {
+    public EditProductFragment(ProductModel item, int position) {
         this.item = item;
+        this.position = position;
     }
 
     @Override
@@ -68,6 +72,8 @@ public class EditProductFragment extends Fragment {
     ) {
 
         binding = FragmentEditProductBinding.inflate(inflater, container, false);
+
+        storeProductViewModel = ((StoreActivity) getActivity()).getStoreProductViewModel();
 
         binding.imageMain.setImageResource(item.getProductImage(0));
 
@@ -243,8 +249,10 @@ public class EditProductFragment extends Fragment {
         });
 
         buttonSaveEdit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 // whatever the fuck was inputted in the dialog code
                 DatabaseReference referenceStore = FirebaseDatabase.getInstance().getReference("Stores");
                 DatabaseReference referenceCurrentStore= referenceStore.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -264,7 +272,7 @@ public class EditProductFragment extends Fragment {
                         editDialog.dismiss();
                     }
                 });
-                referenceCurrentStore.child(item.getProductName()).child("productBarcode").setValue(amountEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                referenceCurrentStore.child(item.getProductName()).child("productBarcode").setValue(barcodeEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                     }
@@ -280,6 +288,18 @@ public class EditProductFragment extends Fragment {
                         editDialog.dismiss();
                     }
                 });
+
+                item.setProductName(nameEditText.getText().toString());
+                item.setCategory(selectedItem);
+                item.setProductBarcode(barcodeEditText.getText().toString());
+                item.setProductAmount(amountEditText.getText().toString());
+                item.setProductPrice(priceEditText.getText().toString());
+
+                storeProductViewModel.setProductModel(position, item);
+
+                binding.storeProductName.setText(item.getProductName());
+                binding.storeProductPrice.setText(item.getProductPrice());
+                binding.storeProductCategory.setText(item.getCategory());
 
             }
         });

@@ -55,6 +55,14 @@ public class StoreProductViewModel {
         return productModels;
     }
 
+    public void setProductModel(int position, ProductModel productModel) {
+        ArrayList<ProductModel> tempProductModels = productModels.getValue();
+        if (tempProductModels != null) {
+            tempProductModels.set(position, productModel);
+            productModels.setValue(tempProductModels);
+        }
+    }
+
     public void resetFilter() {
         ArrayList<ProductModel> tempProductModels = productModels.getValue();
         ArrayList<ProductModel> tempFilteredProductModels = filteredProductModels.getValue();
