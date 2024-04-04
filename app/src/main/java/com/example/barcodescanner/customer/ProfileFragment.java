@@ -141,6 +141,18 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 deleteAccDialog.dismiss();
+                DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
+                DatabaseReference removalStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                removalStore.getRef().removeValue();
+
+                DatabaseReference referenceCustomer = FirebaseDatabase.getInstance().getReference("Users/Customers");
+                DatabaseReference removalCustomer = referenceCustomer.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                removalCustomer.getRef().removeValue();
+
+                DatabaseReference referenceStoreOwner = FirebaseDatabase.getInstance().getReference("Users/Store Owners");
+                DatabaseReference removalStoreOwner = referenceStoreOwner.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                removalStoreOwner.getRef().removeValue();
+
                 user.delete();
                 FirebaseAuth.getInstance().signOut();
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
