@@ -298,7 +298,7 @@ public class EditProductFragment extends Fragment {
             public void onClick(View v) {
 
                 DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-                DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
+                DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductBarcode());
                 removalProduct.getRef().removeValue();
                 deleteDialog.dismiss();
                 if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
