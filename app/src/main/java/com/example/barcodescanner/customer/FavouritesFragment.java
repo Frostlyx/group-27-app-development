@@ -5,25 +5,29 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.barcodescanner.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
-public class FavouritesFragment extends Fragment {
+public class FavouritesFragment extends Fragment implements ProductRecyclerViewInterface{
 
 
-    private List<ProductModel> itemList;
+    private List<ProductModel> notFavouritesList;
     private RecyclerView favRecView;
-    private MyAdapter myAdapter;
+    private FavouritesAdapter myAdapter;
+    private UserListViewModel userListViewModel;
 
 
     public FavouritesFragment() {
@@ -35,47 +39,38 @@ public class FavouritesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_favourites, container, false);
-
-        itemList = generateItems();
-
+        container.clearDisappearingChildren();
+        userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
         favRecView = rootView.findViewById(R.id.recyclerview);
         favRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myAdapter = new MyAdapter(itemList);
-        favRecView.setAdapter(myAdapter);
+        notFavouritesList = new ArrayList<>();
+        refresh();
+
+        userListViewModel.getFavouritesList().observe(getViewLifecycleOwner(), new Observer<List<ProductModel>>() {
+            @Override
+            public void onChanged(List<ProductModel> favouritesList) {
+                refresh();
+            }
+        });
 
         return rootView;
     }
 
-    private List<ProductModel> generateItems(){
-        List<ProductModel> item = new ArrayList<>();
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "deneme","s","s"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy","LORdd","s","s"));
-        item.add(new ProductModel("deneme", "denenmis", generateImages(), "deneme", "denenmis","s","s"));
-        item.add(new ProductModel("Tryout", "TRYKKK", generateImages(), "Tryout", "TRYKKK","s","s"));
-        item.add(new ProductModel("Hoave Mercy", "LORdd", generateImages(), "Hoave Mercy", "LORdd","s","s"));
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
-        return item;
+        ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
+        for (ProductModel pm : notFavouritesList) {
+            tempFavouritesList.remove(pm);
+        }
+        userListViewModel.setFavouritesList(tempFavouritesList);
     }
 
-    private List<Integer> generateImages() {
-        List<Integer> images = new ArrayList<>();
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        images.add(R.drawable.bread);
-        return images;
+    private void refresh() {
+        List<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
+        myAdapter = new FavouritesAdapter(getContext(), tempFavouritesList, this);
+        favRecView.setAdapter(myAdapter);
     }
 
     //changing rotation
@@ -97,4 +92,33 @@ public class FavouritesFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onItemClick(int position) {
+    }
+
+    @Override
+    public void onFavouritesClick(int position) {
+    }
+
+    @Override
+    public void onShoppingListClick(int position) {
+    }
+
+    @Override
+    public void increment(ProductModel item) {
+    }
+
+    @Override
+    public void decrement(ProductModel item) {
+    }
+
+    @Override
+    public void check(ProductModel item) {
+        ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
+        if (notFavouritesList.contains(item)) {
+            notFavouritesList.remove(item);
+        } else {
+            notFavouritesList.add(item);
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.barcodescanner.customer;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,15 +11,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.ActivityMainBinding;
 import com.example.barcodescanner.ui.login.WelcomeActivity;
-import com.example.barcodescanner.ui.store.StoreProductViewModel;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     private SharedViewModel sharedViewModel;
-    private ShoppingListViewModel shoppingListViewModel;
+    private UserListViewModel userListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         sharedViewModel = new SharedViewModel(this);
-        shoppingListViewModel = new ShoppingListViewModel(this);
+        userListViewModel = new UserListViewModel(this);
 
         // On startup, open main fragment
         replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
@@ -106,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     public SharedViewModel getSharedViewModel() {
         return sharedViewModel;
     }
-    public ShoppingListViewModel getShoppingListViewModel() {
-        return shoppingListViewModel;
+    public UserListViewModel getUserListViewModel() {
+        return userListViewModel;
     }
 }

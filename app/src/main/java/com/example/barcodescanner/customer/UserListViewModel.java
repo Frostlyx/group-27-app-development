@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.customer.ProductModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,17 +14,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoppingListViewModel {
+public class UserListViewModel {
 
     private MutableLiveData<ArrayList<ProductModel>> productModels = new MutableLiveData<>();
     private MutableLiveData<Map<ProductModel, Integer>> shoppingList = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<ProductModel>> favouritesList = new MutableLiveData<>();
 
-    public ShoppingListViewModel(Context context) {
+    public UserListViewModel(Context context) {
         List<Integer> imageList = generateImages();
 
         ArrayList<ProductModel> item = new ArrayList<>();
@@ -47,6 +48,7 @@ public class ShoppingListViewModel {
         });
         productModels.setValue(item);
         shoppingList.setValue(new HashMap<>());
+        favouritesList.setValue(new ArrayList<>());
     }
 
     public void setProductModels(ArrayList<ProductModel> newProductModels) {
@@ -63,6 +65,14 @@ public class ShoppingListViewModel {
 
     public LiveData<Map<ProductModel, Integer>> getShoppingList() {
         return shoppingList;
+    }
+
+    public void setFavouritesList(ArrayList<ProductModel> newProductModels) {
+        favouritesList.setValue(newProductModels);
+    }
+
+    public LiveData<ArrayList<ProductModel>> getFavouritesList() {
+        return favouritesList;
     }
 
     private List<Integer> generateImages() {

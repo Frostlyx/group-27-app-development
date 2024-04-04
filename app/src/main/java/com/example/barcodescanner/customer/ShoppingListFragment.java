@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,25 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.barcodescanner.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 public class ShoppingListFragment extends Fragment implements ProductRecyclerViewInterface{
 
-
     List<ProductModel> itemList;
     RecyclerView favRecView;
     ShoppingListAdapter myAdapter;
     ImageView imageView;
-    private ShoppingListViewModel shoppingListViewModel;
+    private UserListViewModel userListViewModel;
 
 
     public ShoppingListFragment() {
@@ -46,12 +41,12 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_shopping_list, container, false);
         container.clearDisappearingChildren();
-        shoppingListViewModel = ((MainActivity) getActivity()).getShoppingListViewModel();
+        userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
         favRecView = rootView.findViewById(R.id.recyclerview);
         favRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refresh();
 
-        shoppingListViewModel.getShoppingList().observe(getViewLifecycleOwner(), new Observer<Map<ProductModel, Integer>>() {
+        userListViewModel.getShoppingList().observe(getViewLifecycleOwner(), new Observer<Map<ProductModel, Integer>>() {
             @Override
             public void onChanged(Map<ProductModel, Integer> shoppingList) {
                 refresh();
@@ -76,17 +71,17 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
     public void onDestroy() {
         super.onDestroy();
 
-        Map<ProductModel, Integer> tempShoppingList = shoppingListViewModel.getShoppingList().getValue();
+        Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         for (Map.Entry<ProductModel, Integer> entry : tempShoppingList.entrySet()) {
             if (entry.getValue() <= 0) {
                 tempShoppingList.remove(entry.getKey());
             }
         }
-        shoppingListViewModel.setShoppingList(tempShoppingList);
+        userListViewModel.setShoppingList(tempShoppingList);
     }
 
     private void refresh() {
-        Map<ProductModel, Integer> tempShoppingList = shoppingListViewModel.getShoppingList().getValue();
+        Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         myAdapter = new ShoppingListAdapter(tempShoppingList, this);
         favRecView.setAdapter(myAdapter);
     }
@@ -116,33 +111,35 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
 
     @Override
     public void onFavouritesClick(int position) {
-
     }
 
     @Override
     public void onShoppingListClick(int position) {
+    }
 
+    @Override
+    public void check(ProductModel item) {
     }
 
     @Override
     public void increment(ProductModel item) {
-        Map<ProductModel, Integer> tempShoppingList = shoppingListViewModel.getShoppingList().getValue();
+        Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         int count = tempShoppingList.get(item);
         count++;
         tempShoppingList.put(item, count);
-        shoppingListViewModel.setShoppingList(tempShoppingList);
+        userListViewModel.setShoppingList(tempShoppingList);
         refresh();
     }
 
     @Override
     public void decrement(ProductModel item) {
-        Map<ProductModel, Integer> tempShoppingList = shoppingListViewModel.getShoppingList().getValue();
+        Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         int count = tempShoppingList.get(item);
         if (count > 0){
             count--;
         }
         tempShoppingList.put(item, count);
-        shoppingListViewModel.setShoppingList(tempShoppingList);
+        userListViewModel.setShoppingList(tempShoppingList);
         refresh();
     }
 }

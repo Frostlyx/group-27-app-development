@@ -117,6 +117,7 @@
 <!--TODO: placeholder for items on main page-->
     <string name="placeholder_toast_product_format">%s clicked!</string>
     <string name="placeholder_toast_favourites_format">%s favourited!</string>
+    <string name="placeholder_toast_unfavourites_format">%s unfavourited!</string>
     <string name="placeholder_toast_shopping_list_success_format">%s added to shopping list!</string>
     <string name="placeholder_toast_shopping_list_fail_format">%s already in shopping list!</string>    <string-array name="placeholder_main_page_product">
         <item>Bread</item>

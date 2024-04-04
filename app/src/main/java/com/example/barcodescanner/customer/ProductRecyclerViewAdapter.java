@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     private final ProductRecyclerViewInterface recyclerViewInterface;
     Context context;
     SharedViewModel sharedViewModel;
+    UserListViewModel userListViewModel;
     ArrayList<ProductModel> productModels;
 
     public ProductRecyclerViewAdapter(Context context,
@@ -29,6 +31,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         this.context = context;
         this.recyclerViewInterface = recyclerViewInterface;
         this.sharedViewModel = ((MainActivity) context).getSharedViewModel();
+        this.userListViewModel = ((MainActivity) context).getUserListViewModel();
         this.productModels = sharedViewModel.getProductModels().getValue();
     }
     @NonNull
@@ -45,11 +48,10 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     public void onBindViewHolder(@NonNull ProductRecyclerViewAdapter.MyViewHolder holder, int position) {
         // Assigns values to the views in the main_page_recycler_view_row.xml file
         // based on position of the recycler view
-
         holder.productImage.setImageResource(productModels.get(position).getProductImage(0));
         holder.productName.setText(productModels.get(position).getProductName());
         holder.productPrice.setText(productModels.get(position).getProductPrice());
-
+        holder.favouritesButton.setChecked(isFavourite(productModels.get(position)));
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
         layoutParams.bottomMargin = context.getResources().getDimensionPixelSize(R.dimen.item_vertical_spacing);
         holder.itemView.setLayoutParams(layoutParams);
@@ -58,6 +60,16 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     @Override
     public int getItemCount() {
         return productModels.size();
+    }
+
+    private boolean isFavourite(ProductModel item) {
+        ArrayList<ProductModel> favouritesList = userListViewModel.getFavouritesList().getValue();
+        for (ProductModel pm : favouritesList) {
+            if (pm.getProductName().equals(item.getProductName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void sortBy(String criteria) {
@@ -138,7 +150,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         ImageView productImage;
         TextView productName;
         TextView productPrice;
-        ImageButton favouritesButton;
+        CheckBox favouritesButton;
         ImageButton shoppingListButton;
         public MyViewHolder(@NonNull View itemView, ProductRecyclerViewInterface recyclerViewInterface) {
             super(itemView);
