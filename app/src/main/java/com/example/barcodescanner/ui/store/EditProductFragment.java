@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditProductFragment extends Fragment {
@@ -323,7 +324,6 @@ public class EditProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                // implement delete
                 DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
                 DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
                 removalProduct.getRef().removeValue();
@@ -331,6 +331,11 @@ public class EditProductFragment extends Fragment {
                 if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
                     ((StoreActivity) view.getContext()).replaceFragment(new StoreDatabaseFragment(), view.getContext().getString(R.string.edit_product_title));
                 }
+
+                ArrayList<ProductModel> tempProductModels = storeProductViewModel.getProductModels().getValue();
+                tempProductModels.remove(position);
+                storeProductViewModel.setProductModels(tempProductModels);
+
             }
         });
 
