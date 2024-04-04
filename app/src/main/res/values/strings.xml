@@ -180,6 +180,7 @@
     <string name="discounts_title">Discounts</string>
     <string name="shopping_list_title">Shopping List</string>
     <string name="profile_title">Profile</string>
+    <string name="product_page_title">Product Page</string>
 
     <string name="mystore_title">My Store</string>
     <string name="edit_store_title">Edit Store</string>

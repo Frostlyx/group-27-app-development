@@ -25,7 +25,7 @@ import java.util.Map;
 public class ShoppingListFragment extends Fragment implements ProductRecyclerViewInterface{
 
     List<ProductModel> itemList;
-    RecyclerView favRecView;
+    RecyclerView shopRecView;
     ShoppingListAdapter myAdapter;
     ImageView imageView;
     private UserListViewModel userListViewModel;
@@ -42,8 +42,8 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
         View rootView = inflater.inflate(R.layout.fragment_shopping_list, container, false);
         container.clearDisappearingChildren();
         userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
-        favRecView = rootView.findViewById(R.id.recyclerview);
-        favRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        shopRecView = rootView.findViewById(R.id.shop_recyclerview);
+        shopRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refresh();
 
         userListViewModel.getShoppingList().observe(getViewLifecycleOwner(), new Observer<Map<ProductModel, Integer>>() {
@@ -83,7 +83,7 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
     private void refresh() {
         Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         myAdapter = new ShoppingListAdapter(tempShoppingList, this);
-        favRecView.setAdapter(myAdapter);
+        shopRecView.setAdapter(myAdapter);
     }
 
     @Override
@@ -106,6 +106,18 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
 
     @Override
     public void onItemClick(int position) {
+        // Still has to be implemented
+
+//        ProductModel item = userListViewModel.getShoppingList().getValue().get(position);
+//        ShoppingListAdapter.VideoViewHolder viewHolder = (ShoppingListAdapter.VideoViewHolder) shopRecView.findViewHolderForAdapterPosition(position);
+//        if (viewHolder != null) {
+//            viewHolder.image_view.setImageResource(item.getProductImage(0));
+//            viewHolder.product_name.setText(item.getProductName());
+//            viewHolder.bottom_name.setText(item.getCategory());
+//        }
+//        if (getContext() != null && getContext() instanceof MainActivity) {
+//            ((MainActivity) getContext()).replaceFragment(new ProductFragment(item, position), getContext().getString(R.string.product_page_title));
+//        }
 
     }
 

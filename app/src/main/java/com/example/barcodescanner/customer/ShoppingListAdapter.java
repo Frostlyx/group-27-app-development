@@ -82,11 +82,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("demo", "onClick: Item Clciked " + position + " item " + item.productName);
-                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    ProfileFragment categoriesFragment = new ProfileFragment();
-                    FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
-                    fm.replace(R.id.remzi, categoriesFragment).commit();
+                    if (productRecyclerViewInterface != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            productRecyclerViewInterface.onItemClick(position);
+                        }
+                    }
                 }
             });
 

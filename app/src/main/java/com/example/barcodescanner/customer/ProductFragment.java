@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barcodescanner.R;
@@ -33,9 +34,14 @@ public class ProductFragment extends Fragment {
     CheckBox favouritesButton;
     UserListViewModel userListViewModel;
     ProductModel item;
+    int position;
+    TextView productName;
+    TextView productCategory;
+    TextView productPrice;
 
-    public ProductFragment() {
-        // Required empty public constructor
+    public ProductFragment(ProductModel item, int position) {
+        this.item = item;
+        this.position = position;
     }
 
     @Override
@@ -46,6 +52,14 @@ public class ProductFragment extends Fragment {
         container.clearDisappearingChildren();
         storeList = generateMarkets();
 
+        productName = rootView.findViewById(R.id.pName);
+        productCategory = rootView.findViewById(R.id.cName);
+        productPrice = rootView.findViewById(R.id.bName);
+
+        productName.setText(item.getProductName());
+        productCategory.setText(item.getCategory());
+        productPrice.setText(item.getProductPrice());
+
         favRecView = rootView.findViewById(R.id.carousel);
         favRecView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
@@ -55,7 +69,7 @@ public class ProductFragment extends Fragment {
         secondView.setLayoutManager(layoutManager);
 
         userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
-        item = userListViewModel.getFavouritesList().getValue().get(0);
+//        item = userListViewModel.getFavouritesList().getValue().get(0);
 
         myAdapter = new MyAdapter4(storeList);
         myAdapter2 = new MyAdapter5(storeList);

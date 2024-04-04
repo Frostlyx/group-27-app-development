@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.barcodescanner.R;
 
@@ -41,7 +40,7 @@ public class FavouritesFragment extends Fragment implements ProductRecyclerViewI
         View rootView = inflater.inflate(R.layout.fragment_favourites, container, false);
         container.clearDisappearingChildren();
         userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
-        favRecView = rootView.findViewById(R.id.recyclerview);
+        favRecView = rootView.findViewById(R.id.fav_recyclerview);
         favRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
         notFavouritesList = new ArrayList<>();
         refresh();
@@ -94,6 +93,16 @@ public class FavouritesFragment extends Fragment implements ProductRecyclerViewI
 
     @Override
     public void onItemClick(int position) {
+        ProductModel item = userListViewModel.getFavouritesList().getValue().get(position);
+        FavouritesAdapter.VideoViewHolder viewHolder = (FavouritesAdapter.VideoViewHolder) favRecView.findViewHolderForAdapterPosition(position);
+        if (viewHolder != null) {
+            viewHolder.image_view.setImageResource(item.getProductImage(0));
+            viewHolder.product_name.setText(item.getProductName());
+            viewHolder.bottom_name.setText(item.getCategory());
+        }
+        if (getContext() != null && getContext() instanceof MainActivity) {
+            ((MainActivity) getContext()).replaceFragment(new ProductFragment(item, position), getContext().getString(R.string.product_page_title));
+        }
     }
 
     @Override
