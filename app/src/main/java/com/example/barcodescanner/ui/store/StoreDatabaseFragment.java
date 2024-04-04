@@ -23,12 +23,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
+import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -235,25 +239,40 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                         ProductModel infoProduct = new ProductModel(itemName.getText().toString(), price.getText().toString(), imageList, selectedItem, "discount", amount.getText().toString(), barcodeNumber.getText().toString());
                         DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
                         DatabaseReference referenceStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        referenceStore.child(itemName.getText().toString()).setValue(infoProduct).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        referenceStore.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                plusDialog.dismiss();
-                                addDialog.dismiss();
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (!dataSnapshot.hasChild(barcodeNumber.getText().toString())){
+                                    referenceStore.child(barcodeNumber.getText().toString()).setValue(infoProduct).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            plusDialog.dismiss();
+                                            addDialog.dismiss();
 
-                                // Create the Snackbar
-                                Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_add_item), Snackbar.LENGTH_LONG);
-                                // Set the Snackbar Layout
-                                snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
-                                snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-                                // Show the Snackbar
-                                snackbar.show();
-                                ArrayList<ProductModel> tempProductModels = storeProductViewModel.getProductModels().getValue();
-                                tempProductModels.add(infoProduct);
-                                storeProductViewModel.setProductModels(tempProductModels);
-                                databaseListAdapter.notifyDataSetChanged();
+                                            // Create the Snackbar
+                                            Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_add_item), Snackbar.LENGTH_LONG);
+                                            // Set the Snackbar Layout
+                                            snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
+                                            snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                                            // Show the Snackbar
+                                            snackbar.show();
+                                            ArrayList<ProductModel> tempProductModels = storeProductViewModel.getProductModels().getValue();
+                                            tempProductModels.add(infoProduct);
+                                            storeProductViewModel.setProductModels(tempProductModels);
+                                            databaseListAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+                                } else{
+                                    barcodeNumber.setError("Barcode can not be the same as another product.");
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
                             }
                         });
+
 
                     }
 
