@@ -216,14 +216,14 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
             tempFavouritesList.add(item);
             userListViewModel.setFavouritesList(tempFavouritesList);
 
-            String message = toastMessages[position];
+            String message = item.getProductName();
             String toastMessage = getString(R.string.placeholder_toast_favourites_format, message);
             Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
         } else {
             tempFavouritesList.remove(item);
             userListViewModel.setFavouritesList(tempFavouritesList);
 
-            String message = toastMessages[position];
+            String message = item.getProductName();
             String toastMessage = getString(R.string.placeholder_toast_unfavourites_format, message);
             Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
         }
@@ -251,11 +251,11 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
             tempShoppingList.put(item, 1);
             userListViewModel.setShoppingList(tempShoppingList);
 
-            String message = toastMessages[position];
+            String message = item.getProductName();
             String toastMessage = getString(R.string.placeholder_toast_shopping_list_success_format, message);
             Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
         } else {
-            String message = toastMessages[position];
+            String message = item.getProductName();
             String toastMessage = getString(R.string.placeholder_toast_shopping_list_fail_format, message);
             Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
         }
