@@ -13,7 +13,7 @@
         android:background="@drawable/dialog_background">
 
         <TextView
-            android:id="@+id/item_name_title"
+            android:id="@+id/store_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/edit_item_name"
+            android:id="@+id/edit_store_name"
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_marginStart="16dp"
@@ -31,27 +31,27 @@
             android:background="@color/fill_in_grey_color"
             android:ems="10"
             android:inputType="text"
-            app:layout_constraintBottom_toTopOf="@+id/item_amount_title"
+            app:layout_constraintBottom_toTopOf="@+id/store_location_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_name_title" />
+            app:layout_constraintTop_toBottomOf="@+id/store_name_title" />
 
         <TextView
-            android:id="@+id/item_amount_title"
+            android:id="@+id/store_location_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/prompt_location"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/edit_item_amount"
+            app:layout_constraintBottom_toTopOf="@+id/edit_store_location"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_item_name" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_store_name" />
 
         <EditText
-            android:id="@+id/edit_item_amount"
+            android:id="@+id/edit_store_location"
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_marginStart="16dp"
@@ -59,26 +59,26 @@
             android:background="@color/fill_in_grey_color"
             android:ems="10"
             android:inputType="text"
-            app:layout_constraintBottom_toTopOf="@+id/text_item_price"
+            app:layout_constraintBottom_toTopOf="@+id/text_store_kvk"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_amount_title" />
+            app:layout_constraintTop_toBottomOf="@+id/store_location_title" />
 
         <TextView
-            android:id="@+id/text_item_price"
+            android:id="@+id/text_store_kvk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/prompt_kvk"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/edit_item_price"
+            app:layout_constraintBottom_toTopOf="@+id/edit_store_kvk"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_item_amount" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_store_location" />
 
         <EditText
-            android:id="@+id/edit_item_price"
+            android:id="@+id/edit_store_kvk"
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_marginStart="16dp"
@@ -89,7 +89,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_item_price" />
+            app:layout_constraintTop_toBottomOf="@+id/text_store_kvk" />
 
         <Button
             android:id="@+id/edit_store_cancel"
@@ -101,21 +101,21 @@
             android:backgroundTint="@color/white"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_item_price"
+            app:layout_constraintTop_toBottomOf="@id/edit_store_kvk"
             app:layout_constraintEnd_toStartOf="@id/edit_store_confirm" />
 
         <Button
             android:id="@+id/edit_store_confirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/save"
-            android:textSize="@dimen/body_text_size"
-            android:backgroundTint="@color/green"
             android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="@string/confirm"
+            android:textSize="@dimen/body_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_item_price"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_store_kvk" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

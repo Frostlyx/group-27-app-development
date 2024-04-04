@@ -29,8 +29,16 @@ public class ProductModel {
         return productName;
     }
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public String getProductPrice() {
         return productPrice;
+    }
+
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
     }
 
     public List<Integer> getProductImageList() {
@@ -45,15 +53,31 @@ public class ProductModel {
         return category;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public String getDiscount() {
         return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
     }
 
     public String getProductAmount() {
         return productAmount;
     }
 
+    public void setProductAmount(String productAmount) {
+        this.productAmount = productAmount;
+    }
+
     public String getProductBarcode() {
         return productBarcode;
+    }
+
+    public void setProductBarcode(String productBarcode) {
+        this.productBarcode = productBarcode;
     }
 }
