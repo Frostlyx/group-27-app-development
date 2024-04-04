@@ -350,11 +350,10 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 tempProductModels.remove(position);
                 storeProductViewModel.setProductModels(tempProductModels);
 
-
                 databaseListAdapter.notifyItemRemoved(position);
                 databaseListAdapter.notifyItemRangeChanged(position, databaseListAdapter.getItemCount());
                 DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-                DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductName());
+                DatabaseReference removalProduct = referenceProfile.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductBarcode());
                 removalProduct.getRef().removeValue();
             }
         });
