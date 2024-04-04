@@ -180,9 +180,6 @@ public class EditProductFragment extends Fragment {
             if (storeDatabaseFormState.getPriceError() != null) {
                 priceEditText.setError(getString(storeDatabaseFormState.getPriceError()));
             }
-            if (storeDatabaseFormState.getDiscountError() != null) {
-                discountEditText.setError(getString(storeDatabaseFormState.getDiscountError()));
-            }
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
