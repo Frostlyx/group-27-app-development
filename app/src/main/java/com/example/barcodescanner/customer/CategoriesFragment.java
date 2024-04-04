@@ -20,7 +20,7 @@ import java.util.List;
 
 public class CategoriesFragment extends Fragment implements CategoryRecyclerViewInterface {
 
-    List<StoreModel> marketList;
+    ArrayList<StoreModel> marketList;
     RecyclerView favRecView, secondView;
     CategoryRecyclerViewAdapter myAdapter;
     private SharedViewModel sharedViewModel;
@@ -55,20 +55,16 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         return rootView;
     }
 
-    private List<StoreModel> generateMarkets(){
-        List<StoreModel> item = new ArrayList<>();
-        item.add(new StoreModel("Food", "denenmis", generateImages()));
-        item.add(new StoreModel("Drink", "denenmis", generateImages()));
-        item.add(new StoreModel("Meat", "denenmis", generateImages()));
+    private ArrayList<StoreModel> generateMarkets(){
+        ArrayList<StoreModel> item = new ArrayList<>();
         item.add(new StoreModel("Vegetables", "denenmis", generateImages()));
+        item.add(new StoreModel("Fruit", "denenmis", generateImages()));
         item.add(new StoreModel("Bread", "denenmis", generateImages()));
+        item.add(new StoreModel("Meat", "denenmis", generateImages()));
         item.add(new StoreModel("Snacks", "denenmis", generateImages()));
-        item.add(new StoreModel("Food", "denenmis", generateImages()));
-        item.add(new StoreModel("Food", "denenmis", generateImages()));
-        item.add(new StoreModel("Food", "denenmis", generateImages()));
-        item.add(new StoreModel("Food", "denenmis", generateImages()));
-        item.add(new StoreModel("Food", "denenmis", generateImages()));
-        item.add(new StoreModel("Food", "denenmis", generateImages()));
+        item.add(new StoreModel("Sweets", "denenmis", generateImages()));
+        item.add(new StoreModel("Drinks", "denenmis", generateImages()));
+        item.add(new StoreModel("Vega(n)", "denenmis", generateImages()));
         return item;
     }
 
@@ -77,7 +73,8 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         String[] categories = requireContext().getResources().getStringArray(R.array.placeholder_categories);
 
         if (position >= 0 && position < categories.length) {
-            String category = categories[position];
+            String category = marketList.get(position).getStoreName();
+            //String category = categories[position];
             sharedViewModel.filterBy(category);
 
             // Set the home item as selected in the bottom navigation view

@@ -25,8 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentEditProductBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -92,23 +90,6 @@ public class EditProductFragment extends Fragment {
         binding.storeProductPrice.setText(item.getProductPrice());
         binding.storeProductCategory.setText(item.getCategory());
 
-//        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
-//        binding.productDeleteIcon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
-//                    ((StoreActivity) view.getContext()).replaceFragment(new StoreDatabaseFragment(), view.getContext().getString(R.string.edit_product_title));
-//                }
-//            }
-//        });
-
         return binding.getRoot();
 
     }
@@ -146,7 +127,7 @@ public class EditProductFragment extends Fragment {
         final EditText priceEditText = editDialog.findViewById(R.id.edit_item_price);
         final EditText discountEditText = editDialog.findViewById(R.id.edit_text_discount);
 
-        String[] categories = {"Food", "Drinks", "Other stuff"};
+        String[] categories = {"Vegetables", "Fruit", "Bread", "Meat", "Snacks", "Sweets", "Drinks", "Vega(n)"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(arrayAdapter);

@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.example.barcodescanner.databinding.FragmentStoreDatabaseBinding;
-import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -135,7 +134,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
             final EditText price = addDialog.findViewById(R.id.edit_item_price);
             final EditText discountEditText = addDialog.findViewById(R.id.edit_text_discount);
 
-            String[] categories = {"Food", "Drinks", "Other stuff"};
+            String[] categories = {"Vegetables", "Fruit", "Bread", "Meat", "Snacks", "Sweets", "Drinks", "Vega(n)"};
             selectedItem = categories[0];
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -375,7 +374,7 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
         final EditText priceEditText = editDialog.findViewById(R.id.edit_item_price);
         final EditText discountEditText = editDialog.findViewById(R.id.edit_text_discount);
 
-        String[] categories = {"Food", "Drinks", "Other stuff"};
+        String[] categories = {"Vegetables", "Fruit", "Bread", "Meat", "Snacks", "Sweets", "Drinks", "Vega(n)"};
         selectedItem = categories[0];
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -462,9 +461,6 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
             public void onClick(View v) {
                 ProductModel item = storeProductViewModel.getProductModels().getValue().get(position);
 
-
-
-
                 DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
                 DatabaseReference removalProduct = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(item.getProductBarcode());
                 DatabaseReference referenceStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -506,23 +502,3 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

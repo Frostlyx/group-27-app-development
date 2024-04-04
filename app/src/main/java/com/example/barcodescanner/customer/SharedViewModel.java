@@ -2,7 +2,6 @@ package com.example.barcodescanner.customer;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -118,39 +117,52 @@ public class SharedViewModel extends ViewModel {
 
         Iterator<ProductModel> iter = tempProductModels.iterator();
 
-        switch (criteria) {
-            case "Food":
-                while (iter.hasNext()) {
-                    ProductModel product = iter.next();
-                    if (!"Food".equals(product.getCategory())) {
-                        tempFilteredProductModels.add(product);
-                        iter.remove();
-                    }
-                }
-
-                Log.i("Filter", "Food");
-                for (ProductModel productModel : tempProductModels) {
-                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
-                }
-
-                break;
-
-            case "Drink":
-                while (iter.hasNext()) {
-                    ProductModel product = iter.next();
-                    if (!"Drink".equals(product.getCategory())) {
-                        tempFilteredProductModels.add(product);
-                        iter.remove();
-                    }
-                }
-
-                Log.i("Filter", "Drink");
-                for (ProductModel productModel : tempProductModels) {
-                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
-                }
-
-                break;
+        while (iter.hasNext()) {
+            ProductModel product = iter.next();
+            if (!criteria.equals(product.getCategory())) {
+                tempFilteredProductModels.add(product);
+                iter.remove();
+            }
         }
+
+        Log.i("Filter", criteria);
+        for (ProductModel productModel : tempProductModels) {
+            Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
+        }
+
+//        switch (criteria) {
+//            case "Food":
+//                while (iter.hasNext()) {
+//                    ProductModel product = iter.next();
+//                    if (!"Food".equals(product.getCategory())) {
+//                        tempFilteredProductModels.add(product);
+//                        iter.remove();
+//                    }
+//                }
+//
+//                Log.i("Filter", "Food");
+//                for (ProductModel productModel : tempProductModels) {
+//                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
+//                }
+//
+//                break;
+//
+//            case "Drink":
+//                while (iter.hasNext()) {
+//                    ProductModel product = iter.next();
+//                    if (!"Drink".equals(product.getCategory())) {
+//                        tempFilteredProductModels.add(product);
+//                        iter.remove();
+//                    }
+//                }
+//
+//                Log.i("Filter", "Drink");
+//                for (ProductModel productModel : tempProductModels) {
+//                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
+//                }
+//
+//                break;
+//        }
 
         productModels.setValue(tempProductModels);
         filteredProductModels.setValue(tempFilteredProductModels);
