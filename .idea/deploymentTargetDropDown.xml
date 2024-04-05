@@ -2,12 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="ProductModelTest">
-        <State />
-      </entry>
-      <entry key="UserListViewModelTest">
-        <State />
-      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -24,7 +18,7 @@
           <timeTargetWasSelectedWithDropDown value="2024-04-05T13:27:18.113564200Z" />
         </State>
       </entry>
-      <entry key="testLiveDataUpdates()">
+      <entry key="testGetProductModels()">
         <State />
       </entry>
     </value>
