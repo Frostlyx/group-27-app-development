@@ -22,7 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for the profile page on the customer side of the app.
+ * Allows user to log out, change password and delete their account.
  */
 public class ProfileFragment extends Fragment {
 
@@ -78,14 +79,16 @@ public class ProfileFragment extends Fragment {
         btnDeleteAccCancel = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_cancel);
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("  ");
 
-
+        //check if user is logged in
         if (user == null) {
+            //if not logged in, redirect to MainActivity (Customer) or StoreActivity (Store Owner)
             if (getActivity() != null && getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).replaceActivity();
             } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
                 ((StoreActivity) getActivity()).replaceActivity();
             }
         } else {
+            //Display user's email and username
             textView.setText(user.getEmail());
             username_text.setText(user.getDisplayName());
         }
@@ -108,11 +111,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //Button listener for when user clicks button to log out
         btnLogoutConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logoutDialog.dismiss();
+                //Signs out user in Firebase
                 FirebaseAuth.getInstance().signOut();
+                //Redirecting to Welcome page
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).replaceActivity();
                 } else if (getActivity() != null && getActivity() instanceof StoreActivity) {
@@ -128,6 +134,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //Button listener for when user clicks 'Delete account' and cancels on pop-up
         btnDeleteAccCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,10 +142,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //Button listener for when user clicks 'Delete account' and presses 'Confirm' on pop-up
         btnDeleteAccConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteAccDialog.dismiss();
+                //Deleting user data from Firebase
                 DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
                 DatabaseReference removalStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 removalStore.getRef().removeValue();
@@ -151,8 +160,11 @@ public class ProfileFragment extends Fragment {
                 DatabaseReference removalStoreOwner = referenceStoreOwner.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 removalStoreOwner.getRef().removeValue();
 
+                //Deleting user's account
                 user.delete();
+                //Sign out user
                 FirebaseAuth.getInstance().signOut();
+                //Redirect to Welcome activity
                 if (getActivity() != null && getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).replaceActivity();
                 } else if (getActivity() != null && getActivity() instanceof StoreActivity) {

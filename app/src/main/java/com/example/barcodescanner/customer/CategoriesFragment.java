@@ -18,11 +18,17 @@ import com.example.barcodescanner.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Customer side fragment for displaying category buttons to filter the home page by.
+ */
 public class CategoriesFragment extends Fragment implements CategoryRecyclerViewInterface {
 
+    // List of categories
     ArrayList<StoreModel> categoriesList;
-    RecyclerView favouritesRecyclerView;
+    RecyclerView categoriesRecyclerView;
     CategoryRecyclerViewAdapter categoryRecyclerViewAdapter;
+
+    // Shared model of products to display on the main page
     private SharedViewModel sharedViewModel;
 
     public CategoriesFragment() {
@@ -34,26 +40,32 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_categories, container, false);
         container.clearDisappearingChildren();
-        categoriesList = generateMarkets();
+        // Make the list of categories displayed
+        categoriesList = createCategories();
+        // Recyclewview to display categories
+        categoriesRecyclerView = rootView.findViewById(R.id.recyclerviewcat);
 
-        favouritesRecyclerView = rootView.findViewById(R.id.recyclerviewcat);
+        // Change amount of categories per row based on device screen width
         if(getScreenWidth() > 1200) {
             GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 4);
-            favouritesRecyclerView.setLayoutManager(layoutManager);
+            categoriesRecyclerView.setLayoutManager(layoutManager);
         }else {
             GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
-            favouritesRecyclerView.setLayoutManager(layoutManager);
+            categoriesRecyclerView.setLayoutManager(layoutManager);
         }
 
+        // Initialize adapter for categories
         categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(categoriesList, this);
-        favouritesRecyclerView.setAdapter(categoryRecyclerViewAdapter);
+        categoriesRecyclerView.setAdapter(categoryRecyclerViewAdapter);
 
-        sharedViewModel = ((MainActivity) getActivity()).getSharedViewModel();
+        // Get shared model of products from MainActivity
+        sharedViewModel = ((MainActivity) requireActivity()).getSharedViewModel();
 
         return rootView;
     }
 
-    private ArrayList<StoreModel> generateMarkets(){
+    // Creates the list of categories to display.
+    private ArrayList<StoreModel> createCategories(){
         ArrayList<StoreModel> item = new ArrayList<>();
         item.add(new StoreModel("Vegetables", "", generateImages()));
         item.add(new StoreModel("Fruit", "", generateImages()));
@@ -66,24 +78,27 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         return item;
     }
 
+    // When a category gets clicked, filter the shared model based on the category and open the main page.
     @Override
     public void onItemClick(int position) {
+        // Defines list of categories (must be in the same order as in createCategories)
         String[] categories = requireContext().getResources().getStringArray(R.array.placeholder_categories);
 
         if (position >= 0 && position < categories.length) {
+            // Filter shared model
             String category = categoriesList.get(position).getStoreName();
-            //String category = categories[position];
             sharedViewModel.filterBy(category);
 
             // Set the home item as selected in the bottom navigation view
             ((MainActivity) requireActivity()).setBottomNavigationSelectedItem(R.id.home);
 
             // Replace fragment
-            ((MainActivity) getActivity()).replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
+            ((MainActivity) requireActivity()).replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
         } else {
             Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
         }
     }
+
     private List<Integer> generateImages() {
         List<Integer> images = new ArrayList<>();
         images.add(R.drawable.bread);
@@ -95,6 +110,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         return images;
     }
 
+    // Used for screen rotation, updates the fragment accordingly.
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
