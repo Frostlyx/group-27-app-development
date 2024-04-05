@@ -82,3 +82,4 @@ public class ValidityCheckerTest extends TestCase {
         assertFalse(validityChecker.isPriceValid(-1.0));
     }
 }
+
