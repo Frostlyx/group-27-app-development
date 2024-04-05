@@ -2,16 +2,15 @@ package com.example.barcodescanner.customer;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.barcodescanner.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,17 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 
 public class FavouritesFragment extends Fragment implements ProductRecyclerViewInterface{
-
 
     private List<ProductModel> notFavouritesList;
     private RecyclerView favRecView;
     private FavouritesAdapter myAdapter;
     private UserListViewModel userListViewModel;
-
 
     public FavouritesFragment() {
         // Required empty public constructor

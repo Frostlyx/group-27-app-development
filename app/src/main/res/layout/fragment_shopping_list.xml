@@ -28,18 +28,4 @@
         android:padding="15dp"
         />
 
-    <TextView
-        android:gravity="center"
-        android:text="Calculate the Cheapest Store"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        android:id="@+id/cheapBtn"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:background="@drawable/inc_button"/>
-
-
-
 </RelativeLayout>
