@@ -83,6 +83,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     // Method to filter products based on search input
     public void searchProduct(String input) {
         ArrayList<ProductModel> filteredProductList = new ArrayList<>();
+        // Adds product to filtered products list if the product name contains the searchbar text
         for (ProductModel product : productModels) {
             if (product.getProductName().toLowerCase().contains(input.toLowerCase())) {
                 filteredProductList.add(product);
@@ -132,6 +133,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
                     if (recyclerViewInterface != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
+                            // Adds item to customers favourites list
                             recyclerViewInterface.onFavouritesClick(position);
                         }
                     }
@@ -145,6 +147,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
                     if (recyclerViewInterface != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
+                            // Adds item to customers shopping list
                             recyclerViewInterface.onShoppingListClick(position);
                         }
                     }
