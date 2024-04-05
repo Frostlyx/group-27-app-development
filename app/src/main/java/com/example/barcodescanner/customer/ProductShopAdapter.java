@@ -43,7 +43,7 @@ public class ProductShopAdapter extends RecyclerView.Adapter<ProductShopAdapter.
         return storeList.size();
     }
 
-    public static class VideoViewHolder extends RecyclerView.ViewHolder{
+    public class VideoViewHolder extends RecyclerView.ViewHolder{
         ImageView image_view;
         TextView store_name;
         TextView location_name;
