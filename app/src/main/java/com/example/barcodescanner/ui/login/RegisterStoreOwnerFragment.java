@@ -11,11 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+
 import com.example.barcodescanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Login side fragment to allow store owners to register an account.
  */
 public class RegisterStoreOwnerFragment extends Fragment {
 
@@ -45,6 +46,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Sets up a new store owner view model
         registerStoreOwnerViewModel = new RegisterStoreOwnerViewModel();
         isDataValid = false;
         mAuth = FirebaseAuth.getInstance();
@@ -61,6 +63,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Getting references to UI elements
         final Button backButton = view.findViewById(R.id.back);
         final Button registerButton = view.findViewById(R.id.register);
         final EditText usernameEditText = view.findViewById(R.id.username);
@@ -73,38 +76,49 @@ public class RegisterStoreOwnerFragment extends Fragment {
         final EditText confirmPasswordEditText = view.findViewById(R.id.confirm_password);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
+        // Observing changes in register form state
         registerStoreOwnerViewModel.getRegisterStoreOwnerFormState().observe(getViewLifecycleOwner(), registerStoreOwnerFormState -> {
             if (registerStoreOwnerFormState == null) {
                 return;
             }
+            // Checks if credentials are valid
             isDataValid = registerStoreOwnerFormState.isDataValid();
 
+            // Setting error message for an invalid username
             if (registerStoreOwnerFormState.getUsernameError() != null) {
                 usernameEditText.setError(getString(registerStoreOwnerFormState.getUsernameError()));
             }
+            // Setting error message for an invalid store name
             if (registerStoreOwnerFormState.getStoreNameError() != null) {
                 storeNameEditText.setError(getString(registerStoreOwnerFormState.getStoreNameError()));
             }
+            // Setting error message for an incorrect email
             if (registerStoreOwnerFormState.getEmailError() != null) {
                 emailEditText.setError(getString(registerStoreOwnerFormState.getEmailError()));
             }
+            // Setting error message when email and confirm email do not match
             if (registerStoreOwnerFormState.getConfirmEmailError() != null) {
                 confirmEmailEditText.setError(getString(registerStoreOwnerFormState.getConfirmEmailError()));
             }
+            // Setting error message for an invalid location
             if (registerStoreOwnerFormState.getLocationError() != null) {
                 locationEditText.setError(getString(registerStoreOwnerFormState.getLocationError()));
             }
+            // Setting error message for an incorrect KvK number
             if (registerStoreOwnerFormState.getKvkError() != null) {
                 kvkEditText.setError(getString(registerStoreOwnerFormState.getKvkError()));
             }
+            // Setting error message for an invalid password
             if (registerStoreOwnerFormState.getPasswordError() != null) {
                 passwordEditText.setError(getString(registerStoreOwnerFormState.getPasswordError()));
             }
+            // Setting error message when password and confirm password do not match
             if (registerStoreOwnerFormState.getConfirmPasswordError() != null) {
                 confirmPasswordEditText.setError(getString(registerStoreOwnerFormState.getConfirmPasswordError()));
             }
         });
 
+        // TextWatcher to observe changes in form fields
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -118,6 +132,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                // Validate form data and check if username already exists
                 int kvkText;
                 try{
                     kvkText = Integer.parseInt(kvkEditText.getText().toString());
@@ -130,6 +145,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
                         passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString());
                 String username = usernameEditText.getText().toString();
                 DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                // Listener to check if username already exists when filled in
                 referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -151,6 +167,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
                 });
             }
         };
+        // Adding TextWatcher to each form field
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         storeNameEditText.addTextChangedListener(afterTextChangedListener);
         emailEditText.addTextChangedListener(afterTextChangedListener);
@@ -160,13 +177,17 @@ public class RegisterStoreOwnerFragment extends Fragment {
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
 
+        // Back button click listener
         backButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                // Sends you back to the welcome page
                 ((WelcomeActivity) getActivity()).welcomeActivity();
             }
         });
 
+        // Register button click listener
         registerButton.setOnClickListener(v -> {
+            // Check if form data is valid and if username already exists
             if (!isDataValid) {
                 showRegisterStoreOwnerFailed(R.string.data_failed);
                 return;
@@ -175,11 +196,16 @@ public class RegisterStoreOwnerFragment extends Fragment {
                 return;
             }
             loadingProgressBar.setVisibility(View.VISIBLE);
+            // Gets filled in username and password
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
+
+            // Create user with email and password
             mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    // If user creation is successful
                     if (mAuth.getCurrentUser() != null) {
+                        // Write store owner details to Firebase database
                         ReadWriteUserDetails writeCustomerDetails = new ReadWriteUserDetails(usernameEditText.getText().toString(),emailEditText.getText().toString(), passwordEditText.getText().toString(), kvkEditText.getText().toString(), locationEditText.getText().toString(), storeNameEditText.getText().toString());
                         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
                         DatabaseReference referenceStoreOwners= referenceProfile.child("Store Owners");
@@ -188,6 +214,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
                         referenceStoreOwners.child(mAuth.getCurrentUser().getUid()).setValue(writeCustomerDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                // Navigate to store owner activity upon successful registration
                                 if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                                     ((WelcomeActivity) getActivity()).storeActivity();
                                 }
@@ -196,12 +223,13 @@ public class RegisterStoreOwnerFragment extends Fragment {
 
                     }
                 } else {
+                    // If user creation fails, show appropriate error message
                     Exception exception = task.getException();
-                    if (exception instanceof FirebaseAuthUserCollisionException) {
+                    if (exception instanceof FirebaseAuthUserCollisionException) { // email taken
                         showRegisterStoreOwnerFailed(R.string.email_exists);
-                    } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                    } else if (exception instanceof FirebaseAuthInvalidCredentialsException) { // invalid email
                         showRegisterStoreOwnerFailed(R.string.invalid_email);
-                    } else {
+                    } else { // generic error message
                         showRegisterStoreOwnerFailed(R.string.register_failed);
                     }
                     loadingProgressBar.setVisibility(View.GONE);
@@ -210,7 +238,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
         });
     }
 
-
+    // Method to show registration failed message
     private void showRegisterStoreOwnerFailed(@StringRes Integer errorString) {
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(
@@ -220,7 +248,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
         }
     }
 
-    //changing rotation
+    // Method to handle orientation change
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
