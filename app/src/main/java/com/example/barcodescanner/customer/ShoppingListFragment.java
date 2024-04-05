@@ -31,7 +31,6 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
     List<ProductModel> itemList;
     RecyclerView shopRecView;
     ShoppingListAdapter myAdapter;
-    ImageView imageView;
     private UserListViewModel userListViewModel;
 
 

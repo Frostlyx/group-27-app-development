@@ -29,8 +29,6 @@ public class StoreFragment extends Fragment {
     StoreModel store;
     int position;
     List<Integer> imageList;
-    String storeName;
-    String location;
 
     private FragmentStorePageBinding binding;
 
