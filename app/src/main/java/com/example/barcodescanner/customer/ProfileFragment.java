@@ -90,8 +90,6 @@ public class ProfileFragment extends Fragment {
             username_text.setText(user.getDisplayName());
         }
 
-        //Change password screen has to be made.
-
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

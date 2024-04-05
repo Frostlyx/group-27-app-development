@@ -8,12 +8,8 @@ public class ProductModel {
     List<Integer> productImageList;
     String category;
     String discount;
-
-
     String productBarcode;
-
     String productAmount;
-    // other stuff idk yet
 
     public ProductModel(String productName, String productPrice, List<Integer> productImageList, String category, String discount, String productAmount, String productBarcode) {
         this.productName = productName;

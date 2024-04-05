@@ -1,6 +1,11 @@
 package com.example.barcodescanner.customer;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -9,12 +14,6 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.example.barcodescanner.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,8 +73,8 @@ public class ProductFragment extends Fragment implements ProductRecyclerViewInte
         secondView.setLayoutManager(layoutManager);
 
         userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
-//        item = userListViewModel.getFavouritesList().getValue().get(0);
         notFavouritesList = new ArrayList<>();
+
         marketsGenerated.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
