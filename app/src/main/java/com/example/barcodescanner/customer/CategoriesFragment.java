@@ -20,12 +20,10 @@ import java.util.List;
 
 public class CategoriesFragment extends Fragment implements CategoryRecyclerViewInterface {
 
-    ArrayList<StoreModel> marketList;
-    RecyclerView favRecView, secondView;
-    CategoryRecyclerViewAdapter myAdapter;
+    ArrayList<StoreModel> categoriesList;
+    RecyclerView favouritesRecyclerView;
+    CategoryRecyclerViewAdapter categoryRecyclerViewAdapter;
     private SharedViewModel sharedViewModel;
-
-
 
     public CategoriesFragment() {
         // Required empty public constructor
@@ -36,19 +34,19 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_categories, container, false);
         container.clearDisappearingChildren();
-        marketList = generateMarkets();
+        categoriesList = generateMarkets();
 
-        favRecView = rootView.findViewById(R.id.recyclerviewcat);
+        favouritesRecyclerView = rootView.findViewById(R.id.recyclerviewcat);
         if(getScreenWidth() > 1200) {
             GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 4);
-            favRecView.setLayoutManager(layoutManager);
+            favouritesRecyclerView.setLayoutManager(layoutManager);
         }else {
             GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
-            favRecView.setLayoutManager(layoutManager);
+            favouritesRecyclerView.setLayoutManager(layoutManager);
         }
 
-        myAdapter = new CategoryRecyclerViewAdapter(marketList, this);
-        favRecView.setAdapter(myAdapter);
+        categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(categoriesList, this);
+        favouritesRecyclerView.setAdapter(categoryRecyclerViewAdapter);
 
         sharedViewModel = ((MainActivity) getActivity()).getSharedViewModel();
 
@@ -57,14 +55,14 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
 
     private ArrayList<StoreModel> generateMarkets(){
         ArrayList<StoreModel> item = new ArrayList<>();
-        item.add(new StoreModel("Vegetables", "denenmis", generateImages()));
-        item.add(new StoreModel("Fruit", "denenmis", generateImages()));
-        item.add(new StoreModel("Bread", "denenmis", generateImages()));
-        item.add(new StoreModel("Meat", "denenmis", generateImages()));
-        item.add(new StoreModel("Snacks", "denenmis", generateImages()));
-        item.add(new StoreModel("Sweets", "denenmis", generateImages()));
-        item.add(new StoreModel("Drinks", "denenmis", generateImages()));
-        item.add(new StoreModel("Vega(n)", "denenmis", generateImages()));
+        item.add(new StoreModel("Vegetables", "", generateImages()));
+        item.add(new StoreModel("Fruit", "", generateImages()));
+        item.add(new StoreModel("Bread", "", generateImages()));
+        item.add(new StoreModel("Meat", "", generateImages()));
+        item.add(new StoreModel("Snacks", "", generateImages()));
+        item.add(new StoreModel("Sweets", "", generateImages()));
+        item.add(new StoreModel("Drinks", "", generateImages()));
+        item.add(new StoreModel("Vega(n)", "", generateImages()));
         return item;
     }
 
@@ -73,7 +71,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         String[] categories = requireContext().getResources().getStringArray(R.array.placeholder_categories);
 
         if (position >= 0 && position < categories.length) {
-            String category = marketList.get(position).getStoreName();
+            String category = categoriesList.get(position).getStoreName();
             //String category = categories[position];
             sharedViewModel.filterBy(category);
 

@@ -35,7 +35,7 @@ public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
     private LoginViewModel loginViewModel;
     private boolean isDataValid;
-    String email;
+    String email = "not true";
 
     // Default constructor
     public LoginFragment() {
@@ -129,7 +129,7 @@ public class LoginFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     outer : for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                            if(username.equalsIgnoreCase(userSnapshot.child("username").getValue(String.class))) {
+                            if(username.equalsIgnoreCase(userSnapshot.child("username").getValue().toString())) {
                                 email = userSnapshot.child("email").getValue(String.class);
                                 break outer;
                             }
