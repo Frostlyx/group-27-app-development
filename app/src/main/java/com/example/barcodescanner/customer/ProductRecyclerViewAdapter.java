@@ -16,49 +16,60 @@ import com.example.barcodescanner.R;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter class for displaying products on the main page for customers.
+ */
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.MyViewHolder> {
+
+    // Interface to define onClickListeners
     private final ProductRecyclerViewInterface recyclerViewInterface;
     Context context;
+    // Shared model of products to display
     SharedViewModel sharedViewModel;
     UserListViewModel userListViewModel;
     ArrayList<ProductModel> productModels;
 
+    // Constructor
     public ProductRecyclerViewAdapter(Context context,
                                       ProductRecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.recyclerViewInterface = recyclerViewInterface;
+        // Accessing SharedViewModel and UserListViewModel instances from MainActivity
         this.sharedViewModel = ((MainActivity) context).getSharedViewModel();
         this.userListViewModel = ((MainActivity) context).getUserListViewModel();
+        // Getting the list of product models from SharedViewModel
         this.productModels = sharedViewModel.getProductModels().getValue();
     }
+
     @NonNull
     @Override
     public ProductRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflates the layout (giving a look to the rows)
+        // Inflates the layout for individual rows
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.main_page_recycler_view_row, parent, false);
-
-        return new ProductRecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
+        return new MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductRecyclerViewAdapter.MyViewHolder holder, int position) {
-        // Assigns values to the views in the main_page_recycler_view_row.xml file
-        // based on position of the recycler view
+        // Binds data to views in each row based on position
         holder.productImage.setImageResource(productModels.get(position).getProductImage(0));
         holder.productName.setText(productModels.get(position).getProductName());
         holder.productPrice.setText(productModels.get(position).getProductPrice());
         holder.favouritesButton.setChecked(isFavourite(productModels.get(position)));
+        // Set margin for the item view
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
         layoutParams.bottomMargin = context.getResources().getDimensionPixelSize(R.dimen.item_vertical_spacing);
         holder.itemView.setLayoutParams(layoutParams);
     }
 
+    // Gets the item count in the shared model of products
     @Override
     public int getItemCount() {
         return productModels.size();
     }
 
+    // Method to check if a product is in the user's favorites list
     private boolean isFavourite(ProductModel item) {
         ArrayList<ProductModel> favouritesList = userListViewModel.getFavouritesList().getValue();
         for (ProductModel pm : favouritesList) {
@@ -69,6 +80,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         return false;
     }
 
+    // Method to filter products based on search input
     public void searchProduct(String input) {
         ArrayList<ProductModel> filteredProductList = new ArrayList<>();
         for (ProductModel product : productModels) {
@@ -80,29 +92,32 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         notifyDataSetChanged();
     }
 
+    // ViewHolder class
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // grabbing the views from main_page_recycler_view_row.xml
-        // works similar to onCreate method
+        // Views in each row
         ImageView productImage;
         TextView productName;
         TextView productPrice;
         CheckBox favouritesButton;
         ImageButton shoppingListButton;
+
+        // Constructor
         public MyViewHolder(@NonNull View itemView, ProductRecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
+            // Initializing views
             productImage = itemView.findViewById(R.id.product_image);
             productName = itemView.findViewById(R.id.product_name);
             productPrice = itemView.findViewById(R.id.product_price);
             favouritesButton = itemView.findViewById(R.id.favourites_button);
             shoppingListButton = itemView.findViewById(R.id.shopping_list_button);
 
+            // Click listener for item
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (recyclerViewInterface != null) {
                         int position = getAdapterPosition();
-
                         if (position != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(position);
                         }
@@ -110,6 +125,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
                 }
             });
 
+            // Click listener for favourites button
             favouritesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -122,6 +138,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
                 }
             });
 
+            // Click listener for shopping list button
             shoppingListButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
