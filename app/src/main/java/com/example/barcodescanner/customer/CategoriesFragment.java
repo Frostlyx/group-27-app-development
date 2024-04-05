@@ -59,7 +59,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         categoriesRecyclerView.setAdapter(categoryRecyclerViewAdapter);
 
         // Get shared model of products from MainActivity
-        sharedViewModel = ((MainActivity) getActivity()).getSharedViewModel();
+        sharedViewModel = ((MainActivity) requireActivity()).getSharedViewModel();
 
         return rootView;
     }
@@ -93,7 +93,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
             ((MainActivity) requireActivity()).setBottomNavigationSelectedItem(R.id.home);
 
             // Replace fragment
-            ((MainActivity) getActivity()).replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
+            ((MainActivity) requireActivity()).replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
         } else {
             Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
         }
