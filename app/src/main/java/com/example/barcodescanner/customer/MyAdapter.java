@@ -1,7 +1,5 @@
 package com.example.barcodescanner.customer;
 
-import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
@@ -18,7 +15,6 @@ import com.example.barcodescanner.R;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.VideoViewHolder> {
-
 
     private  List<ProductModel> itemList;
 

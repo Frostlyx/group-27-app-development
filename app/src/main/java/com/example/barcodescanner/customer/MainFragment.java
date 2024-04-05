@@ -42,13 +42,6 @@ import java.util.Map;
 public class MainFragment extends Fragment implements ProductRecyclerViewInterface {
 
     ImageButton barcodeScannerButton;
-    //    Button order_1;
-//    Button order_2;
-//    Button order_3;
-//    Button order_4;
-//    Button filter_1;
-//    Button filter_2;
-//    Button filter_reset;
     RecyclerView recyclerView;
     SearchView searchView;
     ProductRecyclerViewAdapter adapter;
@@ -149,18 +142,10 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         super.onViewCreated(view, savedInstanceState);
         // Sets up buttons
         barcodeScannerButton = view.findViewById(R.id.barcode_scanner_button);
-//        order_1 = view.findViewById(R.id.order_1);
-//        order_2 = view.findViewById(R.id.order_2);
-//        order_3 = view.findViewById(R.id.order_3);
-//        order_4 = view.findViewById(R.id.order_4);
-//        filter_1 = view.findViewById(R.id.filter_1);
-//        filter_2 = view.findViewById(R.id.filter_2);
-//        filter_reset = view.findViewById(R.id.filter_reset);
         searchView = view.findViewById(R.id.search_view);
 
         // Sets up the recycler view
         recyclerView = view.findViewById(R.id.main_page_recyclerview);
-//        setupProductModels();
         adapter = new ProductRecyclerViewAdapter(requireContext(),
                 this);
         recyclerView.setAdapter(adapter);
@@ -176,34 +161,6 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         barcodeScannerButton.setOnClickListener(v -> {
             scanCode();
         });
-
-//        order_1.setOnClickListener(v -> {
-//            adapter.sortBy("name_ascending");
-//        });
-//
-//        order_2.setOnClickListener(v -> {
-//            adapter.sortBy("name_descending");
-//        });
-//
-//        order_3.setOnClickListener(v -> {
-//            adapter.sortBy("price_ascending");
-//        });
-//
-//        order_4.setOnClickListener(v -> {
-//            adapter.sortBy("price_descending");
-//        });
-//
-//        filter_1.setOnClickListener(v -> {
-//            adapter.filterBy("food");
-//        });
-//
-//        filter_2.setOnClickListener(v -> {
-//            adapter.filterBy("drink");
-//        });
-//
-//        filter_reset.setOnClickListener(v -> {
-//            adapter.filterBy("reset");
-//        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -274,15 +231,6 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
 
                 }
             });
-    /*        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle("Result");
-            builder.setMessage(result.getContents());
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).show();*/
         }
 
 
@@ -327,7 +275,6 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     }
 
-    // Placeholder code for clicking on recyclerview elements
     @Override
     public void onItemClick(int position) {
         ProductModel item = userListViewModel.getProductModels().getValue().get(position);
@@ -342,7 +289,6 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         }
     }
 
-    // Same code as onItemClick
     @Override
     public void onFavouritesClick(int position) {
 
@@ -485,5 +431,4 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
         images.add(R.drawable.bread);
         return images;
     }
-
 }

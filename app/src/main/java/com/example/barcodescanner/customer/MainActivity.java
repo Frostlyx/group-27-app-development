@@ -38,11 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
                     // attempt at deselecting
                     binding.bottomNavigationView.setSelectedItemId(R.id.home);
-//        Menu menu = binding.bottomNavigationView.getMenu();
-//        for (int i = 0; i < menu.size(); i++) {
-//            MenuItem menuItem = menu.getItem(i);
-//            menuItem.setChecked(false);
-//        }
 
                     // Opens fragment for the selected page in the bottom navigation bar
                     binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -71,19 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
                         return true;
                     });
-
-                    // Opens main page when home button gets pressed.
-//        binding.toolbarHome.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Menu menu = binding.bottomNavigationView.getMenu();
-////                for (int i = 0; i < menu.size(); i++) {
-////                    MenuItem menuItem = menu.getItem(i);
-////                    menuItem.setChecked(false);
-////                }
-//                replaceFragment(new MainFragment(), getResources().getString(R.string.home_title));
-//            }
-//        });
                 }
             }
         });
