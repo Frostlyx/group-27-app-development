@@ -48,8 +48,7 @@ public class RegisterCustomerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registerCustomerViewModel = new ViewModelProvider(this, new RegisterCustomerViewModelFactory())
-                .get(RegisterCustomerViewModel.class);
+        registerCustomerViewModel = new RegisterCustomerViewModel();
         isDataValid = false;
         alreadyExists = false;
         mAuth = FirebaseAuth.getInstance();

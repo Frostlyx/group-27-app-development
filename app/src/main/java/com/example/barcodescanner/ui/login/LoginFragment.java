@@ -45,8 +45,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        loginViewModel = new LoginViewModel();
         isDataValid = false;
         mAuth = FirebaseAuth.getInstance();
     }

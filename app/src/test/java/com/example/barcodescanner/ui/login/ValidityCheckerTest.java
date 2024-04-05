@@ -78,6 +78,7 @@ public class ValidityCheckerTest extends TestCase {
         assertTrue(validityChecker.isPriceValid(1.11));
         assertFalse(validityChecker.isPriceValid(1.111));
         assertFalse(validityChecker.isPriceValid(null));
-
+        assertTrue(validityChecker.isPriceValid(0.0));
+        assertFalse(validityChecker.isPriceValid(-1.0));
     }
 }

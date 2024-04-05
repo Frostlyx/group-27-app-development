@@ -45,8 +45,7 @@ public class RegisterStoreOwnerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registerStoreOwnerViewModel = new ViewModelProvider(this, new RegisterStoreOwnerViewModelFactory())
-                .get(RegisterStoreOwnerViewModel.class);
+        registerStoreOwnerViewModel = new RegisterStoreOwnerViewModel();
         isDataValid = false;
         mAuth = FirebaseAuth.getInstance();
     }
