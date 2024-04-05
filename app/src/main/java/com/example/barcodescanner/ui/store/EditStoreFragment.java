@@ -33,18 +33,24 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment responsible for editing store information.
+ */
 public class EditStoreFragment extends Fragment {
 
-    Dialog editStoreDialog;
-    Button editStoreCancel;
-    Button editStoreConfirm;
-    StoreModel store;
-    List<Integer> imageList;
-    String storeName;
-    String location;
+    // Dialog for editing store information
+    private Dialog editStoreDialog;
+    private Button editStoreCancel;
+    private Button editStoreConfirm;
+    private StoreModel store;
+    private List<Integer> imageList;
+    private String storeName;
+    private String location;
 
+    // ViewModel for managing store information
     private EditStoreViewModel editStoreViewModel;
 
+    // Flag to track whether data is valid
     private boolean isDataValid;
     private FragmentEditStoreBinding binding;
 
@@ -69,7 +75,7 @@ public class EditStoreFragment extends Fragment {
                 storeName = dataSnapshot.child("Storename").getValue().toString();
                 location = dataSnapshot.child("location").getValue().toString();
 
-                store = new StoreModel(storeName,location, generateImages());
+                store = new StoreModel(storeName, location, generateImages());
                 imageList = store.getStoreImageList();
                 RecyclerView recyclerView = binding.recyclerView;
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -104,8 +110,8 @@ public class EditStoreFragment extends Fragment {
         Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
         editStoreDialog.getWindow().setBackgroundDrawable(background);
         editStoreDialog.setCancelable(true);
-        editStoreCancel =  editStoreDialog.findViewById(R.id.edit_store_cancel);
-        editStoreConfirm =  editStoreDialog.findViewById(R.id.edit_store_confirm);
+        editStoreCancel = editStoreDialog.findViewById(R.id.edit_store_cancel);
+        editStoreConfirm = editStoreDialog.findViewById(R.id.edit_store_confirm);
 
         final EditText storeNameEditText = editStoreDialog.findViewById(R.id.edit_store_name);
         final EditText storeLocationEditText = editStoreDialog.findViewById(R.id.edit_store_location);
@@ -135,14 +141,15 @@ public class EditStoreFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                // Method to be executed after text has been changed in EditText fields
                 String storeName;
                 String storeLocation;
 
                 // TODO: check if valid information
 
-                // edit information in database
+                // Edit information in database
                 int kvkText;
-                try{
+                try {
                     kvkText = Integer.parseInt(storeKvKEditText.getText().toString());
                 } catch (NumberFormatException e) {
                     kvkText = 0;
@@ -157,6 +164,7 @@ public class EditStoreFragment extends Fragment {
         editInformationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Show the edit store dialog when the button is clicked
                 editStoreDialog.show();
             }
         });
@@ -164,54 +172,53 @@ public class EditStoreFragment extends Fragment {
         editStoreCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Dismiss the edit store dialog when cancel button is clicked
                 editStoreDialog.dismiss();
             }
         });
 
         editStoreConfirm.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                // implement
-                if(isDataValid && !storeKvKEditText.getText().toString().isEmpty() && !storeLocationEditText.getText().toString().isEmpty() && !storeNameEditText.getText().toString().isEmpty()){
-                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
-                DatabaseReference referenceStoreOwners= referenceProfile.child("Store Owners");
-                referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("kvkNumber").setValue(storeKvKEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("location").setValue(storeLocationEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-                referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Storename").setValue(storeNameEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        editStoreDialog.dismiss();
-                        if (getActivity() != null && getActivity() instanceof StoreActivity) {
-                            ((StoreActivity) getActivity()).replaceFragment(new EditStoreFragment(), getResources().getString(R.string.edit_store_title));
+                // Implement store information update
+                if (isDataValid && !storeKvKEditText.getText().toString().isEmpty() && !storeLocationEditText.getText().toString().isEmpty() && !storeNameEditText.getText().toString().isEmpty()) {
+                    DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                    DatabaseReference referenceStoreOwners = referenceProfile.child("Store Owners");
+                    referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("kvkNumber").setValue(storeKvKEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
                         }
+                    });
+                    referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("location").setValue(storeLocationEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                        }
+                    });
+                    referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Storename").setValue(storeNameEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            editStoreDialog.dismiss();
+                            if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                                ((StoreActivity) getActivity()).replaceFragment(new EditStoreFragment(), getResources().getString(R.string.edit_store_title));
+                            }
 
-                        // Create the Snackbar
-                        Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_edit_store), Snackbar.LENGTH_LONG);
-                        // Set the Snackbar Layout
-                        snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
-                        snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-                        // Show the Snackbar
-                        snackbar.show();
-                    }
-                });
+                            // Create and show a success Snackbar
+                            Snackbar snackbar = Snackbar.make(getView(), getString(R.string.success_edit_store), Snackbar.LENGTH_LONG);
+                            snackbar.setBackgroundTint(ContextCompat.getColor(getContext(), R.color.success_color_green));
+                            snackbar.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                            snackbar.show();
+                        }
+                    });
 
-            }else {
-                    if (storeKvKEditText.getText().toString().isEmpty()){
+                } else {
+                    // Show error messages if any field is empty
+                    if (storeKvKEditText.getText().toString().isEmpty()) {
                         storeKvKEditText.setError("Text field cannot be empty, please re-enter the store information");
                     }
-                    if (storeLocationEditText.getText().toString().isEmpty()){
+                    if (storeLocationEditText.getText().toString().isEmpty()) {
                         storeLocationEditText.setError("Text field cannot be empty, please re-enter the store information");
                     }
-                    if (storeNameEditText.getText().toString().isEmpty()){
+                    if (storeNameEditText.getText().toString().isEmpty()) {
                         storeNameEditText.setError("Text field cannot be empty, please re-enter the store information");
                     }
                 }
@@ -221,6 +228,7 @@ public class EditStoreFragment extends Fragment {
         addPicturesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Action to add pictures to the store
             }
         });
     }
@@ -231,6 +239,11 @@ public class EditStoreFragment extends Fragment {
         binding = null;
     }
 
+    /**
+     * Method to generate a list of dummy images for the store.
+     *
+     * @return List of image resources
+     */
     private List<Integer> generateImages() {
         List<Integer> images = new ArrayList<>();
         images.add(R.mipmap.supermarket_outside_foreground);
@@ -247,7 +260,4 @@ public class EditStoreFragment extends Fragment {
         images.add(R.mipmap.supermarket_baklava_foreground);
         return images;
     }
-
-
-
 }
