@@ -41,11 +41,11 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        ProductModel video_item = itemList.get(position);
+        ProductModel video_item = itemList.get(holder.getAdapterPosition());
         holder.image_view.setImageResource(video_item.getProductImage(0));
         holder.product_name.setText(video_item.getProductName());
         holder.bottom_name.setText(video_item.getCategory());
-        holder.position = position;
+        holder.position = holder.getAdapterPosition();
         holder.item = video_item;
         holder.count = shoppingList.get(video_item);
         holder.value.setText(String.valueOf(holder.count));
