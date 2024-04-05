@@ -14,18 +14,16 @@ class StoreDatabaseFormState {
     private final Integer amountError;
     @Nullable
     private final Integer priceError;
-    @Nullable final Integer discountError;
     private final boolean isDataValid;
 
     StoreDatabaseFormState(@Nullable Integer nameError, @Nullable Integer barcodeError,
-                           @Nullable Integer amountError, @Nullable Integer priceError, @Nullable Integer discountError) {
+                           @Nullable Integer amountError, @Nullable Integer priceError) {
         this.nameError = nameError;
         this.barcodeError = barcodeError;
         this.amountError = amountError;
         this.priceError = priceError;
-        this.discountError = discountError;
         this.isDataValid = nameError == null && barcodeError == null &&
-                amountError == null && priceError == null && discountError == null;
+                amountError == null && priceError == null;
     }
 
     @Nullable
@@ -45,9 +43,6 @@ class StoreDatabaseFormState {
 
     @Nullable
     Integer getPriceError() { return priceError; }
-
-    @Nullable
-    Integer getDiscountError() { return discountError; }
 
     boolean isDataValid() {
         return isDataValid;

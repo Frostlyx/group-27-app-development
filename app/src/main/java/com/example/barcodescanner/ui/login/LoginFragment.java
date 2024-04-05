@@ -146,6 +146,8 @@ public class LoginFragment extends Fragment {
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                 .setDisplayName(username).build();
                                         mAuth.getCurrentUser().updateProfile(profileUpdates);
+                                        DatabaseReference referenceCurrentUser = referenceCustomers.child(mAuth.getCurrentUser().getUid());
+                                        referenceCurrentUser.child("password").setValue(password);
                                         if (dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) &&getActivity() != null && getActivity() instanceof WelcomeActivity){
                                             ((WelcomeActivity) getActivity()).customerActivity();
                                         } else if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) && getActivity() != null && getActivity() instanceof WelcomeActivity) {

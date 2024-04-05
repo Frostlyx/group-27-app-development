@@ -5,75 +5,44 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.ui.login.ValidityChecker;
 
 public class StoreDatabaseViewModel extends ViewModel {
 
     private final MutableLiveData<StoreDatabaseFormState> storeDatabaseFormState = new MutableLiveData<>();
 
+    // Checks if data is valid
+    private final ValidityChecker validityChecker = new ValidityChecker();
+
     LiveData<StoreDatabaseFormState> getStoreDatabaseFormState() {
         return storeDatabaseFormState;
     }
 
-    public void storeDatabaseDataChanged(String name, String barcode, String amount, double price, int discount) {
+    public void storeDatabaseDataChanged(String name, String barcode, String amount, double price) {
         Integer nameError;
         Integer barcodeError;
         Integer amountError;
         Integer priceError;
-        Integer discountError;
-        if (!isNameValid(name)) {
+        if (!validityChecker.isStringValid(name)) {
             nameError = R.string.invalid_item_name;
         } else {
             nameError = null;
         }
-        if (!isBarcodeValid(barcode)) {
+        if (!validityChecker.isBarcodeValid(barcode)) {
             barcodeError = R.string.invalid_barcode;
         } else {
             barcodeError = null;
         }
-        if (!isAmountValid(amount)) {
+        if (!validityChecker.isStringValid(amount)) {
             amountError = R.string.invalid_amount;
         } else {
             amountError = null;
         }
-        if (!isPriceValid(price)) {
+        if (!validityChecker.isPriceValid(price)) {
             priceError = R.string.invalid_price;
         } else {
             priceError = null;
         }
-        if (!isDiscountValid(discount)) {
-            discountError = R.string.invalid_discount;
-        } else {
-            discountError = null;
-        }
-        storeDatabaseFormState.setValue(new StoreDatabaseFormState(nameError, barcodeError, amountError, priceError, discountError));
-    }
-
-    // A placeholder name validation check
-    private boolean isNameValid(String name) {
-        return name != null && !name.trim().isEmpty();
-    }
-
-    // A placeholder barcode validation check
-    private boolean isBarcodeValid(String barcode) {
-        return barcode != null && barcode.length() == 13;
-    }
-
-    // A placeholder amount validation check
-    private boolean isAmountValid(String amount) {
-        return amount != null && !amount.trim().isEmpty();
-    }
-
-    // A placeholder price validation check
-    private boolean isPriceValid(Double price) {
-        if (price == null || price <= 0) {
-            return false;
-        }
-        String[] div = price.toString().split("\\.");
-        return div[1].length() <= 2;
-    }
-
-    // A placeholder discount validation check
-    private boolean isDiscountValid(Integer discount) {
-        return discount != null && discount >= 0;
+        storeDatabaseFormState.setValue(new StoreDatabaseFormState(nameError, barcodeError, amountError, priceError));
     }
 }
