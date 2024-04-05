@@ -29,9 +29,11 @@ public class ProfileFragment extends Fragment {
 
     FirebaseAuth auth;
     FirebaseUser user;
+    // Dialog and buttons for logging out
     Dialog logoutDialog;
     Button btnLogoutCancel;
     Button btnLogoutConfirm;
+    // Dialog and buttons for deleting account
     Dialog deleteAccDialog;
     Button btnDeleteAccCancel;
     Button btnDeleteAccConfirm;
@@ -50,9 +52,11 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        // Get current user
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
+        // Sets textviews
         final TextView changePassword = view.findViewById(R.id.changePassword);
         final TextView deleteAccount = view.findViewById(R.id.deleteAccount);
         final TextView logout = view.findViewById(R.id.logout_profile_page);
@@ -66,6 +70,7 @@ public class ProfileFragment extends Fragment {
         Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.dialog_background);
         logoutDialog.getWindow().setBackgroundDrawable(background);
         logoutDialog.setCancelable(true);
+        // Sets buttons for logout dialog
         btnLogoutConfirm = logoutDialog.findViewById(R.id.logout_dialog_button_confirm);
         btnLogoutCancel = logoutDialog.findViewById(R.id.logout_dialog_button_cancel);
 
@@ -75,9 +80,9 @@ public class ProfileFragment extends Fragment {
         deleteAccDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         deleteAccDialog.getWindow().setBackgroundDrawable(background);
         deleteAccDialog.setCancelable(true);
+        // Sets buttons for delete account dialog
         btnDeleteAccConfirm = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_confirm);
         btnDeleteAccCancel = deleteAccDialog.findViewById(R.id.delete_account_dialog_button_cancel);
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("  ");
 
         //check if user is logged in
         if (user == null) {
@@ -93,6 +98,7 @@ public class ProfileFragment extends Fragment {
             username_text.setText(user.getDisplayName());
         }
 
+        // Sends the user to the change password fragment when clicked
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +110,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        // Closes logout dialog
         btnLogoutCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +118,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        //Button listener for when user clicks button to log out
+        // Logs the user out and sends them back to the welcome page
         btnLogoutConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +134,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        // Opens logout dialog
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +142,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        //Button listener for when user clicks 'Delete account' and cancels on pop-up
+        // Closes delete account dialog
         btnDeleteAccCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +150,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        //Button listener for when user clicks 'Delete account' and presses 'Confirm' on pop-up
+        // Deletes the account of the user and sends them back to the welcome page
         btnDeleteAccConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +181,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        // Opens the delete account dialog
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

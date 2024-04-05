@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
  * Data validation state of the register form for store owners.
  */
 class RegisterStoreOwnerFormState {
+    // Variables to hold given error messages
     @Nullable
     private final Integer usernameError;
     @Nullable
@@ -22,19 +23,12 @@ class RegisterStoreOwnerFormState {
     private final Integer passwordError;
     @Nullable
     private final Integer confirmPasswordError;
+    // holds if the data is valid or not
     private final boolean isDataValid;
 
     /**
      * Constructor for RegisterStoreOwnerFormState.
-     *
-     * @param usernameError       The error message resource ID for the username field.
-     * @param storeNameError      The error message resource ID for the store name field.
-     * @param emailError          The error message resource ID for the email field.
-     * @param confirmEmailError   The error message resource ID for confirming email field.
-     * @param locationError       The error message resource ID for the location field.
-     * @param kvkError            The error message resource ID for the KVK number field.
-     * @param passwordError       The error message resource ID for the password field.
-     * @param confirmPasswordError The error message resource ID for confirming password field.
+     * Sets isDataValid to true is any of the error fields are non-null.
      */
     RegisterStoreOwnerFormState(@Nullable Integer usernameError, @Nullable Integer storeNameError,
                                 @Nullable Integer emailError, @Nullable Integer confirmEmailError,
@@ -52,46 +46,55 @@ class RegisterStoreOwnerFormState {
                 locationError == null && kvkError == null && passwordError == null && confirmPasswordError == null;
     }
 
+    // Getter for username error
     @Nullable
     Integer getUsernameError() {
         return usernameError;
     }
 
+    // Getter for store name error
     @Nullable
     Integer getStoreNameError() {
         return storeNameError;
     }
 
+    // Getter for email error
     @Nullable
     Integer getEmailError() {
         return emailError;
     }
 
+    // Getter for confirm email error
     @Nullable
     Integer getConfirmEmailError() {
         return confirmEmailError;
     }
 
+    // Getter for lcoation error
     @Nullable
     Integer getLocationError() {
         return locationError;
     }
 
+    // Getter for KvK number error
     @Nullable
     Integer getKvkError() {
         return kvkError;
     }
 
+    // Getter for password error
     @Nullable
     Integer getPasswordError() {
         return passwordError;
     }
 
+    // Getter for confirm password error
     @Nullable
     Integer getConfirmPasswordError() {
         return confirmPasswordError;
     }
 
+    // Method to check if data is valid
     boolean isDataValid() {
         return isDataValid;
     }

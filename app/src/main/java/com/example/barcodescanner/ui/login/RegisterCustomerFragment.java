@@ -11,11 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,11 +29,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
- * Fragment responsible for registering new customers.
+ * Login side fragment responsible for registering new customers.
  */
 public class RegisterCustomerFragment extends Fragment {
 
@@ -41,6 +42,7 @@ public class RegisterCustomerFragment extends Fragment {
     private boolean isDataValid;
     private boolean alreadyExists;
 
+    // Sets empty favourites and shopping list for new customers
     private List<ProductModel> ShoppingList;
 
     private List<ProductModel> FavouriteList;
@@ -48,6 +50,7 @@ public class RegisterCustomerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Sets up a new customer view model
         registerCustomerViewModel = new RegisterCustomerViewModel();
         isDataValid = false;
         alreadyExists = false;
@@ -80,21 +83,26 @@ public class RegisterCustomerFragment extends Fragment {
             if (registerCustomerFormState == null) {
                 return;
             }
+            // Checks if credentials are valid
             isDataValid = registerCustomerFormState.isDataValid();
 
-            // Setting error messages for each form field if applicable
+            // Setting error message for an incorrect username
             if (registerCustomerFormState.getUsernameError() != null) {
                 usernameEditText.setError(getString(registerCustomerFormState.getUsernameError()));
             }
+            // Setting error message for an incorrect email
             if (registerCustomerFormState.getEmailError() != null) {
                 emailEditText.setError(getString(registerCustomerFormState.getEmailError()));
             }
+            // Setting error message when email and confirm email do not match
             if (registerCustomerFormState.getConfirmEmailError() != null) {
                 confirmEmailEditText.setError(getString(registerCustomerFormState.getConfirmEmailError()));
             }
+            // Setting error message for an invalid password
             if (registerCustomerFormState.getPasswordError() != null) {
                 passwordEditText.setError(getString(registerCustomerFormState.getPasswordError()));
             }
+            // Setting error message when password and confirm password do not match
             if (registerCustomerFormState.getConfirmPasswordError() != null) {
                 confirmPasswordEditText.setError(getString(registerCustomerFormState.getConfirmPasswordError()));
             }
@@ -120,6 +128,7 @@ public class RegisterCustomerFragment extends Fragment {
                         passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString());
                 String username = usernameEditText.getText().toString();
                 DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                // Listener to check if username already exists when filled in
                 referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -150,6 +159,7 @@ public class RegisterCustomerFragment extends Fragment {
         // Back button click listener
         backButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                // Sends you back to the welcome page
                 ((WelcomeActivity) getActivity()).welcomeActivity();
             }
         });
@@ -165,6 +175,7 @@ public class RegisterCustomerFragment extends Fragment {
                 return;
             }
             loadingProgressBar.setVisibility(View.VISIBLE);
+            // Gets filled in username and password
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
@@ -191,11 +202,12 @@ public class RegisterCustomerFragment extends Fragment {
                 } else {
                     // If user creation fails, show appropriate error message
                     Exception exception = task.getException();
-                    if (exception instanceof FirebaseAuthUserCollisionException) {
+
+                    if (exception instanceof FirebaseAuthUserCollisionException) { // Email taken
                         showRegisterCustomerFailed(R.string.email_exists);
-                    } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                    } else if (exception instanceof FirebaseAuthInvalidCredentialsException) { // Invalid email
                         showRegisterCustomerFailed(R.string.invalid_email);
-                    } else {
+                    } else { // generic error message
                         showRegisterCustomerFailed(R.string.register_failed);
                     }
                     loadingProgressBar.setVisibility(View.GONE);

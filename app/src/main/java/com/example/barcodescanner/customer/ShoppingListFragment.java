@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,17 +18,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * Customer side fragment to display their shopping list items.
+ */
+public class ShoppingListFragment extends Fragment implements ProductRecyclerViewInterface {
 
-public class ShoppingListFragment extends Fragment implements ProductRecyclerViewInterface{
-
-    List<ProductModel> itemList;
+    // recycler view to display the items
     RecyclerView shopRecView;
-    ShoppingListAdapter myAdapter;
+    ShoppingListAdapter shoppingListAdapter;
     private UserListViewModel userListViewModel;
-
 
     public ShoppingListFragment() {
         // Required empty public constructor
@@ -40,12 +39,21 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_shopping_list, container, false);
+
+        // Clear disappearing children
         container.clearDisappearingChildren();
+
+        // Initialize ViewModel
         userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
+
+        // Initialize RecyclerView
         shopRecView = rootView.findViewById(R.id.shop_recyclerview);
         shopRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Refresh shopping list
         refresh();
 
+        // Observing changes in the shopping list
         userListViewModel.getShoppingList().observe(getViewLifecycleOwner(), new Observer<Map<ProductModel, Integer>>() {
             @Override
             public void onChanged(Map<ProductModel, Integer> shoppingList) {
@@ -59,19 +67,23 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        // Remove items with zero quantity from the shopping list and Firebase database
         DatabaseReference referenceUsers = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference referenceCustomers = referenceUsers.child("Customers");
         DatabaseReference referenceCurrentUser = referenceCustomers.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         DatabaseReference referenceShoppingList = referenceCurrentUser.child("Shopping List");
 
-
+        // Retrieves current shopping list from user
         Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         ArrayList<ProductModel> deleteList = new ArrayList<>();
+        // Remove any item with a quantity of zero or less
         for (Map.Entry<ProductModel, Integer> entry : tempShoppingList.entrySet()) {
             if (entry.getValue() <= 0) {
                 deleteList.add(entry.getKey());
             }
         }
+        // Remove the items from the shopping list
         for (ProductModel pm : deleteList) {
             tempShoppingList.remove(pm);
             referenceShoppingList.child(pm.getProductBarcode()).removeValue();
@@ -79,66 +91,52 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
         userListViewModel.setShoppingList(tempShoppingList);
     }
 
+    // Refresh the RecyclerView with updated shopping list data
     private void refresh() {
         Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
-        myAdapter = new ShoppingListAdapter(tempShoppingList, this);
-        shopRecView.setAdapter(myAdapter);
+        shoppingListAdapter = new ShoppingListAdapter(tempShoppingList, this);
+        shopRecView.setAdapter(shoppingListAdapter);
     }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        // Check if the orientation has changed
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // Replace the current fragment with the landscape version
-            getChildFragmentManager().beginTransaction()
-                    .replace(R.id.frame_layout, new ShoppingListFragment())
-                    .commit();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // Replace the current fragment with the portrait version
+        // Handling configuration changes like orientation
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ||
+                newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Replace the current fragment with itself to handle orientation change
             getChildFragmentManager().beginTransaction()
                     .replace(R.id.frame_layout, new ShoppingListFragment())
                     .commit();
         }
     }
 
+    // Interface methods implementation
     @Override
     public void onItemClick(int position) {
-        // Still has to be implemented
-        Map<ProductModel, Integer> shoppingList = userListViewModel.getShoppingList().getValue();
-        itemList = new ArrayList<>();
-        for (ProductModel key : shoppingList.keySet()) {
-            itemList.add(key);
-        }
-
-        ProductModel item = itemList.get(position);
-        ShoppingListAdapter.VideoViewHolder viewHolder = (ShoppingListAdapter.VideoViewHolder) shopRecView.findViewHolderForAdapterPosition(position);
-        if (viewHolder != null) {
-            viewHolder.image_view.setImageResource(item.getProductImage(0));
-            viewHolder.product_name.setText(item.getProductName());
-            viewHolder.bottom_name.setText(item.getCategory());
-        }
-        if (getContext() != null && getContext() instanceof MainActivity) {
-            ((MainActivity) getContext()).replaceFragment(new ProductFragment(item, position), getContext().getString(R.string.product_page_title));
-        }
-
+        // Handle item click event
+        // Placeholder code, still needs implementation
     }
 
     @Override
     public void onFavouritesClick(int position) {
+        // Placeholder method, no action needed
     }
 
     @Override
     public void onShoppingListClick(int position) {
+        // Placeholder method, no action needed
     }
 
     @Override
     public void check(ProductModel item) {
+        // Placeholder method, no action needed
     }
 
     @Override
     public void increment(ProductModel item) {
+        // Increment item quantity in the shopping list
         Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         int count = tempShoppingList.get(item);
         count++;
@@ -149,6 +147,7 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
 
     @Override
     public void decrement(ProductModel item) {
+        // Decrement item quantity in the shopping list
         Map<ProductModel, Integer> tempShoppingList = userListViewModel.getShoppingList().getValue();
         int count = tempShoppingList.get(item);
         if (count > 0){

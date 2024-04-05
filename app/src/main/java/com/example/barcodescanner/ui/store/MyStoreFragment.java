@@ -12,6 +12,9 @@ import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProfileFragment;
 import com.example.barcodescanner.databinding.FragmentMystoreBinding;
 
+/**
+ * Fragment for displaying options related to the user's store.
+ */
 public class MyStoreFragment extends Fragment {
 
     private FragmentMystoreBinding binding;
@@ -21,18 +24,20 @@ public class MyStoreFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
+        // Inflate the layout for this fragment using ViewBinding
         binding = FragmentMystoreBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
     }
 
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Set click listeners for buttons to navigate to different fragments
         binding.buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Replace the current fragment with the ProfileFragment
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
                     ((StoreActivity) getActivity()).replaceFragment(new ProfileFragment(), getResources().getString(R.string.profile_title));
                 }
@@ -42,6 +47,7 @@ public class MyStoreFragment extends Fragment {
         binding.buttonItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Replace the current fragment with the StoreDatabaseFragment
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
                     ((StoreActivity) getActivity()).replaceFragment(new StoreDatabaseFragment(), getResources().getString(R.string.store_database_title));
                 }
@@ -51,6 +57,7 @@ public class MyStoreFragment extends Fragment {
         binding.buttonStorePageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Replace the current fragment with the EditStoreFragment
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
                     ((StoreActivity) getActivity()).replaceFragment(new EditStoreFragment(), getResources().getString(R.string.edit_store_title));
                 }
@@ -63,5 +70,4 @@ public class MyStoreFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }

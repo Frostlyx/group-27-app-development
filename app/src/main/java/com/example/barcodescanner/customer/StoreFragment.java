@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class StoreFragment extends Fragment {
 
+    // Holds information about the store displayed
     StoreModel store;
     int position;
     List<Integer> imageList;
@@ -34,6 +35,7 @@ public class StoreFragment extends Fragment {
         this.position = position;
     }
 
+    // Creates the view of the store page
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -42,15 +44,18 @@ public class StoreFragment extends Fragment {
 
         binding = FragmentStorePageBinding.inflate(inflater, container, false);
 
+        // Gets images of the store
         imageList = store.getStoreImageList();
 
         //Setting up of RecyclerView for displaying the fragment page with regards to the list of images
         RecyclerView recyclerView = binding.customerRecyclerview;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        // Setting up adapter for displaying images
         ImageListAdapter imageListAdapter = new ImageListAdapter(imageList);
         recyclerView.setAdapter(imageListAdapter);
 
+        // Sets store name and location
         binding.customerTextviewStorename.setText(store.getStoreName());
         binding.customerTextviewLocation.setText(store.getStoreLocation());
 
@@ -63,6 +68,7 @@ public class StoreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    // Destroy view
     @Override
     public void onDestroyView() {
         super.onDestroyView();

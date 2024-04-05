@@ -34,27 +34,31 @@ class RegisterCustomerFormState {
                 passwordError == null && confirmPasswordError == null;
     }
 
-    // Getter methods for each validation error
+    // Getter method for username validation error
     @Nullable
     Integer getUsernameError() {
         return usernameError;
     }
 
+    // Getter method for email validation error
     @Nullable
     Integer getEmailError() {
         return emailError;
     }
 
+    // Getter method for confirm email validation error
     @Nullable
     Integer getConfirmEmailError() {
         return confirmEmailError;
     }
 
+    // Getter method for password validation error
     @Nullable
     Integer getPasswordError() {
         return passwordError;
     }
 
+    // Getter method for confirm password validation error
     @Nullable
     Integer getConfirmPasswordError() {
         return confirmPasswordError;

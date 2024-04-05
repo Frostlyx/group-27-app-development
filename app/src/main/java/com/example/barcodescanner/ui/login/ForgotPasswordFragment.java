@@ -21,11 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 /**
- * A simple {@link Fragment} subclass.
- * This fragment is responsible for handling password reset functionality.
+ * login side fragment to allow the user to reset their password when forgotten.
  */
 public class ForgotPasswordFragment extends Fragment {
 
+    // Email that receives a link to reset password
     String email;
 
     // Default constructor
@@ -58,6 +58,7 @@ public class ForgotPasswordFragment extends Fragment {
         // Back button click listener
         backButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                // Returns back to login page
                 ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
             }
         });
@@ -110,6 +111,7 @@ public class ForgotPasswordFragment extends Fragment {
     // Method to show error message
     private void showForgotPasswordFailed(@StringRes Integer errorString) {
         if (getContext() != null && getContext().getApplicationContext() != null) {
+            // Toast to show error message
             Toast.makeText(
                     getContext().getApplicationContext(),
                     errorString,
