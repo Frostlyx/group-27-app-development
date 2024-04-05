@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.FragmentStorePageBinding;
 import com.example.barcodescanner.ui.store.ImageListAdapter;
 
@@ -48,7 +49,7 @@ public class StoreFragment extends Fragment {
 
         imageList = store.getStoreImageList();
 
-        RecyclerView recyclerView = binding.customerRecyclerView;
+        RecyclerView recyclerView = binding.customerRecyclerview;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         ImageListAdapter imageListAdapter = new ImageListAdapter(imageList);

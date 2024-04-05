@@ -15,18 +15,19 @@ import java.util.List;
 
 public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.VideoViewHolder> {
 
-
+    private final ProductRecyclerViewInterface recyclerViewInterface;
     List<StoreModel> storeList;
 
-    public MyAdapter5(List<StoreModel> storeList) {
+    public MyAdapter5(List<StoreModel> storeList, ProductRecyclerViewInterface recyclerViewInterface) {
         this.storeList = storeList;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
     @Override
     public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_productstore, parent, false);
-        return new VideoViewHolder(itemView);
+        return new VideoViewHolder(itemView, recyclerViewInterface);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.VideoViewHolder>
         StoreModel store_item = storeList.get(position);
         holder.image_view.setImageResource(store_item.getStoreImage(0));
         holder.store_name.setText(store_item.getStoreName());
-        holder.price_name.setText(store_item.getStoreLocation());
+        holder.location_name.setText(store_item.getStoreLocation());
     }
 
     @Override
@@ -45,16 +46,29 @@ public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.VideoViewHolder>
     public static class VideoViewHolder extends RecyclerView.ViewHolder{
         ImageView image_view;
         TextView store_name;
-        TextView price_name;
+        TextView location_name;
 
-        public VideoViewHolder(@NonNull View itemView) {
+        public VideoViewHolder(@NonNull View itemView, ProductRecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             image_view = itemView.findViewById(R.id.store_img);
             store_name = itemView.findViewById(R.id.sName);
-            price_name = itemView.findViewById(R.id.priName);
+            location_name = itemView.findViewById(R.id.priName);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recyclerViewInterface != null) {
+                        int position = getAdapterPosition();
 
+                        if (position != RecyclerView.NO_POSITION) {
+                            recyclerViewInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
+
+
     }
 
 }

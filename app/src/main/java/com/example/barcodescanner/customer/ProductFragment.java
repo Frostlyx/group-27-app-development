@@ -1,12 +1,11 @@
 package com.example.barcodescanner.customer;
 
-import static com.example.barcodescanner.customer.CategoriesFragment.getScreenWidth;
-
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,15 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.barcodescanner.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProductFragment extends Fragment {
+public class ProductFragment extends Fragment implements ProductRecyclerViewInterface{
 
 
     List<StoreModel> storeList;
@@ -38,6 +41,7 @@ public class ProductFragment extends Fragment {
     TextView productName;
     TextView productCategory;
     TextView productPrice;
+    private MutableLiveData<Boolean> marketsGenerated = new MutableLiveData<>();
 
     public ProductFragment(ProductModel item, int position) {
         this.item = item;
@@ -50,8 +54,8 @@ public class ProductFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_product, container, false);
         container.clearDisappearingChildren();
+        marketsGenerated.setValue(false);
         storeList = generateMarkets();
-
         productName = rootView.findViewById(R.id.pName);
         productCategory = rootView.findViewById(R.id.cName);
         productPrice = rootView.findViewById(R.id.bName);
@@ -71,10 +75,16 @@ public class ProductFragment extends Fragment {
         userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
 //        item = userListViewModel.getFavouritesList().getValue().get(0);
 
-        myAdapter = new MyAdapter4(storeList);
-        myAdapter2 = new MyAdapter5(storeList);
-        favRecView.setAdapter(myAdapter);
-        secondView.setAdapter(myAdapter2);
+        marketsGenerated.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                myAdapter = new MyAdapter4(storeList);
+                myAdapter2 = new MyAdapter5(storeList, ProductFragment.this);
+                favRecView.setAdapter(myAdapter);
+                secondView.setAdapter(myAdapter2);
+            }
+        });
+
         favouritesButton = rootView.findViewById(R.id.cbHeart);
         favouritesButton.setChecked(isFavourite(item));
 
@@ -96,16 +106,39 @@ public class ProductFragment extends Fragment {
     }
 
     private List<StoreModel> generateMarkets(){
-        List<StoreModel> item = new ArrayList<>();
-        item.add(new StoreModel("deneme", "denenmis", generateImages()));
-        item.add(new StoreModel("deneme", "denenmis", generateImages()));
-        item.add(new StoreModel("deneme", "denenmis", generateImages()));
-        item.add(new StoreModel("deneme", "denenmis", generateImages()));
-        item.add(new StoreModel("deneme", "denenmis", generateImages()));
-        item.add(new StoreModel("deneme", "denenmis", generateImages()));
-        item.add(new StoreModel("deneme", "denenmis", generateImages()));
-        item.add(new StoreModel("deneme", "denenmis", generateImages()));
-        return item;
+        DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
+
+        List<StoreModel> market = new ArrayList<>();
+        referenceStores.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot stores: dataSnapshot.getChildren()) {
+                    if(stores.hasChild(item.getProductBarcode())){
+                        DatabaseReference referenceStore = FirebaseDatabase.getInstance().getReference("Users");
+                        DatabaseReference referenceID = referenceStore.child("Store Owners");
+                        DatabaseReference referenceProductStore = referenceID.child(stores.getKey());
+                        referenceProductStore.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot products) {
+                                market.add(new StoreModel(products.child("Storename").getValue().toString(), products.child("location").getValue().toString(), generateImages()));
+                                marketsGenerated.setValue(true);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return market;
     }
 
     private List<Integer> generateImages() {
@@ -130,4 +163,42 @@ public class ProductFragment extends Fragment {
     }
 
 
+    @Override
+    public void onItemClick(int position) {
+        StoreModel item = storeList.get(position);
+        MyAdapter5.VideoViewHolder viewHolder = (MyAdapter5.VideoViewHolder) secondView.findViewHolderForAdapterPosition(position);
+        if (viewHolder != null) {
+            viewHolder.image_view.setImageResource(item.getStoreImage(0));
+            viewHolder.store_name.setText(item.getStoreName());
+            viewHolder.location_name.setText(item.getStoreLocation());
+        }
+        if (getContext() != null && getContext() instanceof MainActivity) {
+            ((MainActivity) getContext()).replaceFragment(new StoreFragment(item, position), getContext().getString(R.string.product_page_title));
+        }
+    }
+
+    @Override
+    public void onFavouritesClick(int position) {
+
+    }
+
+    @Override
+    public void onShoppingListClick(int position) {
+
+    }
+
+    @Override
+    public void increment(ProductModel item) {
+
+    }
+
+    @Override
+    public void decrement(ProductModel item) {
+
+    }
+
+    @Override
+    public void check(ProductModel item) {
+
+    }
 }
