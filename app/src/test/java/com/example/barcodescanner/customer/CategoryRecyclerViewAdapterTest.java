@@ -8,9 +8,11 @@ import java.util.List;
 public class CategoryRecyclerViewAdapterTest extends TestCase {
 
     public void testOnCreateViewHolder() {
+
     }
 
     public void testOnBindViewHolder() {
+
     }
 
     public void testGetItemCount() {
