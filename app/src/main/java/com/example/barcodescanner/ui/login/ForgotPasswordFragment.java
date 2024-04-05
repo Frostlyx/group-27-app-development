@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-
 import com.example.barcodescanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -24,10 +22,13 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
+ * This fragment is responsible for handling password reset functionality.
  */
 public class ForgotPasswordFragment extends Fragment {
 
     String email;
+
+    // Default constructor
     public ForgotPasswordFragment() {
         // Required empty public constructor
     }
@@ -48,44 +49,52 @@ public class ForgotPasswordFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Getting references to UI elements
         final Button backButton = view.findViewById(R.id.back);
         final Button passwordResetButton = view.findViewById(R.id.send_code);
         final EditText editEmail = view.findViewById(R.id.email);
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
 
+        // Back button click listener
         backButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                 ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
             }
         });
 
-
+        // Password reset button click listener
         passwordResetButton.setOnClickListener(v ->
                 referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         outer : for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                // Checking if email matches the provided username
                                 if(editEmail.getText().toString().equalsIgnoreCase(userSnapshot.child("username").getValue(String.class))) {
                                     email = userSnapshot.child("email").getValue(String.class);
                                     break outer;
                                 }
                             }
                         }
+                        // Sending password reset email
                         FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         if (getContext() != null && getContext().getApplicationContext() != null) {
+                                            // Showing success message
                                             Toast.makeText(getContext().getApplicationContext(), "A link has been sent your mail", Toast.LENGTH_LONG).show();
                                         }
                                         if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                                            // Navigating back to login fragment
                                             ((WelcomeActivity) getActivity()).replaceFragment(new LoginFragment());
                                         }
                                     } else {
                                         Exception exception = task.getException();
                                         if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                            // Showing error message for invalid email
                                             showForgotPasswordFailed(R.string.invalid_email);
                                         } else {
+                                            // Showing generic error message
                                             showForgotPasswordFailed(R.string.code_failed);
                                         }
                                     }
@@ -98,6 +107,7 @@ public class ForgotPasswordFragment extends Fragment {
                 }));
     }
 
+    // Method to show error message
     private void showForgotPasswordFailed(@StringRes Integer errorString) {
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(

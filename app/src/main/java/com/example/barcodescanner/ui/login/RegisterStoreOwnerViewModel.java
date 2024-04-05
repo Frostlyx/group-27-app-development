@@ -1,18 +1,11 @@
 package com.example.barcodescanner.ui.login;
 
-import androidx.annotation.NonNull;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import android.util.Patterns;
-
 import com.example.barcodescanner.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class RegisterStoreOwnerViewModel extends ViewModel {
 

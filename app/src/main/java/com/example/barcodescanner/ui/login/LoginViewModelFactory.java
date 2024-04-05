@@ -6,17 +6,21 @@ import androidx.annotation.NonNull;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
- * Required given LoginViewModel has a non-empty constructor
+ * This class is responsible for creating instances of LoginViewModel.
  */
 public class LoginViewModelFactory implements ViewModelProvider.Factory {
 
+    // Method to create ViewModel instances
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+        // Check if the requested ViewModel is LoginViewModel
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
+            // If yes, create a new instance of LoginViewModel and return
             return (T) new LoginViewModel();
         } else {
+            // If not, throw an IllegalArgumentException
             throw new IllegalArgumentException("Unknown ViewModel class");
         }
     }

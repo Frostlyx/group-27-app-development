@@ -11,13 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,15 +28,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Fragment responsible for registering new customers.
  */
 public class RegisterCustomerFragment extends Fragment {
 
@@ -72,6 +66,7 @@ public class RegisterCustomerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Getting references to UI elements
         final Button backButton = view.findViewById(R.id.back);
         final Button registerButton = view.findViewById(R.id.register);
         final EditText usernameEditText = view.findViewById(R.id.username);
@@ -81,12 +76,14 @@ public class RegisterCustomerFragment extends Fragment {
         final EditText confirmPasswordEditText = view.findViewById(R.id.confirm_password);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
+        // Observing changes in register form state
         registerCustomerViewModel.getRegisterCustomerFormState().observe(getViewLifecycleOwner(), registerCustomerFormState -> {
             if (registerCustomerFormState == null) {
                 return;
             }
             isDataValid = registerCustomerFormState.isDataValid();
 
+            // Setting error messages for each form field if applicable
             if (registerCustomerFormState.getUsernameError() != null) {
                 usernameEditText.setError(getString(registerCustomerFormState.getUsernameError()));
             }
@@ -104,6 +101,7 @@ public class RegisterCustomerFragment extends Fragment {
             }
         });
 
+        // TextWatcher to observe changes in form fields
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -117,6 +115,7 @@ public class RegisterCustomerFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                // Validate form data and check if username already exists
                 registerCustomerViewModel.registerCustomerDataChanged(usernameEditText.getText().toString(),
                         emailEditText.getText().toString(), confirmEmailEditText.getText().toString(),
                         passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString());
@@ -135,7 +134,6 @@ public class RegisterCustomerFragment extends Fragment {
                                 }
                             }
                         }
-
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -143,19 +141,23 @@ public class RegisterCustomerFragment extends Fragment {
                 });
             }
         };
+        // Adding TextWatcher to each form field
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         emailEditText.addTextChangedListener(afterTextChangedListener);
         confirmEmailEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
 
+        // Back button click listener
         backButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                 ((WelcomeActivity) getActivity()).welcomeActivity();
             }
         });
 
+        // Register button click listener
         registerButton.setOnClickListener(v -> {
+            // Check if form data is valid and if username already exists
             if (!isDataValid) {
                 showRegisterCustomerFailed(R.string.data_failed);
                 return;
@@ -167,15 +169,19 @@ public class RegisterCustomerFragment extends Fragment {
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
+            // Create user with email and password
             mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    // If user creation is successful
                     if (mAuth.getCurrentUser() != null) {
+                        // Write customer details to Firebase database
                         ReadWriteCustomerDetails writeCustomerDetails = new ReadWriteCustomerDetails(usernameEditText.getText().toString(), emailEditText.getText().toString(), passwordEditText.getText().toString(),ShoppingList, FavouriteList);
                         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
                         DatabaseReference referenceCustomers = referenceProfile.child("Customers");
                         referenceCustomers.child(mAuth.getCurrentUser().getUid()).setValue(writeCustomerDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                // Navigate to customer activity upon successful registration
                                 if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                                     ((WelcomeActivity) getActivity()).customerActivity();
                                 }
@@ -184,6 +190,7 @@ public class RegisterCustomerFragment extends Fragment {
 
                     }
                 } else {
+                    // If user creation fails, show appropriate error message
                     Exception exception = task.getException();
                     if (exception instanceof FirebaseAuthUserCollisionException) {
                         showRegisterCustomerFailed(R.string.email_exists);
@@ -198,6 +205,7 @@ public class RegisterCustomerFragment extends Fragment {
         });
     }
 
+    // Method to show registration failed message
     private void showRegisterCustomerFailed(@StringRes Integer errorString) {
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(
@@ -207,6 +215,7 @@ public class RegisterCustomerFragment extends Fragment {
         }
     }
 
+    // Method to handle orientation change
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

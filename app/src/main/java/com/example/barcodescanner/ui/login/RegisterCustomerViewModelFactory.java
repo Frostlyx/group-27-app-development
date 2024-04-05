@@ -10,6 +10,14 @@ import androidx.annotation.NonNull;
  */
 public class RegisterCustomerViewModelFactory implements ViewModelProvider.Factory {
 
+    /**
+     * Creates a new instance of the ViewModel.
+     *
+     * @param modelClass The class of the ViewModel to be created.
+     * @param <T>        The type of the ViewModel.
+     * @return A new instance of the ViewModel.
+     * @throws IllegalArgumentException if the ViewModel class is unknown.
+     */
     @NonNull
     @Override
     @SuppressWarnings("unchecked")

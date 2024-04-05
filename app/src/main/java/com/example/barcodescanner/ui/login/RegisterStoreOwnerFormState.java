@@ -3,7 +3,7 @@ package com.example.barcodescanner.ui.login;
 import androidx.annotation.Nullable;
 
 /**
- * Data validation state of the register form.
+ * Data validation state of the register form for store owners.
  */
 class RegisterStoreOwnerFormState {
     @Nullable
@@ -24,6 +24,18 @@ class RegisterStoreOwnerFormState {
     private final Integer confirmPasswordError;
     private final boolean isDataValid;
 
+    /**
+     * Constructor for RegisterStoreOwnerFormState.
+     *
+     * @param usernameError       The error message resource ID for the username field.
+     * @param storeNameError      The error message resource ID for the store name field.
+     * @param emailError          The error message resource ID for the email field.
+     * @param confirmEmailError   The error message resource ID for confirming email field.
+     * @param locationError       The error message resource ID for the location field.
+     * @param kvkError            The error message resource ID for the KVK number field.
+     * @param passwordError       The error message resource ID for the password field.
+     * @param confirmPasswordError The error message resource ID for confirming password field.
+     */
     RegisterStoreOwnerFormState(@Nullable Integer usernameError, @Nullable Integer storeNameError,
                                 @Nullable Integer emailError, @Nullable Integer confirmEmailError,
                                 @Nullable Integer locationError, @Nullable Integer kvkError,
@@ -36,7 +48,7 @@ class RegisterStoreOwnerFormState {
         this.kvkError = kvkError;
         this.passwordError = passwordError;
         this.confirmPasswordError = confirmPasswordError;
-        this.isDataValid = usernameError == null && storeNameError == null && emailError == null &&  confirmEmailError == null &&
+        this.isDataValid = usernameError == null && storeNameError == null && emailError == null && confirmEmailError == null &&
                 locationError == null && kvkError == null && passwordError == null && confirmPasswordError == null;
     }
 
@@ -51,7 +63,9 @@ class RegisterStoreOwnerFormState {
     }
 
     @Nullable
-    Integer getEmailError() { return emailError; }
+    Integer getEmailError() {
+        return emailError;
+    }
 
     @Nullable
     Integer getConfirmEmailError() {
