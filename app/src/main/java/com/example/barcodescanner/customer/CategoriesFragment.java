@@ -53,6 +53,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         return rootView;
     }
 
+    //Generates an Arraylist containing all the categories within the app
     private ArrayList<StoreModel> generateMarkets(){
         ArrayList<StoreModel> item = new ArrayList<>();
         item.add(new StoreModel("Vegetables", "", generateImages()));
@@ -65,6 +66,7 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
         item.add(new StoreModel("Vega(n)", "", generateImages()));
         return item;
     }
+
 
     @Override
     public void onItemClick(int position) {
@@ -84,6 +86,8 @@ public class CategoriesFragment extends Fragment implements CategoryRecyclerView
             Toast.makeText(requireContext(), "Invalid position", Toast.LENGTH_SHORT).show();
         }
     }
+
+    //List of images stored in the database for products
     private List<Integer> generateImages() {
         List<Integer> images = new ArrayList<>();
         images.add(R.drawable.bread);

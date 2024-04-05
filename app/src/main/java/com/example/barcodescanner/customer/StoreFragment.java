@@ -1,29 +1,25 @@
 package com.example.barcodescanner.customer;
 
-import android.app.Dialog;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.barcodescanner.R;
 import com.example.barcodescanner.databinding.FragmentStorePageBinding;
 import com.example.barcodescanner.ui.store.ImageListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The StoreFragment displays information about a store when clicked on within a Product Page.
+ * Contains store information: store name, store location and store images.
+ */
 public class StoreFragment extends Fragment {
 
     StoreModel store;
@@ -32,6 +28,7 @@ public class StoreFragment extends Fragment {
 
     private FragmentStorePageBinding binding;
 
+    //Constructor
     public StoreFragment(StoreModel store, int position) {
         this.store = store;
         this.position = position;
@@ -47,6 +44,7 @@ public class StoreFragment extends Fragment {
 
         imageList = store.getStoreImageList();
 
+        //Setting up of RecyclerView for displaying the fragment page with regards to the list of images
         RecyclerView recyclerView = binding.customerRecyclerview;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
