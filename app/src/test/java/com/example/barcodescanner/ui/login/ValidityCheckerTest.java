@@ -23,18 +23,14 @@ public class ValidityCheckerTest extends TestCase {
             i *= 10;
         }
         assertFalse(validityChecker.isKvkValid(null));
+        assertFalse(validityChecker.isKvkValid(-12345678));
     }
 
     public void testIsBarcodeValid() {
-        int n = 1;
-        for (int i = 0; i <= 20; i++) {
-            if (i != 8) {
-                assertFalse(validityChecker.isBarcodeValid(Integer.toString(n)));
-            } else {
-                assertTrue(validityChecker.isBarcodeValid(Integer.toString(n)));
-            }
-            i *= 10;
-        }
+        assertTrue(validityChecker.isBarcodeValid("1234567891123"));
+        assertFalse(validityChecker.isBarcodeValid("-1234567891123"));
+        assertFalse(validityChecker.isBarcodeValid("12345678911234"));
+        assertFalse(validityChecker.isBarcodeValid("123456789112"));
         assertFalse(validityChecker.isKvkValid(null));
     }
 
@@ -78,7 +74,7 @@ public class ValidityCheckerTest extends TestCase {
         assertTrue(validityChecker.isPriceValid(1.11));
         assertFalse(validityChecker.isPriceValid(1.111));
         assertFalse(validityChecker.isPriceValid(null));
-        assertTrue(validityChecker.isPriceValid(0.0));
+        assertFalse(validityChecker.isPriceValid(0.0));
         assertFalse(validityChecker.isPriceValid(-1.0));
     }
 }
