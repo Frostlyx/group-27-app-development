@@ -82,11 +82,27 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
                 ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
                 if (dataSnapshot.hasChildren()){
                     for (DataSnapshot products : dataSnapshot.getChildren()) {
-                        ProductModel databaseItem = new ProductModel(products.child("productName").getValue().toString(), products.child("productPrice").getValue().toString(), imageList, products.child("category").getValue().toString(), products.child("discount").getValue().toString(), products.child("productAmount").getValue().toString(), products.child("productBarcode").getValue().toString());
-                        if (!tempFavouritesList.contains(databaseItem)) {
+                        ProductModel databaseItem = new ProductModel(
+                                products.child("productName").getValue().toString(),
+                                products.child("productPrice").getValue().toString(),
+                                imageList,
+                                products.child("category").getValue().toString(),
+                                products.child("discount").getValue().toString(),
+                                products.child("productAmount").getValue().toString(),
+                                products.child("productBarcode").getValue().toString());
+
+                        boolean duplicate = false;
+                        for (ProductModel pm : tempFavouritesList) {
+                            if (pm.getProductBarcode().equals(databaseItem.getProductBarcode())) {
+                                duplicate = true;
+                            }
+                        }
+                        if (!duplicate) {
                             tempFavouritesList.add(databaseItem);
                             userListViewModel.setFavouritesList(tempFavouritesList);
-                        }}}
+                        }
+                    }
+                }
             }
 
             @Override
