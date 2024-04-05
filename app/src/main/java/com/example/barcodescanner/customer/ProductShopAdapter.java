@@ -13,12 +13,12 @@ import com.example.barcodescanner.R;
 
 import java.util.List;
 
-public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.VideoViewHolder> {
+public class ProductShopAdapter extends RecyclerView.Adapter<ProductShopAdapter.VideoViewHolder> {
 
     private final ProductRecyclerViewInterface recyclerViewInterface;
     List<StoreModel> storeList;
 
-    public MyAdapter5(List<StoreModel> storeList, ProductRecyclerViewInterface recyclerViewInterface) {
+    public ProductShopAdapter(List<StoreModel> storeList, ProductRecyclerViewInterface recyclerViewInterface) {
         this.storeList = storeList;
         this.recyclerViewInterface = recyclerViewInterface;
     }
@@ -43,7 +43,7 @@ public class MyAdapter5 extends RecyclerView.Adapter<MyAdapter5.VideoViewHolder>
         return storeList.size();
     }
 
-    public static class VideoViewHolder extends RecyclerView.ViewHolder{
+    public class VideoViewHolder extends RecyclerView.ViewHolder{
         ImageView image_view;
         TextView store_name;
         TextView location_name;

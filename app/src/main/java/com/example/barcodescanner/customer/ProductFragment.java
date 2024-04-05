@@ -32,8 +32,8 @@ public class ProductFragment extends Fragment implements ProductRecyclerViewInte
     private List<ProductModel> notFavouritesList;
     List<StoreModel> storeList;
     RecyclerView favRecView, secondView;
-    MyAdapter4 myAdapter;
-    MyAdapter5 myAdapter2;
+    ProductCarouselAdapter myAdapter;
+    ProductShopAdapter myAdapter2;
     CheckBox favouritesButton;
     UserListViewModel userListViewModel;
     ProductModel item;
@@ -78,8 +78,8 @@ public class ProductFragment extends Fragment implements ProductRecyclerViewInte
         marketsGenerated.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                myAdapter = new MyAdapter4(storeList);
-                myAdapter2 = new MyAdapter5(storeList, ProductFragment.this);
+                myAdapter = new ProductCarouselAdapter(storeList);
+                myAdapter2 = new ProductShopAdapter(storeList, ProductFragment.this);
                 favRecView.setAdapter(myAdapter);
                 secondView.setAdapter(myAdapter2);
             }
@@ -182,7 +182,7 @@ public class ProductFragment extends Fragment implements ProductRecyclerViewInte
     @Override
     public void onItemClick(int position) {
         StoreModel item = storeList.get(position);
-        MyAdapter5.VideoViewHolder viewHolder = (MyAdapter5.VideoViewHolder) secondView.findViewHolderForAdapterPosition(position);
+        ProductShopAdapter.VideoViewHolder viewHolder = (ProductShopAdapter.VideoViewHolder) secondView.findViewHolderForAdapterPosition(position);
         if (viewHolder != null) {
             viewHolder.image_view.setImageResource(item.getStoreImage(0));
             viewHolder.store_name.setText(item.getStoreName());

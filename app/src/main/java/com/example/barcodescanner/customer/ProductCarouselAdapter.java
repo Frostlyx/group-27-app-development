@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,12 +12,12 @@ import com.example.barcodescanner.R;
 
 import java.util.List;
 
-public class MyAdapter4 extends RecyclerView.Adapter<MyAdapter4.VideoViewHolder> {
+public class ProductCarouselAdapter extends RecyclerView.Adapter<ProductCarouselAdapter.VideoViewHolder> {
 
 
     List<StoreModel> storeList;
 
-    public MyAdapter4(List<StoreModel> storeList) {
+    public ProductCarouselAdapter(List<StoreModel> storeList) {
         this.storeList = storeList;
     }
 
@@ -42,8 +41,6 @@ public class MyAdapter4 extends RecyclerView.Adapter<MyAdapter4.VideoViewHolder>
 
     public static class VideoViewHolder extends RecyclerView.ViewHolder{
         ImageView image_view;
-        TextView product_name;
-        TextView bottom_name;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
