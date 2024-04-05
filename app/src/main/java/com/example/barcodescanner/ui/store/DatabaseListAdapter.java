@@ -120,7 +120,6 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
                     }
                 }
             });
-
         }
     }
 }
