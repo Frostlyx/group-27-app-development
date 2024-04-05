@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
  * Data validation state of the login form.
  * This class represents the state of the login form data validation.
  */
-class LoginFormState {
+public class LoginFormState {
     @Nullable
     private final Integer usernameError; // Error message resource ID for the username field
     @Nullable

@@ -25,8 +25,18 @@ public class LoginViewModel extends ViewModel {
 
     // Method to update login form state based on input data
     public void loginDataChanged(String username, String password) {
+        Integer[] formErrors = getFormErrors(username, password);
+
+        // Setting login form state
+        loginFormState.setValue(new LoginFormState(formErrors[0], formErrors[1]));
+    }
+
+    // Method to get form errors
+    public Integer[] getFormErrors(String username, String password) {
         Integer usernameError;
         Integer passwordError;
+        Integer[] result = new Integer[2];
+
 
         // Checking username validity
         if (!validityChecker.isStringValid(username)) {
@@ -42,7 +52,9 @@ public class LoginViewModel extends ViewModel {
             passwordError = null;
         }
 
-        // Setting login form state
-        loginFormState.setValue(new LoginFormState(usernameError, passwordError));
+        result[0] = usernameError;
+        result[1] = passwordError;
+
+        return result;
     }
 }
