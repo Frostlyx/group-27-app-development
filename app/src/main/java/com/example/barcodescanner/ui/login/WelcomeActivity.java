@@ -1,17 +1,14 @@
 package com.example.barcodescanner.ui.login;
 
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Button;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.customer.MainActivity;
 import com.example.barcodescanner.ui.store.StoreActivity;
@@ -104,7 +101,6 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
         // Check if the activity is WelcomeActivity
         if (getSupportFragmentManager().getFragments().isEmpty()) {
             // Check if the orientation has changed to landscape

@@ -180,19 +180,13 @@ public class EditProductFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 double priceText;
-                int discountText;
                 try{
                     priceText = Double.parseDouble(priceEditText.getText().toString());
                 } catch (NumberFormatException e) {
                     priceText = -1;
                 }
-                try {
-                    discountText = Integer.parseInt(discountEditText.getText().toString());
-                } catch (NumberFormatException e) {
-                    discountText = -1;
-                }
                 storeDatabaseViewModel.storeDatabaseDataChanged(nameEditText.getText().toString(),
-                        barcodeEditText.getText().toString(), amountEditText.getText().toString(), priceText, discountText);
+                        barcodeEditText.getText().toString(), amountEditText.getText().toString(), priceText);
             }
         };
         nameEditText.addTextChangedListener(afterTextChangedListener);
@@ -253,6 +247,12 @@ public class EditProductFragment extends Fragment {
                             item.setProductBarcode(barcodeEditText.getText().toString());
                             item.setProductAmount(amountEditText.getText().toString());
                             item.setProductPrice(priceEditText.getText().toString());
+                            try {
+                                item.setDiscount(discountEditText.getText().toString());
+                                storeProductViewModel.setProductModel(position, item);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
 
                             storeProductViewModel.setProductModel(position, item);
 

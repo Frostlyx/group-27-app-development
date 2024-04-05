@@ -187,19 +187,13 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                 @Override
                 public void afterTextChanged(Editable s) {
                     double priceText;
-                    int discountText;
                     try{
                         priceText = Double.parseDouble(price.getText().toString());
                     } catch (NumberFormatException e) {
                         priceText = -1;
                     }
-                    try {
-                        discountText = Integer.parseInt(discountEditText.getText().toString());
-                    } catch (NumberFormatException e) {
-                        discountText = -1;
-                    }
                     storeDatabaseViewModel.storeDatabaseDataChanged(itemName.getText().toString(),
-                            barcodeNumber.getText().toString(), amount.getText().toString(), priceText, discountText);
+                            barcodeNumber.getText().toString(), amount.getText().toString(), priceText);
                 }
             };
             itemName.addTextChangedListener(afterTextChangedListener);
@@ -426,19 +420,13 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
             @Override
             public void afterTextChanged(Editable s) {
                 double priceText;
-                int discountText;
                 try{
                     priceText = Double.parseDouble(priceEditText.getText().toString());
                 } catch (NumberFormatException e) {
                     priceText = -1;
                 }
-                try {
-                    discountText = Integer.parseInt(discountEditText.getText().toString());
-                } catch (NumberFormatException e) {
-                    discountText = -1;
-                }
                 storeDatabaseViewModel.storeDatabaseDataChanged(nameEditText.getText().toString(),
-                        barcodeEditText.getText().toString(), amountEditText.getText().toString(), priceText, discountText);
+                        barcodeEditText.getText().toString(), amountEditText.getText().toString(), priceText);
             }
         };
         nameEditText.addTextChangedListener(afterTextChangedListener);
@@ -475,9 +463,12 @@ public class StoreDatabaseFragment extends Fragment implements StoreProductRecyc
                             item.setProductBarcode(barcodeEditText.getText().toString());
                             item.setProductAmount(amountEditText.getText().toString());
                             item.setProductPrice(priceEditText.getText().toString());
-
-                            storeProductViewModel.setProductModel(position, item);
-
+                            try {
+                                item.setDiscount(discountEditText.getText().toString());
+                                storeProductViewModel.setProductModel(position, item);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                             referenceStore.child(barcodeEditText.getText().toString()).setValue(item);
 
                             databaseListAdapter.notifyDataSetChanged();

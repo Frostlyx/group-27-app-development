@@ -22,9 +22,6 @@ import java.util.List;
 public class SharedViewModel extends ViewModel {
     private MutableLiveData<ArrayList<ProductModel>> productModels = new MutableLiveData<>();
     private MutableLiveData<ArrayList<ProductModel>> filteredProductModels = new MutableLiveData<>();
-    // TODO: placeholder for images, to replace with actual images
-    int[] productImage = {R.drawable.bread};
-
     private MutableLiveData<Boolean> isFetched = new MutableLiveData<>(false);
     public boolean isFiltered = false;
 
@@ -73,25 +70,11 @@ public class SharedViewModel extends ViewModel {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-
         });
-
-    }
-
-    public void setProductModels(ArrayList<ProductModel> newProductModels) {
-        productModels.setValue(newProductModels);
     }
 
     public LiveData<ArrayList<ProductModel>> getProductModels() {
         return productModels;
-    }
-
-    public void setFilteredProductModels(ArrayList<ProductModel> newFilteredProductModels) {
-        productModels.setValue(newFilteredProductModels);
-    }
-
-    public LiveData<ArrayList<ProductModel>> getFilteredProductModels() {
-        return filteredProductModels;
     }
 
     public LiveData<Boolean> isDataFetched() {
@@ -130,40 +113,6 @@ public class SharedViewModel extends ViewModel {
         for (ProductModel productModel : tempProductModels) {
             Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
         }
-
-//        switch (criteria) {
-//            case "Food":
-//                while (iter.hasNext()) {
-//                    ProductModel product = iter.next();
-//                    if (!"Food".equals(product.getCategory())) {
-//                        tempFilteredProductModels.add(product);
-//                        iter.remove();
-//                    }
-//                }
-//
-//                Log.i("Filter", "Food");
-//                for (ProductModel productModel : tempProductModels) {
-//                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
-//                }
-//
-//                break;
-//
-//            case "Drink":
-//                while (iter.hasNext()) {
-//                    ProductModel product = iter.next();
-//                    if (!"Drink".equals(product.getCategory())) {
-//                        tempFilteredProductModels.add(product);
-//                        iter.remove();
-//                    }
-//                }
-//
-//                Log.i("Filter", "Drink");
-//                for (ProductModel productModel : tempProductModels) {
-//                    Log.i("Filter", productModel.getProductName() + ": " + productModel.getCategory());
-//                }
-//
-//                break;
-//        }
 
         productModels.setValue(tempProductModels);
         filteredProductModels.setValue(tempFilteredProductModels);

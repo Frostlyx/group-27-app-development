@@ -2,19 +2,16 @@ package com.example.barcodescanner.customer;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,17 +52,6 @@ public class ShoppingListFragment extends Fragment implements ProductRecyclerVie
                 refresh();
             }
         });
-
-        rootView.findViewById(R.id.cheapBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                CheapestFragment categoriesFragment = new CheapestFragment();
-                FragmentTransaction fm = activity.getSupportFragmentManager().beginTransaction();
-                fm.replace(R.id.frame_layout, categoriesFragment).commit();
-            }
-        });
-
 
         return rootView;
     }

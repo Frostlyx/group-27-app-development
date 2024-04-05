@@ -1,6 +1,11 @@
 package com.example.barcodescanner.customer;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,13 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
-
 import com.example.barcodescanner.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +29,7 @@ import java.util.List;
 
 public class ProductFragment extends Fragment implements ProductRecyclerViewInterface{
 
-
+    private List<ProductModel> notFavouritesList;
     List<StoreModel> storeList;
     RecyclerView favRecView, secondView;
     MyAdapter4 myAdapter;
@@ -73,7 +73,7 @@ public class ProductFragment extends Fragment implements ProductRecyclerViewInte
         secondView.setLayoutManager(layoutManager);
 
         userListViewModel = ((MainActivity) getActivity()).getUserListViewModel();
-//        item = userListViewModel.getFavouritesList().getValue().get(0);
+        notFavouritesList = new ArrayList<>();
 
         marketsGenerated.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -91,18 +91,34 @@ public class ProductFragment extends Fragment implements ProductRecyclerViewInte
         favouritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatabaseReference referenceUsers = FirebaseDatabase.getInstance().getReference("Users");
+                DatabaseReference referenceCustomers = referenceUsers.child("Customers");
+                DatabaseReference referenceCurrentUser = referenceCustomers.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                DatabaseReference referenceFavouritesList = referenceCurrentUser.child("Favourites List");
+
                 ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
-                if (!tempFavouritesList.contains(item)) {
-                    tempFavouritesList.add(item);
-                    userListViewModel.setFavouritesList(tempFavouritesList);
+                if (notFavouritesList.contains(item)) {
+                    notFavouritesList.remove(item);
+                    referenceFavouritesList.child(item.getProductBarcode()).setValue(item);
                 } else {
-                    tempFavouritesList.remove(item);
-                    userListViewModel.setFavouritesList(tempFavouritesList);
+                    notFavouritesList.add(item);
+                    referenceFavouritesList.child(item.getProductBarcode()).removeValue();
                 }
             }
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        ArrayList<ProductModel> tempFavouritesList = userListViewModel.getFavouritesList().getValue();
+        for (ProductModel pm : notFavouritesList) {
+            tempFavouritesList.remove(pm);
+        }
+        userListViewModel.setFavouritesList(tempFavouritesList);
     }
 
     private List<StoreModel> generateMarkets(){

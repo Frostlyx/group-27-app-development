@@ -11,17 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.barcodescanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
+ * This fragment handles user login functionality.
  */
 public class LoginFragment extends Fragment {
 
@@ -39,6 +37,7 @@ public class LoginFragment extends Fragment {
     private boolean isDataValid;
     String email;
 
+    // Default constructor
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -70,6 +69,7 @@ public class LoginFragment extends Fragment {
         final EditText passwordEditText = view.findViewById(R.id.password);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
+        // Observing login form state
         loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), loginFormState -> {
             if (loginFormState == null) {
                 return;
@@ -83,6 +83,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        // TextWatcher for login data changes
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -103,6 +104,7 @@ public class LoginFragment extends Fragment {
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
 
+        // Back button click listener
         backButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                 ((WelcomeActivity) getActivity()).welcomeActivity();
@@ -112,6 +114,7 @@ public class LoginFragment extends Fragment {
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference referenceCustomers= referenceProfile.child("Customers");
 
+        // Login button click listener
         loginButton.setOnClickListener(v -> {
             if (!isDataValid) {
                 return;
@@ -120,6 +123,7 @@ public class LoginFragment extends Fragment {
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
+            // Checking user credentials
             referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -131,6 +135,7 @@ public class LoginFragment extends Fragment {
                             }
                         }
                     }
+                    // Authenticating user with Firebase
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
@@ -141,6 +146,8 @@ public class LoginFragment extends Fragment {
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                 .setDisplayName(username).build();
                                         mAuth.getCurrentUser().updateProfile(profileUpdates);
+                                        DatabaseReference referenceCurrentUser = referenceCustomers.child(mAuth.getCurrentUser().getUid());
+                                        referenceCurrentUser.child("password").setValue(password);
                                         if (dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) &&getActivity() != null && getActivity() instanceof WelcomeActivity){
                                             ((WelcomeActivity) getActivity()).customerActivity();
                                         } else if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) && getActivity() != null && getActivity() instanceof WelcomeActivity) {
@@ -172,6 +179,7 @@ public class LoginFragment extends Fragment {
 
         });
 
+        // Forgot password button click listener
         forgotPasswordButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
                 ((WelcomeActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
@@ -179,6 +187,7 @@ public class LoginFragment extends Fragment {
         });
     }
 
+    // Method to show login failed message
     private void showLoginFailed(@StringRes Integer errorString) {
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(
@@ -188,7 +197,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    //changing rotation
+    // Method to handle configuration changes
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

@@ -12,16 +12,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.ui.login.WelcomeActivity;
 import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -126,22 +121,5 @@ public class ChangePasswordFragment extends Fragment {
                 ((StoreActivity) getActivity()).replaceFragment(new ProfileFragment(), "Profile fragment");
             }
         });
-    }
-
-    private void updateUiWithUser(FirebaseUser user) {
-        String welcome = getString(R.string.welcome) + user.getDisplayName();
-        // TODO : initiate successful logged in experience
-        if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void showChangePasswordFailed(@StringRes Integer errorString) {
-        if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(
-                    getContext().getApplicationContext(),
-                    errorString,
-                    Toast.LENGTH_LONG).show();
-        }
     }
 }
