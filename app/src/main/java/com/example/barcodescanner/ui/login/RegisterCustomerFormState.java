@@ -61,7 +61,7 @@ class RegisterCustomerFormState {
     }
 
     // Method to check if the form data is valid
-    boolean isDataValid() {
+     boolean isDataValid() {
         return isDataValid;
     }
 }
