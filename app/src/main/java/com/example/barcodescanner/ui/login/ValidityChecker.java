@@ -41,6 +41,9 @@ public class ValidityChecker {
      * @return True if the email address matches the pattern, false otherwise.
      */
     public boolean isEmailValid(String email) {
+        if (Patterns.EMAIL_ADDRESS == null) {
+            return false;
+        }
         return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
@@ -75,6 +78,9 @@ public class ValidityChecker {
      * @return True if the strings have the same value, false otherwise.
      */
     public boolean isConfirmValid(String string1, String string2) {
+        if (string1 == null || string2 == null) {
+            return false;
+        }
         return string1.equals(string2);
     }
 
