@@ -28,17 +28,5 @@
         android:paddingHorizontal="15dp"
         />
 
-    <TextView
-        android:text="Calculate the Cheapest Store"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:id="@+id/cheapBtn"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:background="@drawable/inc_button"/>
-
 
 </RelativeLayout>
