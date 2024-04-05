@@ -39,26 +39,31 @@ public class MyStoreFragment extends Fragment {
             public void onClick(View view) {
                 // Replace the current fragment with the ProfileFragment
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    // Sends you to profile fragment
                     ((StoreActivity) getActivity()).replaceFragment(new ProfileFragment(), getResources().getString(R.string.profile_title));
                 }
             }
         });
 
+        // Set click listener for profile page
         binding.buttonItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Replace the current fragment with the StoreDatabaseFragment
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    // Sends you to store item list fragment
                     ((StoreActivity) getActivity()).replaceFragment(new StoreDatabaseFragment(), getResources().getString(R.string.store_database_title));
                 }
             }
         });
 
+        // Set click listener for store item view page
         binding.buttonStorePageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Replace the current fragment with the EditStoreFragment
                 if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                    // Sends you to edit store page fragment
                     ((StoreActivity) getActivity()).replaceFragment(new EditStoreFragment(), getResources().getString(R.string.edit_store_title));
                 }
             }

@@ -42,8 +42,10 @@ public class EditStoreFragment extends Fragment {
     private Dialog editStoreDialog;
     private Button editStoreCancel;
     private Button editStoreConfirm;
+    // StoreModel instance to hold store data
     private StoreModel store;
     private List<Integer> imageList;
+    // Strings to store store name and location
     private String storeName;
     private String location;
 
@@ -52,37 +54,45 @@ public class EditStoreFragment extends Fragment {
 
     // Flag to track whether data is valid
     private boolean isDataValid;
+    // View binding instance
     private FragmentEditStoreBinding binding;
 
+    // Method called when creating the view
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
+        // Inflate the layout using view binding
         binding = FragmentEditStoreBinding.inflate(inflater, container, false);
 
+        // Initialize ViewModel and flag
         editStoreViewModel = new EditStoreViewModel();
         isDataValid = false;
 
+        // Get reference to store data from Firebase
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference referenceStores = referenceProfile.child("Store Owners");
         DatabaseReference referenceCurrentStore = referenceStores.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         referenceCurrentStore.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                // Extract store name and location from the database
                 storeName = dataSnapshot.child("Storename").getValue().toString();
                 location = dataSnapshot.child("location").getValue().toString();
 
+                // Create StoreModel instance and populate image list
                 store = new StoreModel(storeName, location, generateImages());
                 imageList = store.getStoreImageList();
+
+                // Set up RecyclerView to display store images
                 RecyclerView recyclerView = binding.recyclerView;
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 ImageListAdapter imageListAdapter = new ImageListAdapter(imageList);
                 recyclerView.setAdapter(imageListAdapter);
 
+                // Update UI with store name and location
                 binding.textviewStorename.setText(store.getStoreName());
                 binding.textviewLocation.setText(store.getStoreLocation());
 
@@ -90,6 +100,7 @@ public class EditStoreFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                // Handle database error if needed
             }
         });
 
@@ -97,9 +108,11 @@ public class EditStoreFragment extends Fragment {
 
     }
 
+    // Method called after the view is created
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Get references to UI elements
         final Button editInformationButton = view.findViewById(R.id.button_edit_information);
         final Button addPicturesButton = view.findViewById(R.id.button_add_pictures);
 
@@ -113,10 +126,12 @@ public class EditStoreFragment extends Fragment {
         editStoreCancel = editStoreDialog.findViewById(R.id.edit_store_cancel);
         editStoreConfirm = editStoreDialog.findViewById(R.id.edit_store_confirm);
 
+        // Set up text change listeners for input fields
         final EditText storeNameEditText = editStoreDialog.findViewById(R.id.edit_store_name);
         final EditText storeLocationEditText = editStoreDialog.findViewById(R.id.edit_store_location);
         final EditText storeKvKEditText = editStoreDialog.findViewById(R.id.edit_store_kvk);
 
+        // Observe the edit store form state
         editStoreViewModel.getEditStoreFormState().observe(getViewLifecycleOwner(), editStoreFormState -> {
             if (editStoreFormState == null) {
                 return;
@@ -128,6 +143,7 @@ public class EditStoreFragment extends Fragment {
             }
         });
 
+        // Text watcher for text input changes
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -147,7 +163,7 @@ public class EditStoreFragment extends Fragment {
 
                 // TODO: check if valid information
 
-                // Edit information in database
+                // Perform validation and update ViewModel
                 int kvkText;
                 try {
                     kvkText = Integer.parseInt(storeKvKEditText.getText().toString());
@@ -181,6 +197,7 @@ public class EditStoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Implement store information update
+                // Validate data and update Firebase if valid
                 if (isDataValid && !storeKvKEditText.getText().toString().isEmpty() && !storeLocationEditText.getText().toString().isEmpty() && !storeNameEditText.getText().toString().isEmpty()) {
                     DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
                     DatabaseReference referenceStoreOwners = referenceProfile.child("Store Owners");
@@ -197,8 +214,10 @@ public class EditStoreFragment extends Fragment {
                     referenceStoreOwners.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Storename").setValue(storeNameEditText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            // Dismiss edit store dialog
                             editStoreDialog.dismiss();
                             if (getActivity() != null && getActivity() instanceof StoreActivity) {
+                                // Refresh fragment to reflect changes
                                 ((StoreActivity) getActivity()).replaceFragment(new EditStoreFragment(), getResources().getString(R.string.edit_store_title));
                             }
 
@@ -233,17 +252,14 @@ public class EditStoreFragment extends Fragment {
         });
     }
 
+    // Method called when the view is destroyed
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
 
-    /**
-     * Method to generate a list of dummy images for the store.
-     *
-     * @return List of image resources
-     */
+    // Method to generate sample images for the store
     private List<Integer> generateImages() {
         List<Integer> images = new ArrayList<>();
         images.add(R.mipmap.supermarket_outside_foreground);
