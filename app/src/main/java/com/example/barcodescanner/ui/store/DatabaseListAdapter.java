@@ -22,7 +22,7 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
     StoreProductViewModel storeProductViewModel;
     ArrayList<ProductModel> productModels;
 
-    public DatabaseListAdapter(Context context,StoreProductRecyclerViewInterface storeProductRecyclerViewInterface) {
+    public DatabaseListAdapter(Context context, StoreProductRecyclerViewInterface storeProductRecyclerViewInterface) {
         this.context = context;
         this.storeProductRecyclerViewInterface = storeProductRecyclerViewInterface;
         this.storeProductViewModel = ((StoreActivity) context).getStoreProductViewModel();
@@ -51,26 +51,6 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
         viewHolder.itemCategory.setText(item.getCategory());
         viewHolder.itemPrice.setText(item.getProductPrice());
 
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
-//                    ((StoreActivity) view.getContext()).replaceFragment(new EditProductFragment(item), view.getContext().getString(R.string.edit_product_title));
-//                }
-//            }
-//        });
-//
-//        viewHolder.buttonBin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                productModels.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(position, getItemCount());
-//                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-//                DatabaseReference removalProduct = referenceProfile.child("65JxPIWmXbZVT2mhKFsqOLKUZVB2").child(item.getProductName());
-//                removalProduct.getRef().removeValue();
-//            }
-//        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -112,10 +92,6 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
                             storeProductRecyclerViewInterface.onItemClick(position);
                         }
                     }
-
-//                    if (view.getContext() != null && view.getContext() instanceof StoreActivity) {
-//                        ((StoreActivity) view.getContext()).replaceFragment(new EditProductFragment(item), view.getContext().getString(R.string.edit_product_title));
-//                    }
                 }
             });
 
@@ -142,16 +118,8 @@ public class DatabaseListAdapter extends RecyclerView.Adapter<DatabaseListAdapte
                             storeProductRecyclerViewInterface.onDeleteClick(position);
                         }
                     }
-
-//                    productModels.remove(position);
-//                    notifyItemRemoved(position);
-//                    notifyItemRangeChanged(position, getItemCount());
-//                    DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Stores");
-//                    DatabaseReference removalProduct = referenceProfile.child("65JxPIWmXbZVT2mhKFsqOLKUZVB2").child(item.getProductName());
-//                    removalProduct.getRef().removeValue();
                 }
             });
-
         }
     }
 }
