@@ -11,11 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+
 import com.example.barcodescanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -27,14 +28,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 /**
- * A simple {@link Fragment} subclass.
- * This fragment handles user login functionality.
+ * Login side fragment that allows the user to login
+ * as a customer or store owner.
  */
 public class LoginFragment extends Fragment {
 
     FirebaseAuth mAuth;
     private LoginViewModel loginViewModel;
     private boolean isDataValid;
+    // Placeholder value to not crash the app when a nonexistent username gets filled in
     String email = "not true";
 
     // Default constructor
@@ -45,6 +47,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Sets up data validation model
         loginViewModel = new LoginViewModel();
         isDataValid = false;
         mAuth = FirebaseAuth.getInstance();
@@ -61,6 +64,7 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Sets up buttons
         final Button backButton = view.findViewById(R.id.back);
         final Button loginButton = view.findViewById(R.id.login);
         final Button forgotPasswordButton = view.findViewById(R.id.forgotPassword);
@@ -74,9 +78,11 @@ public class LoginFragment extends Fragment {
                 return;
             }
             isDataValid = loginFormState.isDataValid();
+            // If an invalid username is filled in, show an error
             if (loginFormState.getUsernameError() != null) {
                 usernameEditText.setError(getString(loginFormState.getUsernameError()));
             }
+            // If an incorrect password is filled in, show an error
             if (loginFormState.getPasswordError() != null) {
                 passwordEditText.setError(getString(loginFormState.getPasswordError()));
             }
@@ -106,6 +112,7 @@ public class LoginFragment extends Fragment {
         // Back button click listener
         backButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                // Sends you back to the welcome pag
                 ((WelcomeActivity) getActivity()).welcomeActivity();
             }
         });
@@ -118,6 +125,7 @@ public class LoginFragment extends Fragment {
             if (!isDataValid) {
                 return;
             }
+            // Shows a loading bar while trying to login
             loadingProgressBar.setVisibility(View.VISIBLE);
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
@@ -145,9 +153,12 @@ public class LoginFragment extends Fragment {
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                 .setDisplayName(username).build();
                                         mAuth.getCurrentUser().updateProfile(profileUpdates);
+                                        // Sends the user to the correct activity
                                         if (dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) &&getActivity() != null && getActivity() instanceof WelcomeActivity){
+                                            // Sends the customer to the customer activity
                                             ((WelcomeActivity) getActivity()).customerActivity();
                                         } else if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid()) && getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                                            // Sends the store owner to the store owner activity
                                             ((WelcomeActivity) getActivity()).storeActivity();
                                         }
                                     }
@@ -159,6 +170,7 @@ public class LoginFragment extends Fragment {
                                 });
                             }
                         } else {
+                            // Shows exception if credentials are incorrect or if login failed
                             Exception exception = task.getException();
                             if (exception instanceof FirebaseAuthInvalidCredentialsException) {
                                 showLoginFailed(R.string.wrong_username_password);
@@ -179,6 +191,7 @@ public class LoginFragment extends Fragment {
         // Forgot password button click listener
         forgotPasswordButton.setOnClickListener(v -> {
             if (getActivity() != null && getActivity() instanceof WelcomeActivity) {
+                // Sends you to the forgot password page
                 ((WelcomeActivity) getActivity()).replaceFragment(new ForgotPasswordFragment());
             }
         });
