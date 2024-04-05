@@ -9,7 +9,8 @@ import com.example.barcodescanner.R;
 /**
  * ViewModel for registering new customers.
  */
-public class RegisterCustomerViewModel extends ViewModel {
+public class
+RegisterCustomerViewModel extends ViewModel {
 
     private final MutableLiveData<RegisterCustomerFormState> registerCustomerFormState = new MutableLiveData<>();
 
