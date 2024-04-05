@@ -1,7 +1,5 @@
 package com.example.barcodescanner.customer;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -21,9 +19,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.ui.store.DatabaseListAdapter;
-import com.example.barcodescanner.ui.store.EditProductFragment;
-import com.example.barcodescanner.ui.store.StoreActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -239,7 +234,31 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
     // Barcode scanner shenanigans part 2
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
+            referenceStores.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.hasChildren()){
+                        for (DataSnapshot stores : dataSnapshot.getChildren()) {
+                            if(stores.hasChild(result.getContents())){
+                                if (getContext() != null && getContext() instanceof MainActivity) {
+                                    ProductModel item = new ProductModel(stores.child(result.getContents()).child("productName").getValue().toString(), stores.child(result.getContents()).child("productPrice").getValue().toString(), generateImages(), stores.child(result.getContents()).child("category").getValue().toString(), stores.child(result.getContents()).child("discount").getValue().toString(), stores.child(result.getContents()).child("productAmount").getValue().toString(), stores.child(result.getContents()).child("productBarcode").getValue().toString());
+                                    ((MainActivity) getContext()).replaceFragment(new ProductFragment(item, 0), getContext().getString(R.string.product_page_title));
+                                    break;
+                                }
+                            }else{
+                                Toast.makeText(requireContext(), "Product is not on database", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+    /*        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("Result");
             builder.setMessage(result.getContents());
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -247,8 +266,10 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
-            }).show();
+            }).show();*/
         }
+
+
     });
 
     // Barcode scanner shenanigans part 3
@@ -259,6 +280,29 @@ public class MainFragment extends Fragment implements ProductRecyclerViewInterfa
             String contents = intentResult.getContents();
             if (contents != null) {
                 Toast.makeText(requireContext(), "Scanned code: " + contents, Toast.LENGTH_SHORT).show();
+                DatabaseReference referenceStores = FirebaseDatabase.getInstance().getReference("Stores");
+                referenceStores.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChildren()){
+                            for (DataSnapshot stores : dataSnapshot.getChildren()) {
+                                if(stores.hasChild(contents)){
+                                    if (getContext() != null && getContext() instanceof MainActivity) {
+                                        ProductModel item = new ProductModel(stores.child(contents).child("productName").toString(), stores.child(contents).child("productPrice").toString(), generateImages(), stores.child(contents).child("category").toString(), stores.child(contents).child("discount").toString(), stores.child(contents).child("productAmount").toString(), stores.child(contents).child("productBarcode").toString());
+                                        ((MainActivity) getContext()).replaceFragment(new ProductFragment(item, 0), getContext().getString(R.string.product_page_title));
+                                        break;
+                                    }
+                                }
+                                }
+                            Toast.makeText(requireContext(), "Product is not on database", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             } else {
                 Toast.makeText(requireContext(), "Scan cancelled", Toast.LENGTH_SHORT).show();
             }
